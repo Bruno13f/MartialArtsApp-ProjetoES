@@ -89,13 +89,19 @@ public class EditarEvento extends JFrame{
         btnAtletas.addActionListener(this::btnAtletasActionPerformed);
         btnResultados.addActionListener(this::btnResultadosActionPerformed);
         btnCalendario.addActionListener(this::btnCalendarioActionPerformed);
-
         btnConfirmar.addActionListener(this::btnConfirmarActionPerformed);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+
+        configurarTxtModalidade();
     }
 
     public static void abrirPaginaEditarEvento (){
         new EditarEvento("Editar Evento").setVisible(true);
+    }
+
+    private void configurarTxtModalidade() {
+        textModalidade.setEditable(false);
+        textModalidade.setText("Judo");
     }
 
     private void abrirPaginaEventos(){

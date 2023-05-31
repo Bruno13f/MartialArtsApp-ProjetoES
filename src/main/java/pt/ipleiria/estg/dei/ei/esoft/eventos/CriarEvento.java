@@ -99,6 +99,8 @@ public class CriarEvento extends JFrame{
         btnCriar.addActionListener(this::btnCriarActionPerformed);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
+        configurarTxtModalidade();
+
         fillComboBoxPaises(paisesComboBox);
         paisesComboBox.setEditable(true);
         paisesComboBox.setSelectedItem("Selecione um país");
@@ -107,6 +109,11 @@ public class CriarEvento extends JFrame{
         dropdownEscalaoEtario.setEditable(true);
         dropdownEscalaoEtario.setSelectedItem("Selecione um escalão");
 
+    }
+
+    private void configurarTxtModalidade() {
+        textModalidade.setEditable(false);
+        textModalidade.setText("Judo");
     }
 
     public static void abrirPaginaCriarEvento(){

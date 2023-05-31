@@ -177,11 +177,21 @@ public class GestaoEventos extends JFrame{
 
     private void btnImportarEventosActionPerformed(ActionEvent actionEvent) {
         fileChooser = new JFileChooser(".");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(".json","json");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheiros JSON","json");
         fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setMultiSelectionEnabled(false);
+        fileChooser.setFileHidingEnabled(false);
         fileChooser.setFileFilter(filter);
-        fileChooser.showSaveDialog(null);
 
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            java.io.File file = fileChooser.getSelectedFile();
+            lerFicheiroJSON();
+        }
+
+
+    }
+
+    private void lerFicheiroJSON() {
         // TODO: abrir ficheiro e ler conteudo
     }
 

@@ -40,7 +40,6 @@ public class ModeloTabelaEventos extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         return switch (columnIndex){
-            // TODO - FALTA DAR RETURN AO ATRIBUTO ESPECIFICO
             // nome
             case 0 -> eventos.get(rowIndex).getNome();
             // data

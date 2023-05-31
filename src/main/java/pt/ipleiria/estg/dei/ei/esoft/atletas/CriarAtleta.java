@@ -28,7 +28,7 @@ public class CriarAtleta extends JFrame{
     private JLabel nome;
     private JTextField textNome;
     private JLabel local;
-    private JTextField textLocal;
+    private JTextField textPeso;
     private JLabel modalidade;
     private JTextField textModalidade;
     private JLabel genero;
@@ -60,10 +60,17 @@ public class CriarAtleta extends JFrame{
         fillComboBoxPaises(paisesComboBox);
         paisesComboBox.setEditable(true);
         paisesComboBox.setSelectedItem("Selecione um país");
+
+        configurarTxtModalidade();
     }
 
     public static void abrirPaginaCriarAtletas(){
         new CriarAtleta("Criar Atleta").setVisible(true);
+    }
+
+    private void configurarTxtModalidade() {
+        textModalidade.setEditable(false);
+        textModalidade.setText("Judo");
     }
 
     private void abrirPaginaAtletas(){

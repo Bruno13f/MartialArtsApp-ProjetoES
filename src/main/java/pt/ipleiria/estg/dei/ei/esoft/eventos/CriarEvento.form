@@ -270,6 +270,7 @@
                       <foreground color="-15263977"/>
                       <selectedTextColor color="-1"/>
                       <selectionColor color="-15263977"/>
+                      <text value=""/>
                     </properties>
                   </component>
                   <component id="70adb" class="javax.swing.JLabel" binding="escalaoEtario">

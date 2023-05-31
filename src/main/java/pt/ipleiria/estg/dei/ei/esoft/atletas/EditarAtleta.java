@@ -24,7 +24,7 @@ public class EditarAtleta extends JFrame{
     private JLabel nome;
     private JTextField textNome;
     private JLabel local;
-    private JTextField textLocal;
+    private JTextField textPeso;
     private JLabel modalidade;
     private JTextField textModalidade;
     private JLabel genero;
@@ -53,10 +53,17 @@ public class EditarAtleta extends JFrame{
 
         btnConfirmar.addActionListener(this::btnConfirmarActionPerformed);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+
+        configurarTxtModalidade();
     }
 
     public static void abrirPaginaEditarAtleta (){
         new EditarAtleta("Editar Atleta").setVisible(true);
+    }
+
+    private void configurarTxtModalidade() {
+        textModalidade.setEditable(false);
+        textModalidade.setText("Judo");
     }
 
     private void abrirPaginaAtletas(){

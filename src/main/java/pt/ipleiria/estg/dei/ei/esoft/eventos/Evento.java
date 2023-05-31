@@ -24,7 +24,7 @@ public class Evento {
     // como nao há argumentos opcionais - criar construtor com todos atributos evento, na implementação verificar se user inseriu os opcionais, se não passar valor inválido a definir
     // cateogiras peso como tem o "-" e "+" tem de ser String, Lista porque um evento pode ter varias
     // provas nao esta no construtor porque nao é opção ao criar prova
-
+    // ler eventos sempre que a aplicação é iniciada
     public Evento(String nome, Date dataInicio, Date dataFim, String pais, String local, EscalaoEtario escalaoEtario, List<String> categoriasPeso, Genero genero, String modalidade) {
 
         // Obrigatorios
@@ -71,8 +71,8 @@ public class Evento {
         // pais -> codigo pais
         Map<String, String> paises = new HashMap<>();
 
-        Locale[] locales = Locale.getAvailableLocales();
-        for (Locale locale : locales) {
+        Locale[] locais = Locale.getAvailableLocales();
+        for (Locale locale : locais) {
             try {
                 String iso = locale.getISO3Country();
                 if (!iso.isEmpty()){
