@@ -1,23 +1,27 @@
 package pt.ipleiria.estg.dei.ei.esoft.eventos;
 
+import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
 import pt.ipleiria.estg.dei.ei.esoft.*;
 import pt.ipleiria.estg.dei.ei.esoft.atletas.GestaoAtletas;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
-import pt.ipleiria.estg.dei.ei.esoft.provas.CriarProva;
 import pt.ipleiria.estg.dei.ei.esoft.provas.GestaoProvas;
 import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
-import java.io.File;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
+import java.io.IOException;
 
 public class GestaoEventos extends JFrame{
     private JPanel mainPanel;
@@ -128,17 +132,17 @@ public class GestaoEventos extends JFrame{
 
     }
 
-    private void menuItemEditarActionPerformed (ActionEvent event){
+    private void menuItemEditarActionPerformed (ActionEvent actionEvent){
         // TODO - PREENCHER VALORES COM OS DO EVENTO
         EditarEvento.abrirPaginaEditarEvento();
         this.dispose();
     }
 
-    private void menuItemEliminarActionPerformed (ActionEvent event){
+    private void menuItemEliminarActionPerformed (ActionEvent actionEvent){
         // TODO - ELIMINAR EVENTO
     }
 
-    private void menuItemProvasActionPerformed (ActionEvent event){
+    private void menuItemProvasActionPerformed (ActionEvent actionEvent){
         // TODO - Abrir Provas do Evento
         GestaoProvas.abrirPaginaGestaoProvas();
         this.dispose();
@@ -175,7 +179,7 @@ public class GestaoEventos extends JFrame{
         this.dispose();
     }
 
-    private void btnImportarEventosActionPerformed(ActionEvent actionEvent) {
+    private void btnImportarEventosActionPerformed(ActionEvent actionEvent){
         fileChooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheiros JSON","json");
         fileChooser.setAcceptAllFileFilterUsed(false);
@@ -185,14 +189,52 @@ public class GestaoEventos extends JFrame{
 
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             java.io.File file = fileChooser.getSelectedFile();
-            lerFicheiroJSON();
-        }
+            System.out.println(file);
+            FileReader reader = lerFicheiroJSON(file);
 
+            if (reader == null || !escreverFicheiroJSONImportado(reader)){
+                //TODO - POPUP MENSAGEM ERRO
+            }
+
+            //TODO - CONCATENAR NO FICHEIRO AONDE ESTAO GUARDADO OS EVENTOS
+        }
 
     }
 
-    private void lerFicheiroJSON() {
-        // TODO: abrir ficheiro e ler conteudo
+    private FileReader lerFicheiroJSON(java.io.File file) {
+
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader(file)) {
+            return reader;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private boolean escreverFicheiroJSONImportado(FileReader reader){
+        JSONParser parser = new JSONParser();
+
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = (JSONArray) parser.parse(reader);
+
+            for (Object obj : jsonArray) {
+                JSONObject jsonObject = (JSONObject) obj;
+
+                // Acessando os campos dinamicamente
+                for (Object key : jsonObject.keySet()) {
+                    Object value = jsonObject.get(key);
+                    // TODO - CONCATENAR VALORES AO FICHEIRO APP EVENTOS
+                }
+
+            }
+
+        } catch (IOException | ParseException e) {
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -139,6 +139,24 @@
                   <verticalTextPosition value="0"/>
                 </properties>
               </component>
+              <component id="f058d" class="javax.swing.JButton" binding="btnImportFile">
+                <constraints/>
+                <properties>
+                  <background color="-14342875"/>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="true"/>
+                  <focusPainted value="false"/>
+                  <font name="Inter" size="26" style="1"/>
+                  <foreground color="-1"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="240" height="50"/>
+                  <minimumSize width="240" height="50"/>
+                  <preferredSize width="240" height="50"/>
+                  <text value="IMPORTAR"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="0"/>
+                </properties>
+              </component>
             </children>
           </grid>
         </children>

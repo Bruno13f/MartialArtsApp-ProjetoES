@@ -23,6 +23,13 @@ public class GestaoAtletas extends JFrame{
     private JButton espaco;
     private JPanel importarFicheiroPanel;
     private JButton btnImportFile;
+    private JPanel tablePanel;
+    private JScrollPane tableScrollPlane;
+    private JTable eventosTable;
+    private JButton espacoDir;
+    private JButton espacoTopo;
+    private JButton espacoEsq;
+    private JButton espacoBaixo;
     private JFileChooser fileChooser;
 
     public GestaoAtletas(String title){
@@ -37,12 +44,16 @@ public class GestaoAtletas extends JFrame{
         btnCalendario.addActionListener(this::btnCalendarioActionPerformed);
         btnSetaAtras.addActionListener(this::btnSetaAtrasActionPerformed);
         btnCriarAtleta.addActionListener(this::btnCriarAtletaActionPerformed);
-        btnImportFile.addActionListener(this::btnImportarEventosActionPerformed);
+        btnImportFile.addActionListener(this::btnImportarAtletasActionPerformed);
 
     }
 
     public static void abrirPaginaGestaoAtletas(){
         new GestaoAtletas("Gestão Atletas").setVisible(true);
+    }
+
+    private void configurartabelaEventos (JTable tabela){
+
     }
 
     private void btnCriarAtletaActionPerformed(ActionEvent actionEvent) {
@@ -70,7 +81,7 @@ public class GestaoAtletas extends JFrame{
         this.dispose();
     }
 
-    private void btnImportarEventosActionPerformed(ActionEvent actionEvent) {
+    private void btnImportarAtletasActionPerformed(ActionEvent actionEvent) {
         fileChooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".json","json");
         fileChooser.setAcceptAllFileFilterUsed(false);

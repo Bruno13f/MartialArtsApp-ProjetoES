@@ -90,6 +90,7 @@ public class EditarProva extends JFrame{
     private void btnConfirmarActionPerformed(ActionEvent actionEvent) {
         // TODO: EDITAR PROVA
         abrirPaginaProvas();
+        this.dispose();
     }
 
     private void btnCancelarActionPerformed(ActionEvent actionEvent) {

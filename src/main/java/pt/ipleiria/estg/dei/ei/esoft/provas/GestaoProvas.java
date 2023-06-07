@@ -38,7 +38,7 @@ public class GestaoProvas extends JFrame{
         btnCalendario.addActionListener(this::btnCalendarioActionPerformed);
         btnSetaAtras.addActionListener(this::btnSetaAtrasActionPerformed);
         btnCriarProva.addActionListener(this::btnCriarProvaActionPerformed);
-        btnImportFile.addActionListener(this::btnImportarEventosActionPerformed);
+        btnImportFile.addActionListener(this::btnImportarProvasActionPerformed);
 
     }
 
@@ -80,7 +80,7 @@ public class GestaoProvas extends JFrame{
         this.dispose();
     }
 
-    private void btnImportarEventosActionPerformed(ActionEvent actionEvent) {
+    private void btnImportarProvasActionPerformed(ActionEvent actionEvent) {
         fileChooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".json","json");
         fileChooser.setAcceptAllFileFilterUsed(false);

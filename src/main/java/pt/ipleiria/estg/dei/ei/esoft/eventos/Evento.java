@@ -25,6 +25,9 @@ public class Evento {
     // cateogiras peso como tem o "-" e "+" tem de ser String, Lista porque um evento pode ter varias
     // provas nao esta no construtor porque nao é opção ao criar prova
     // ler eventos sempre que a aplicação é iniciada
+
+    // eventos aplicação guardados ficheiro JSON, adicionado id de forma a identificar os eventos no ficheiro (atributo nao usado na aplicação)
+    // eventos importados para a aplicação ficheiro JSON sem id
     public Evento(String nome, Date dataInicio, Date dataFim, String pais, String local, EscalaoEtario escalaoEtario, List<String> categoriasPeso, Genero genero, String modalidade) {
 
         // Obrigatorios
@@ -102,5 +105,10 @@ public class Evento {
         return this.categoriasPeso.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(" "));
+    }
+
+    public List<Evento> getEventos (){
+
+        return null;
     }
 }

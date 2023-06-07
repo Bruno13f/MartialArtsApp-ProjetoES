@@ -18,6 +18,7 @@ public class AssociarEvento extends JFrame{
     private JPanel btnsPanel;
     private JButton btnCancelar;
     private JLabel espaco;
+    private JButton btnImportFile;
 
     public AssociarEvento(String title){
         super(title);
@@ -31,6 +32,7 @@ public class AssociarEvento extends JFrame{
         btnResultados.addActionListener(this::btnResultadosActionPerformed);
         btnCalendario.addActionListener(this::btnCalendarioActionPerformed);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+        btnImportFile.addActionListener(this::btnImportarInscricoesActionPerformed);
 
     }
 
@@ -64,5 +66,9 @@ public class AssociarEvento extends JFrame{
     private void btnCalendarioActionPerformed(ActionEvent actionEvent) {
         CalendarioEventos.abrirPaginaCalendario();
         this.dispose();
+    }
+
+    private void btnImportarInscricoesActionPerformed(ActionEvent actionEvent) {
+    // TODO - Importar inscrições
     }
 }
