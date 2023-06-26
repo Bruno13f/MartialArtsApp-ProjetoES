@@ -89,8 +89,8 @@ public class EditarEvento extends JFrame{
         btnAtletas.addActionListener(this::btnAtletasActionPerformed);
         btnResultados.addActionListener(this::btnResultadosActionPerformed);
         btnCalendario.addActionListener(this::btnCalendarioActionPerformed);
-        btnConfirmar.addActionListener(this::btnConfirmarActionPerformed);
-        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+        btnConfirmar.addActionListener(this::btnEditarEventoActionPerformed);
+        btnCancelar.addActionListener(this::btnCancelarEventoActionPerformed);
 
         configurarTxtModalidade();
     }
@@ -109,12 +109,12 @@ public class EditarEvento extends JFrame{
         this.dispose();
     }
 
-    private void btnConfirmarActionPerformed(ActionEvent actionEvent) {
+    public void btnEditarEventoActionPerformed(ActionEvent actionEvent) {
         // TODO: EDITAR EVENTO
         abrirPaginaEventos();
     }
 
-    private void btnCancelarActionPerformed(ActionEvent actionEvent) {
+    public void btnCancelarEventoActionPerformed(ActionEvent actionEvent) {
         abrirPaginaEventos();
     }
 
@@ -135,5 +135,13 @@ public class EditarEvento extends JFrame{
     private void btnCalendarioActionPerformed(ActionEvent actionEvent) {
         CalendarioEventos.abrirPaginaCalendario();
         this.dispose();
+    }
+
+    private void mostrarEvento (int id){
+        // ler ficheiro e mostrar parametros evento
+    }
+
+    private void editarEventoJSON (int id){
+        // ler ficheiro e mostrar parametros evento
     }
 }

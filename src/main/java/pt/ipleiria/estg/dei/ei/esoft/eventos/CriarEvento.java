@@ -96,8 +96,8 @@ public class CriarEvento extends JFrame{
         btnAtletas.addActionListener(this::btnAtletasActionPerformed);
         btnResultados.addActionListener(this::btnResultadosActionPerformed);
         btnCalendario.addActionListener(this::btnCalendarioActionPerformed);
-        btnCriar.addActionListener(this::btnCriarActionPerformed);
-        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+        btnCriar.addActionListener(this::btnConfirmarEventoActionPerformed);
+        btnCancelar.addActionListener(this::btnCancelarEventoActionPerformed);
 
         configurarTxtModalidade();
 
@@ -124,12 +124,12 @@ public class CriarEvento extends JFrame{
         GestaoEventos.abrirPaginaGestaoEventos();
         this.dispose();
     }
-    private void btnCriarActionPerformed(ActionEvent actionEvent) {
-        // TODO: CRIAR ATLETA
+    public void btnConfirmarEventoActionPerformed(ActionEvent actionEvent) {
+        // TODO: CRIAR EVENTO
         abrirPaginaEventos();
     }
 
-    private void btnCancelarActionPerformed(ActionEvent actionEvent) {
+    public void btnCancelarEventoActionPerformed(ActionEvent actionEvent) {
         abrirPaginaEventos();
     }
 
@@ -172,6 +172,10 @@ public class CriarEvento extends JFrame{
         for (String escalao: escaloes){
             dropdownEscalaoEtario.addItem(escalao);
         }
+    }
+
+    private void adicionarEventoJSON (){
+
     }
 
 }

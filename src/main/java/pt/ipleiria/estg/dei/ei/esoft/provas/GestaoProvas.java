@@ -1,5 +1,9 @@
 package pt.ipleiria.estg.dei.ei.esoft.provas;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import pt.ipleiria.estg.dei.ei.esoft.atletas.GestaoAtletas;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
 import pt.ipleiria.estg.dei.ei.esoft.eventos.GestaoEventos;
@@ -8,6 +12,8 @@ import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class GestaoProvas extends JFrame{
     private JPanel mainPanel;
@@ -46,7 +52,7 @@ public class GestaoProvas extends JFrame{
         new GestaoProvas("Gestão Provas").setVisible(true);
     }
 
-    private void btnCriarProvaActionPerformed(ActionEvent actionEvent) {
+    public void btnCriarProvaActionPerformed(ActionEvent actionEvent) {
         CriarProva.abrirPaginaCriarProva();
         this.dispose();
     }
@@ -86,5 +92,64 @@ public class GestaoProvas extends JFrame{
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.setFileFilter(filter);
         fileChooser.showSaveDialog(null);
+
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            java.io.File file = fileChooser.getSelectedFile();
+            System.out.println(file);
+            FileReader reader = lerFicheiroJSON(file);
+
+            if (reader == null || !escreverFicheiroJSONImportado(reader)){
+                //TODO - POPUP MENSAGEM ERRO
+            }
+
+            //TODO - CONCATENAR NO FICHEIRO AONDE ESTAO GUARDADO OS EVENTOS
+        }
+    }
+
+    private FileReader lerFicheiroJSON(java.io.File file) {
+
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader(file)) {
+            return reader;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private boolean escreverFicheiroJSONImportado(FileReader reader){
+        JSONParser parser = new JSONParser();
+
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = (JSONArray) parser.parse(reader);
+
+            for (Object obj : jsonArray) {
+                JSONObject jsonObject = (JSONObject) obj;
+
+                // Acessando os campos dinamicamente
+                for (Object key : jsonObject.keySet()) {
+                    Object value = jsonObject.get(key);
+                    // TODO - CONCATENAR VALORES AO FICHEIRO APP EVENTOS
+                }
+
+            }
+
+        } catch (IOException | ParseException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void verificarAtletasProva (int id){
+
+    }
+
+    private void cancelarProvaJSON (int id){
+
+    }
+    private void eliminarProvaJSON (int id){
+
     }
 }

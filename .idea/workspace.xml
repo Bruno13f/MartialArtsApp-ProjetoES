@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69f452e7-31f3-40e1-8a40-2301d39a3441" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/json-simple-1.1.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/AssociarEvento.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/AssociarEvento.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/AssociarEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/AssociarEvento.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/GestaoAtletas.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/GestaoAtletas.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/GestaoAtletas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/GestaoAtletas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/Evento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/Evento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/CriarEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/CriarEvento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/EditarEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/EditarEvento.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/GestaoEventos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/GestaoEventos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventos.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/provas/EditarProva.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/provas/EditarProva.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/provas/GestaoProvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pt/ipleiria/estg/dei/ei/esoft/provas/GestaoProvas.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +63,10 @@
       <workItem from="1685565351614" duration="1407000" />
       <workItem from="1685568898597" duration="738000" />
       <workItem from="1685579149431" duration="3471000" />
-      <workItem from="1686135836088" duration="1169000" />
+      <workItem from="1686135836088" duration="1771000" />
+      <workItem from="1686677617520" duration="83000" />
+      <workItem from="1687714058318" duration="3103000" />
+      <workItem from="1687727572281" duration="9064000" />
     </task>
     <servers />
   </component>

@@ -154,7 +154,7 @@ public class GestaoEventos extends JFrame{
         item.setFont(new Font("Inter", Font.BOLD, 14));
     }
 
-    private void btnCriarEventoActionPerformed(ActionEvent actionEvent) {
+    public void btnCriarEventoActionPerformed(ActionEvent actionEvent) {
         CriarEvento.abrirPaginaCriarEvento();
         this.dispose();
     }
@@ -179,7 +179,24 @@ public class GestaoEventos extends JFrame{
         this.dispose();
     }
 
-    private void btnImportarEventosActionPerformed(ActionEvent actionEvent){
+    private void mostrarEventos(){
+
+    }
+
+    private void eliminarEventoJSON(int id){
+
+    }
+
+    private void cancelarEventoJSON(int id){
+
+    }
+
+    private boolean verificarAtletasEvento (int id){
+
+        return true;
+    }
+
+    public void btnImportarEventosActionPerformed(ActionEvent actionEvent){
         fileChooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheiros JSON","json");
         fileChooser.setAcceptAllFileFilterUsed(false);
