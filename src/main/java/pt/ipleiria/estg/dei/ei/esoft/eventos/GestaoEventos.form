@@ -233,7 +233,7 @@
                       <font name="Inter" size="14" style="1"/>
                       <foreground color="-14342875"/>
                       <gridColor color="-15263977"/>
-                      <rowHeight value="30"/>
+                      <rowHeight value="40"/>
                       <selectionBackground color="-2565928"/>
                     </properties>
                   </component>

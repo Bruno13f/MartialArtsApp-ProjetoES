@@ -133,38 +133,32 @@ public class CriarEvento extends JFrame{
 
         if (validarNome() != 0){
             mostrarErro(validarNome());
-            abrirPaginaEventos();
             return;
         }
 
         if (validarData(0) != 0){
             mostrarErro(validarData(0)); // data inicio
-            abrirPaginaEventos();
             return;
         }
 
         if (validarData(1) != 0){
             mostrarErro(validarData(1)); // data final
-            abrirPaginaEventos();
             return;
         }
 
         if (validarLocal() != 0){
             mostrarErro(validarLocal());
-            abrirPaginaEventos();
             return;
         }
 
         if (validarPais() != 0){
             mostrarErro(validarPais());
-            abrirPaginaEventos();
             return;
         }
 
 
         if (validarGeneroCategoriaPeso() != 0){
             mostrarErro(validarGeneroCategoriaPeso());
-            abrirPaginaEventos();
             return;
         }
 
@@ -174,8 +168,6 @@ public class CriarEvento extends JFrame{
     private void mostrarErro (int codigo){
 
         switch(codigo){
-            case 0:
-                break;
             case 1:
                 JOptionPane.showMessageDialog(mainPanel, "Preencha o campo nome");
                 break;

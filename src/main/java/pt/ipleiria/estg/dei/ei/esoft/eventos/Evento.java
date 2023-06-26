@@ -17,7 +17,7 @@ public class Evento {
     private String local;
     private EscalaoEtario escalaoEtario;
     private List<String> categoriasPeso;
-    private Genero genero;
+    private List<Genero> genero;
     private String modalidade;
     private List<Prova> provas;
 
@@ -28,7 +28,7 @@ public class Evento {
 
     // eventos aplicação guardados ficheiro JSON, adicionado id de forma a identificar os eventos no ficheiro (atributo nao usado na aplicação)
     // eventos importados para a aplicação ficheiro JSON sem id
-    public Evento(String nome, Date dataInicio, Date dataFim, String pais, String local, EscalaoEtario escalaoEtario, List<String> categoriasPeso, Genero genero, String modalidade) {
+    public Evento(String nome, Date dataInicio, Date dataFim, String pais, String local, EscalaoEtario escalaoEtario, List<String> categoriasPeso, List<Genero> genero, String modalidade) {
 
         // Obrigatorios
         this.nome = nome;
@@ -94,7 +94,9 @@ public class Evento {
     }
 
     public String getGenero(){
-        return genero.toString();
+        return this.genero.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(" "));
     }
 
     public String getEscalaoEtario(){

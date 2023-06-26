@@ -13,15 +13,24 @@ import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
+import java.util.Date;
 
 public class GestaoEventos extends JFrame{
     private JPanel mainPanel;
@@ -59,8 +68,7 @@ public class GestaoEventos extends JFrame{
         btnCriarEvento.addActionListener(this::btnCriarEventoActionPerformed);
         btnImportFile.addActionListener(this::btnImportarEventosActionPerformed);
 
-        configurarScrollPlane(tableScrollPlane);
-        //configurartabelaEventos(eventosTable);
+        mostrarEventos();
 
     }
 
@@ -73,15 +81,24 @@ public class GestaoEventos extends JFrame{
         plane.setBorder(null);
     }
 
+    private void mostrarEventos(){
+        configurarScrollPlane(tableScrollPlane);
+        configurartabelaEventos(eventosTable);
+    }
+
     private void configurartabelaEventos (JTable tabela){
 
         // TODO - PASSAR LISTA EVENTOS PARA MODELO DA TABELA
         // TODO - LER FICHEIRO JSON E COLOCAR EVENTOS EM LISTA
 
-        //ModeloTabelaEventos modeloTabelaEventos = new ModeloTabelaEventos();
-        //tabela.setModel(modeloTabelaEventos);
+        ModeloTabelaEventos modeloTabelaEventos = popuplarTabelaEventos();
+        System.out.println(modeloTabelaEventos);
+        if (modeloTabelaEventos != null) {
+            tabela.setModel(modeloTabelaEventos);
+        }
         tabela.setAutoCreateRowSorter(true);
         tabela.getTableHeader().setOpaque(false);
+
         //header
         JTableHeader header= tabela.getTableHeader();
         header.setBackground(new Color(37,37,37));
@@ -92,7 +109,7 @@ public class GestaoEventos extends JFrame{
         UIManager.getDefaults().put("TableHeader.cellBorder", border);
         //desabilitar mexer colunas e tamanho
         header.setReorderingAllowed(false);
-        header.setResizingAllowed(false);
+        header.setResizingAllowed(true);
         // alinhar meio
         ((DefaultTableCellRenderer)tabela.getDefaultRenderer(String.class)).setHorizontalAlignment(JLabel.CENTER);
         //popup quando cell cliacada
@@ -121,7 +138,7 @@ public class GestaoEventos extends JFrame{
         //adicionar popup menu tabela
 
         tabela.setComponentPopupMenu(popupMenu);
-        tabela.addMouseListener(new java.awt.event.MouseAdapter(){
+        tabela.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e) {
                 // TODO - SELECIONAR EVENTO CLICADO
                 Point point = e.getPoint();
@@ -130,6 +147,64 @@ public class GestaoEventos extends JFrame{
             }
         });
 
+    }
+
+    private ModeloTabelaEventos popuplarTabelaEventos(){
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            // Cria uma lista de eventos
+            List<Evento> eventos = new ArrayList<>();
+
+            // Itera sobre o array JSON e cria objetos Evento
+            for (Object obj : jsonArray) {
+                JSONObject jsonObject = (JSONObject) obj;
+
+                // Extrai os valores do objeto JSON
+                String nome = (String) jsonObject.get("nome");
+                String data = (String) jsonObject.get("data");
+                String[] datasSeparadas = data.split(";");
+                SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+                Date dataInicio = formatador.parse(datasSeparadas[0]);
+                Date dataFinal = formatador.parse(datasSeparadas[1]);
+
+                String local = (String) jsonObject.get("local");
+                String pais = (String) jsonObject.get("pais");
+                String modalidade = (String) jsonObject.get("modalidade");
+
+                String generos = (String) jsonObject.get("genero");
+                String[] dadosSeparados = generos.split(";");
+                List<Genero> listaGenero = new ArrayList<>();
+
+                for (String valor : dadosSeparados) {
+                    Genero genero = Genero.valueOf(valor);
+                    listaGenero.add(genero);
+                }
+
+                String escalaoEtarioString = (String) jsonObject.get("escalaoEtario");
+                EscalaoEtario escalaoEtario = EscalaoEtario.valueOf(escalaoEtarioString);
+
+                String categoriasPeso = (String) jsonObject.get("categoriasPeso");
+                String[] categoriaSeparadas = categoriasPeso.split(";");
+                List<String> listaCategoriasPeso = Arrays.asList(categoriaSeparadas);
+
+                // Cria um objeto Evento e adiciona à lista
+                Evento evento = new Evento(nome, dataInicio, dataFinal, pais, local, escalaoEtario, listaCategoriasPeso, listaGenero, modalidade);
+                eventos.add(evento);
+            }
+
+            // Cria o modelo da tabela com a lista de eventos
+
+            return new ModeloTabelaEventos(eventos);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private void menuItemEditarActionPerformed (ActionEvent actionEvent){
@@ -179,10 +254,6 @@ public class GestaoEventos extends JFrame{
         this.dispose();
     }
 
-    private void mostrarEventos(){
-
-    }
-
     private void eliminarEventoJSON(int id){
 
     }
@@ -209,32 +280,21 @@ public class GestaoEventos extends JFrame{
             System.out.println(file);
             FileReader reader = lerFicheiroJSON(file);
 
-            if (reader == null || !escreverFicheiroJSONImportado(reader)){
+            /*if (reader == null || !escreverFicheiroJSONImportado(reader)){
                 //TODO - POPUP MENSAGEM ERRO
             }
 
-            //TODO - CONCATENAR NO FICHEIRO AONDE ESTAO GUARDADO OS EVENTOS
+            //TODO - CONCATENAR NO FICHEIRO AONDE ESTAO GUARDADO OS EVENTOS*/
         }
 
     }
 
     private FileReader lerFicheiroJSON(java.io.File file) {
-
         JSONParser parser = new JSONParser();
 
         try (FileReader reader = new FileReader(file)) {
-            return reader;
-        } catch (IOException e) {
-            return null;
-        }
-    }
 
-    private boolean escreverFicheiroJSONImportado(FileReader reader){
-        JSONParser parser = new JSONParser();
-
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = (JSONArray) parser.parse(reader);
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;
@@ -242,16 +302,19 @@ public class GestaoEventos extends JFrame{
                 // Acessando os campos dinamicamente
                 for (Object key : jsonObject.keySet()) {
                     Object value = jsonObject.get(key);
-                    // TODO - CONCATENAR VALORES AO FICHEIRO APP EVENTOS
-                }
 
+                    // TODO - CONCATENAR VALORES AO FICHEIRO APP EVENTOS
+
+                    System.out.println("Chave: " + key);
+                    System.out.println("Valor: " + value);
+                }
             }
 
+            return reader;
         } catch (IOException | ParseException e) {
-            return false;
+            e.printStackTrace();
+            return null;
         }
-
-        return true;
     }
 
 }
