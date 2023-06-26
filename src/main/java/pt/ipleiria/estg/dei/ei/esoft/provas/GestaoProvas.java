@@ -66,7 +66,6 @@ public class GestaoProvas extends JFrame{
         abrirPaginaEventos();
     }
 
-
     private void btnEventosActionPerformed (ActionEvent actionEvent){
         abrirPaginaEventos();
     }
@@ -86,43 +85,39 @@ public class GestaoProvas extends JFrame{
         this.dispose();
     }
 
-    private void btnImportarProvasActionPerformed(ActionEvent actionEvent) {
+    private void mostrarProvas(){
+    }
+
+    public void btnImportarProvasActionPerformed(ActionEvent actionEvent){
         fileChooser = new JFileChooser(".");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(".json","json");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheiros JSON","json");
         fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setMultiSelectionEnabled(false);
+        fileChooser.setFileHidingEnabled(false);
         fileChooser.setFileFilter(filter);
-        fileChooser.showSaveDialog(null);
 
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             java.io.File file = fileChooser.getSelectedFile();
             System.out.println(file);
-            FileReader reader = lerFicheiroJSON(file);
 
-            if (reader == null || !escreverFicheiroJSONImportado(reader)){
+            if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO
+                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
             }
 
-            //TODO - CONCATENAR NO FICHEIRO AONDE ESTAO GUARDADO OS EVENTOS
+            JOptionPane.showMessageDialog(mainPanel, "Prova(s) importada(s)");
+            mostrarProvas();
         }
     }
 
-    private FileReader lerFicheiroJSON(java.io.File file) {
-
+    private boolean escreverFicheiroJSON(java.io.File file) {
         JSONParser parser = new JSONParser();
 
         try (FileReader reader = new FileReader(file)) {
-            return reader;
-        } catch (IOException e) {
-            return null;
-        }
-    }
 
-    private boolean escreverFicheiroJSONImportado(FileReader reader){
-        JSONParser parser = new JSONParser();
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = (JSONArray) parser.parse(reader);
+            System.out.println("Array: " + jsonArray.get(0));
 
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;
@@ -130,16 +125,19 @@ public class GestaoProvas extends JFrame{
                 // Acessando os campos dinamicamente
                 for (Object key : jsonObject.keySet()) {
                     Object value = jsonObject.get(key);
-                    // TODO - CONCATENAR VALORES AO FICHEIRO APP EVENTOS
-                }
 
+                    // TODO - CONCATENAR VALORES AO FICHEIRO APP EVENTOS
+
+                    System.out.println("Chave: " + key);
+                    System.out.println("Valor: " + value);
+                }
             }
 
+            return true;
         } catch (IOException | ParseException e) {
+            //e.printStackTrace();
             return false;
         }
-
-        return true;
     }
 
     private void verificarAtletasProva (int id){

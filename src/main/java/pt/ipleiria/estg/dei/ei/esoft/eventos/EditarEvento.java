@@ -6,6 +6,10 @@ import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EditarEvento extends JFrame{
     private JPanel mainPanel;
@@ -111,7 +115,223 @@ public class EditarEvento extends JFrame{
 
     public void btnEditarEventoActionPerformed(ActionEvent actionEvent) {
         // TODO: EDITAR EVENTO
+
+        if (validarNome() != 0){
+            mostrarErro(validarNome());
+            return;
+        }
+
+        if (validarData(0) != 0){
+            mostrarErro(validarData(0)); // data inicio
+            return;
+        }
+
+        if (validarData(1) != 0){
+            mostrarErro(validarData(1)); // data final
+            return;
+        }
+
+        if (validarLocal() != 0){
+            mostrarErro(validarLocal());
+            return;
+        }
+
+        if (validarPais() != 0){
+            mostrarErro(validarPais());
+            return;
+        }
+
+
+        if (validarGeneroCategoriaPeso() != 0){
+            mostrarErro(validarGeneroCategoriaPeso());
+            return;
+        }
+
         abrirPaginaEventos();
+    }
+
+    private void mostrarErro (int codigo){
+
+        switch(codigo){
+            case 1:
+                JOptionPane.showMessageDialog(mainPanel, "Preencha o campo nome");
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(mainPanel, "Nome preenchido com caracteres numéricos");
+                break;
+            case 3:
+                JOptionPane.showMessageDialog(mainPanel, "Nome preenchido com caracteres especiais");
+                break;
+            case 4:
+                JOptionPane.showMessageDialog(mainPanel, "Nome preenchido com mais de 50 caracteres");
+                break;
+            case 5:
+                JOptionPane.showMessageDialog(mainPanel, "Preencha o campo Data Inicio");
+                break;
+            case 6:
+                JOptionPane.showMessageDialog(mainPanel, "Data Inicio preenchida com formato incorreto - dd/mm/aaaa");
+                break;
+            case 7:
+                JOptionPane.showMessageDialog(mainPanel, "Data Inicio preenchida com caracteres inválidos - apenas permitido números");
+                break;
+            case 8:
+                JOptionPane.showMessageDialog(mainPanel, "Data Inicio inválida - anterior à data atual");
+                break;
+            case 9:
+                JOptionPane.showMessageDialog(mainPanel, "Preencha o campo Data Final");
+                break;
+            case 10:
+                JOptionPane.showMessageDialog(mainPanel, "Data Final preenchida com formato incorreto - dd/mm/aaaa");
+                break;
+            case 11:
+                JOptionPane.showMessageDialog(mainPanel, "Data Final preenchida com caracteres inválidos - apenas permitido números");
+                break;
+            case 12:
+                JOptionPane.showMessageDialog(mainPanel, "Data Final inválida - anterior à data atual ou anterior à Data Inicio");
+                break;
+            case 13:
+                JOptionPane.showMessageDialog(mainPanel, "Preencha o campo local");
+                break;
+            case 14:
+                JOptionPane.showMessageDialog(mainPanel, "Local preenchido com caracteres inválidos - !?{}[]%&$#@()_");
+                break;
+            case 15:
+                JOptionPane.showMessageDialog(mainPanel, "Local preenchido com mais de 70 caracteres");
+                break;
+            case 16:
+                JOptionPane.showMessageDialog(mainPanel, "Selecione um país");
+                break;
+            case 20:
+                JOptionPane.showMessageDialog(mainPanel, "Género e Categoria Peso não coincidem");
+                break;
+        }
+    }
+
+    private int validarNome() {
+
+        String nome = textNome.getText();
+
+        if (nome.isEmpty()){
+            return 1;
+        }
+
+        if (Pattern.matches(".*\\d.*", nome)) {
+            return 2;
+        }
+
+        if (!Pattern.matches("^[a-zA-Z ]+$", nome)){
+            return 3;
+        }
+
+        if (nome.length() > 50){
+            return 4;
+        }
+
+        return 0;
+    }
+
+    private int validarData(int tipoData){
+
+        String data, dataInicioCampo = null;
+
+        if (tipoData == 0){
+            data = textDataInicio.getText();
+        }else{
+            dataInicioCampo = textDataInicio.getText();
+            data = textDataFinal.getText();
+        }
+
+        if (data.isEmpty()){
+            return tipoData == 0 ? 5 : 9;
+        }
+
+        Pattern pattern = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+        Matcher matcher = pattern.matcher(data);
+
+        if (!matcher.matches()){
+            return tipoData == 0 ? 6 : 10;
+        }
+
+        Pattern pattern2 = Pattern.compile("[^0-9/]");
+        Matcher matcher2 = pattern2.matcher(data);
+
+        if (matcher2.find()){
+            return tipoData == 0 ? 7 : 11;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataInserida = LocalDate.parse(data, formatter);
+
+        LocalDate dataAtual = LocalDate.now();
+
+        if (dataInserida.isBefore(dataAtual)){
+            return tipoData == 0 ? 8 : 12;
+        }
+
+        if (tipoData == 1){
+            DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate data1 = LocalDate.parse(dataInicioCampo, formatter3); // Converter a primeira data para LocalDate
+            LocalDate data2 = LocalDate.parse(data, formatter3); // Converter a segunda data para LocalDate
+
+            if (data1.isAfter(data2)) {
+                return 12;
+            }
+
+        }
+
+        return 0;
+    }
+
+    private int validarLocal(){
+
+        String local = textLocal.getText();
+
+        if (local.isEmpty()){
+            return 13;
+        }
+
+        Pattern pattern = Pattern.compile("[!\\?{}\\[\\]%&$#@\\(\\)_]");
+        Matcher matcher = pattern.matcher(local);
+
+        if (matcher.find()){
+            return 14;
+        }
+
+        if (local.length() > 70){
+            return 15;
+        }
+
+        return 0;
+    }
+
+    private int validarPais(){
+
+        String pais = (String) paisesComboBox.getSelectedItem();
+
+        if (pais.equals("Selecione um país")){
+            return 16;
+        }
+
+        System.out.println(pais);
+
+        return 0;
+    }
+
+    private int validarGeneroCategoriaPeso(){
+
+        if (masculinoCheckBox.isSelected() && !femininoCheckBox.isSelected()){
+            if (CB40.isSelected() || CB44.isSelected() || CB48.isSelected() || CB52.isSelected() || CB57.isSelected() || CB63.isSelected() || CB70.isSelected() || CB70M.isSelected() || CB78.isSelected() || CB78M.isSelected()){
+                return 20;
+            }
+        }
+
+        if (!masculinoCheckBox.isSelected() && femininoCheckBox.isSelected()){
+            if (CB38.isSelected() || CB42.isSelected() || CB46.isSelected() || CB50.isSelected() || CB55.isSelected() || CB60.isSelected() || CB66.isSelected() || CB73.isSelected() || CB81.isSelected() || CB81M.isSelected() || CB90.isSelected() || CB90M.isSelected() || CB100.isSelected() || CB100M.isSelected()){
+                return 20;
+            }
+        }
+
+        return 0;
     }
 
     public void btnCancelarEventoActionPerformed(ActionEvent actionEvent) {

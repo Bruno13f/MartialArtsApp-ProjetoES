@@ -79,9 +79,12 @@ public class CriarProva extends JFrame{
         btnCriar.addActionListener(this::btnCriarActionPerformed);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
+        ButtonGroup group = new ButtonGroup();
+        group.add(masculinoRadioButton);
+        group.add(femininoRadioButton);
+
         fillComboBoxEscaloes(dropdownEscalaoEtario);
         dropdownEscalaoEtario.setEditable(true);
-        dropdownEscalaoEtario.setSelectedItem("Selecione um escalão");
 
     }
 
@@ -93,10 +96,109 @@ public class CriarProva extends JFrame{
         GestaoProvas.abrirPaginaGestaoProvas();
         this.dispose();
     }
+
     private void btnCriarActionPerformed(ActionEvent actionEvent) {
         // TODO: CRIAR PROVA
+
+        if (validarNumeroCampos() != 0){
+            mostrarErro(validarNumeroCampos());
+            return;
+        }
+
+        if (validarGenero() != 0){
+            mostrarErro(validarGenero()); // data inicio
+            return;
+        }
+
+        if (validarCategoriaEtaria() != 0){
+            mostrarErro(validarCategoriaEtaria()); // data final
+            return;
+        }
+
+        if (validarCategoriaPeso() != 0){
+            mostrarErro(validarCategoriaPeso());
+            return;
+        }
+
         abrirPaginaProvas();
     }
+
+    private void mostrarErro (int codigo){
+
+        switch(codigo){
+            case 1:
+                JOptionPane.showMessageDialog(mainPanel, "Necessário selecionar uma opção para cada campo");
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(mainPanel, "Género é mandatório");
+                break;
+            case 3:
+                JOptionPane.showMessageDialog(mainPanel, "Escalão etário é mandatório");
+                break;
+            case 4:
+                JOptionPane.showMessageDialog(mainPanel, "Categoria de Peso é mandatório");
+                break;
+            case 5:
+                JOptionPane.showMessageDialog(mainPanel, "Categoria de Peso não coincide com o Género");
+                break;
+        }
+    }
+
+    private int validarNumeroCampos(){
+
+        String escalaoEtario = (String) dropdownEscalaoEtario.getSelectedItem();
+
+        if ((femininoRadioButton.isSelected() || masculinoRadioButton.isSelected()) && escalaoEtario != null && (categoriasPesoFemininoSelected() || categoriasPesoMasculinoSelected())){
+            return 0;
+        }
+
+        return 1;
+    }
+
+    private boolean categoriasPesoFemininoSelected() {
+        return CB40.isSelected() || CB44.isSelected() || CB48.isSelected() || CB52.isSelected() || CB57.isSelected() || CB63.isSelected() || CB70.isSelected() || CB70M.isSelected() || CB78.isSelected() || CB78M.isSelected();
+    }
+
+    private boolean categoriasPesoMasculinoSelected() {
+        return CB38.isSelected() || CB42.isSelected() || CB46.isSelected() || CB50.isSelected() || CB55.isSelected() || CB60.isSelected() || CB66.isSelected() || CB73.isSelected() || CB81.isSelected() || CB81M.isSelected() || CB90.isSelected() || CB90M.isSelected() || CB100.isSelected() || CB100M.isSelected();
+    }
+
+    private int validarGenero(){
+        if (femininoRadioButton.isSelected() || masculinoRadioButton.isSelected()){
+            return 0;
+        }
+
+        return 2;
+    }
+
+    private int validarCategoriaEtaria(){
+        String escalaoEtario = (String) dropdownEscalaoEtario.getSelectedItem();
+
+        if  (escalaoEtario == null){
+            return 3;
+        }
+
+        return 0;
+    }
+
+    private int validarCategoriaPeso(){
+
+        if (!categoriasPesoMasculinoSelected() && !categoriasPesoFemininoSelected()){
+            return 4;
+        }
+
+
+        if (femininoRadioButton.isSelected() && categoriasPesoMasculinoSelected()){
+            return 5;
+        }
+
+        if (masculinoRadioButton.isSelected() && categoriasPesoFemininoSelected()){
+            return 5;
+        }
+
+        return 0;
+    }
+
 
     private void btnCancelarActionPerformed(ActionEvent actionEvent) {
         abrirPaginaProvas();
@@ -124,6 +226,9 @@ public class CriarProva extends JFrame{
 
     private void fillComboBoxEscaloes(JComboBox<String> dropdownEscalaoEtario) {
         for (String escalao: escaloes){
+            if (escalao.equals("Varios")){
+                continue;
+            }
             dropdownEscalaoEtario.addItem(escalao);
         }
     }

@@ -23,9 +23,7 @@ import java.awt.event.MouseEvent;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +131,6 @@ public class GestaoEventos extends JFrame{
         menuItemEditar.addActionListener(this::menuItemEditarActionPerformed);
         menuItemEliminar.addActionListener(this::menuItemEliminarActionPerformed);
         menuItemProvas.addActionListener(this::menuItemProvasActionPerformed);
-
 
         //adicionar popup menu tabela
 
@@ -278,23 +275,25 @@ public class GestaoEventos extends JFrame{
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             java.io.File file = fileChooser.getSelectedFile();
             System.out.println(file);
-            FileReader reader = lerFicheiroJSON(file);
 
-            /*if (reader == null || !escreverFicheiroJSONImportado(reader)){
+            if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO
+                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
             }
 
-            //TODO - CONCATENAR NO FICHEIRO AONDE ESTAO GUARDADO OS EVENTOS*/
+            JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
+            mostrarEventos();
         }
-
     }
 
-    private FileReader lerFicheiroJSON(java.io.File file) {
+    private boolean escreverFicheiroJSON(java.io.File file) {
         JSONParser parser = new JSONParser();
 
         try (FileReader reader = new FileReader(file)) {
 
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            System.out.println("Array: " + jsonArray.get(0));
 
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;
@@ -310,11 +309,10 @@ public class GestaoEventos extends JFrame{
                 }
             }
 
-            return reader;
+            return true;
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
-            return null;
+            //e.printStackTrace();
+            return false;
         }
     }
-
 }
