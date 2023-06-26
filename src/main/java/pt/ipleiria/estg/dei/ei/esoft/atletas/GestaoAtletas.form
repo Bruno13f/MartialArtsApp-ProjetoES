@@ -224,7 +224,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <component id="d5bd8" class="javax.swing.JTable" binding="eventosTable">
+                  <component id="d5bd8" class="javax.swing.JTable" binding="atletasTable">
                     <constraints/>
                     <properties>
                       <autoResizeMode value="2"/>

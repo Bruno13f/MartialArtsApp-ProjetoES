@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.esoft.atletas;
 
+import pt.ipleiria.estg.dei.ei.esoft.Genero;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
 import pt.ipleiria.estg.dei.ei.esoft.eventos.GestaoEventos;
 import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
@@ -7,7 +8,9 @@ import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.text.Collator;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -120,5 +123,87 @@ public class CriarAtleta extends JFrame{
             comboBox.addItem(nacionalidade);
         }
 
+    }
+
+    private boolean validarData(Date dataNascimento){
+        if(dataNascimento == null){
+            return false;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.format(dataNascimento);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    private boolean validarPeso(Float peso) {
+
+        if (peso == null) {
+            return false;
+        }
+
+        String pesoString = String.valueOf(peso);
+        int indexOfDecimalSeparator = pesoString.indexOf(".");
+
+        if (indexOfDecimalSeparator != -1) {
+            int decimalPlaces = pesoString.length() - indexOfDecimalSeparator - 1;
+            return decimalPlaces <= 2;
+        }
+        return true;
+    }
+
+    private boolean validarGenero(Genero genero) {
+        if (genero == Genero.Masculino || genero == Genero.Feminino){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validarPais(String nacionalidade){
+        if (!nacionalidade.trim().isEmpty()) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private boolean validarNome (String nome){
+        if (!nome_Numero(nome)){
+            return false;
+        }
+
+        if (nome.trim().isEmpty()) {
+            return false;
+        }
+
+        if (!(nome.length() <= 50)){
+            return false;
+        }
+
+        if (tem_Caracter_Especial(nome)){
+            return false;
+        }
+        return true;
+    }
+
+    private boolean nome_Numero(String nome) {
+        for (char a : nome.toCharArray()) {
+            if (Character.isDigit(a)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean tem_Caracter_Especial(String nome) {
+        String specialCharacters = "!@#$%^&*()_+|<>?{}\\[\\]~-";
+        for (char c : nome.toCharArray()) {
+            if (specialCharacters.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -7,7 +7,7 @@ import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class AssociarEvento extends JFrame{
+public class AssociarProva extends JFrame{
     private JPanel mainPanel;
     private JPanel topPanel;
     private JButton btnEventos;
@@ -20,7 +20,7 @@ public class AssociarEvento extends JFrame{
     private JLabel espaco;
     private JButton btnImportFile;
 
-    public AssociarEvento(String title){
+    public AssociarProva(String title){
         super(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(mainPanel);
@@ -36,8 +36,8 @@ public class AssociarEvento extends JFrame{
 
     }
 
-    public static void abrirPaginaAssociarAtletaEvento (){
-        new AssociarEvento("Associar Eventos").setVisible(true);
+    public static void abrirPaginaAssociarAtletaProva (){
+        new AssociarProva("Associar Eventos").setVisible(true);
     }
 
     private void abrirPaginaAtletas(){

@@ -1,0 +1,22 @@
+[
+  {
+    "nome": "Ricardo Bento Santos",
+    "nacionalidade": "Português",
+    "genero": "Masculino",
+    "modalidade": "Judo",
+    "peso": "75",
+    "dataNascimento": "04/08/2003",
+    "contacto": "912458310",
+    "escalaoEtario": "Juniores"
+  },
+  {
+    "nome": "CS > VALORANT",
+    "nacionalidade": "Português",
+    "genero": "Masculino",
+    "modalidade": "Judo",
+    "peso": "60",
+    "dataNascimento": "17/05/2001",
+    "contacto": "925112312",
+    "escalaoEtario": "Juniores"
+  }
+]
