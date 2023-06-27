@@ -37,7 +37,7 @@ public class AssociarProva extends JFrame{
     }
 
     public static void abrirPaginaAssociarAtletaProva (){
-        new AssociarProva("Associar Eventos").setVisible(true);
+        new AssociarProva("Associar Prova").setVisible(true);
     }
 
     private void abrirPaginaAtletas(){

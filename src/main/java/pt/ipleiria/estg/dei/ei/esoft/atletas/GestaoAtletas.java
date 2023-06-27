@@ -141,15 +141,15 @@ public class GestaoAtletas extends JFrame{
         //adicionar popup menu tabela
 
         tabela.setComponentPopupMenu(popupMenu);
-        tabela.addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent e) {
-                // TODO - SELECIONAR EVENTO CLICADO
-                Point point = e.getPoint();
-                int currentRow = tabela.rowAtPoint(point);
-                tabela.setRowSelectionInterval(currentRow, currentRow);
+        tabela.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    Point point = e.getPoint();
+                    int currentRow = tabela.rowAtPoint(point);
+                    tabela.setRowSelectionInterval(currentRow, currentRow);
+                }
             }
         });
-
     }
 
     private void menuItemDesassociarProvas(ActionEvent actionEvent) {
@@ -168,14 +168,22 @@ public class GestaoAtletas extends JFrame{
 
     private void menuItemEditarActionPerformed(ActionEvent actionEvent) {
         // TODO - PREENCHER VALORES COM OS DO Atleta
-        EditarAtleta.abrirPaginaEditarAtleta();
+        EditarAtleta.abrirPaginaEditarAtleta(getLinha(actionEvent));
         this.dispose();
+    }
+
+    private int getLinha(ActionEvent actionEvent){
+        JMenuItem menuItem = (JMenuItem) actionEvent.getSource();
+        JPopupMenu popupMenu = (JPopupMenu) menuItem.getParent();
+        JTable tabela = (JTable) popupMenu.getInvoker();
+        int row = tabela.getSelectedRow();
+        return row;
     }
 
     private ModeloTabelaAtletas popuplarTabelaAtletas(){
         JSONParser parser = new JSONParser();
 
-        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/AtletasApp.json")) {
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
             // Faz o parsing do arquivo JSON
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
@@ -273,6 +281,8 @@ public class GestaoAtletas extends JFrame{
             mostrarAtletas();
         }
     }
+
+
 
     private boolean escreverFicheiroJSON(java.io.File file) {
         JSONParser parser = new JSONParser();

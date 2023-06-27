@@ -1,19 +1,20 @@
 package pt.ipleiria.estg.dei.ei.esoft.atletas;
 
-import pt.ipleiria.estg.dei.ei.esoft.Genero;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.json.simple.JSONObject;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
 import pt.ipleiria.estg.dei.ei.esoft.eventos.GestaoEventos;
 import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.*;
 import java.text.Collator;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -117,6 +118,22 @@ public class CriarAtleta extends JFrame{
                 mostrarErro(validarContacto());
                 return;
             }
+
+        JSONObject athleteData = new JSONObject();
+        athleteData.put("nome", textNome.getText());
+        athleteData.put("nacionalidade", paisesComboBox.getSelectedItem());
+        athleteData.put("genero", radioBtnMasculino.isSelected() ? "Masculino" : "Feminino");
+        athleteData.put("modalidade", "Judo");
+        athleteData.put("peso", textPeso.getText());
+        athleteData.put("dataNascimento", textDataNascimento.getText());
+        athleteData.put("contacto", textContacto.getText());
+
+        String escalaoEtario = calcularEscalaoEtario(textDataNascimento.getText());
+        athleteData.put("escalaoEtario", escalaoEtario);
+
+        String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json";
+        writeDataToJsonFile(athleteData, filePath);
+
 
         abrirPaginaAtletas();
     }
@@ -327,7 +344,7 @@ public class CriarAtleta extends JFrame{
             return 3;
         }
 
-        if (!Pattern.matches("^[a-zA-Z ]+$", nome)){
+        if (!Pattern.matches("^[a-zA-Z ç]+$", nome)){
             return 16;
         }
 
@@ -363,4 +380,90 @@ public class CriarAtleta extends JFrame{
             return 14;
         }
     }
+
+    private void writeDataToJsonFile(JSONObject data, String filePath) {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonData = gson.toJson(data);
+            
+            boolean isEmpty = fileIsEmpty(filePath);
+
+            if (!isEmpty) {
+                removeLastCharacter(filePath);
+                appendCharacter(filePath, ",");
+            }
+
+            fileWriter.write(jsonData);
+
+            if (!isEmpty) {
+                fileWriter.write("\n]");
+            } else {
+                fileWriter.write("\n" + jsonData + "\n]");
+            }
+
+            System.out.println("Data appended to JSON file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while appending data to JSON file: " + e.getMessage());
+        }
+    }
+
+    private boolean fileIsEmpty(String filePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            return reader.readLine() == null;
+        }
+    }
+
+    private void removeLastCharacter(String filePath) throws IOException {
+        RandomAccessFile file = new RandomAccessFile(filePath, "rw");
+        long length = file.length();
+        file.setLength(length - 1);
+        file.close();
+    }
+
+    private void appendCharacter(String filePath, String character) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            fileWriter.write(character);
+        }
+    }
+
+    private String calcularEscalaoEtario(String dataNascimento) {
+        String[] parts = dataNascimento.split("/");
+        int dia = Integer.parseInt(parts[0]);
+        int mes = Integer.parseInt(parts[1]);
+        int ano = Integer.parseInt(parts[2]);
+
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        int currentMonth = currentDate.getMonthValue();
+        int currentDay = currentDate.getDayOfMonth();
+
+        int age = currentYear - ano;
+        if (mes > currentMonth || (mes == currentMonth && dia > currentDay)) {
+            age--;
+        }
+
+        if (age >= 8 && age <= 10) {
+            return "Bejamins";
+        } else if (age == 11) {
+            return "Infantis";
+        } else if (age == 12) {
+            return "Iniciados";
+        } else if (age >= 13 && age <= 14) {
+            return "Juvenis";
+        } else if (age >= 15 && age <= 17) {
+            return "Cadetes";
+        } else if (age >= 18 && age <= 20) {
+            return "Juniores";
+        } else if (age >= 21 && age <= 22) {
+            return "Sub23";
+        } else if (age >= 21) {
+            return "Seniores";
+        } else if (age >= 30) {
+            return "Veteranos";
+        }
+        return "Varios";
+    }
+
+
+
 }

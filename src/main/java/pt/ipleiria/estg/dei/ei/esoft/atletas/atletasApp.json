@@ -19,4 +19,24 @@
     "contacto": "925112312",
     "escalaoEtario": "Juniores"
   }
+,{
+  "contacto": "232333333",
+  "escalaoEtario": "Juniores",
+  "peso": "12",
+  "genero": "Masculino",
+  "nome": "teste",
+  "nacionalidade": "Alanda",
+  "dataNascimento": "04/08/2003",
+  "modalidade": "Judo"
+}
+,{
+  "contacto": "333333333",
+  "escalaoEtario": "Seniores",
+  "peso": "100",
+  "genero": "Masculino",
+  "nome": "SOU PRO",
+  "nacionalidade": "Anguila",
+  "dataNascimento": "03/08/1990",
+  "modalidade": "Judo"
+}
 ]
