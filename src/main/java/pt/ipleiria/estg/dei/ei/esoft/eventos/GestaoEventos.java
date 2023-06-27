@@ -160,12 +160,6 @@ public class GestaoEventos extends JFrame{
 
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
-            if (jsonArray.isEmpty()){
-                return null;
-            }
-
-            System.out.println("ola = " + jsonArray);
-
             // Cria uma lista de eventos
             List<Evento> eventos = new ArrayList<>();
 
@@ -332,6 +326,7 @@ public class GestaoEventos extends JFrame{
             if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO
                 JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
+                return;
             }
 
             JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
@@ -340,32 +335,78 @@ public class GestaoEventos extends JFrame{
     }
 
     private boolean escreverFicheiroJSON(java.io.File file) {
+
         JSONParser parser = new JSONParser();
 
         try (FileReader reader = new FileReader(file)) {
 
-            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+            if (!reader.ready()){
+                return false;
+            }
 
-            System.out.println("Array: " + jsonArray.get(0));
+            Object json = parser.parse(reader);
 
-            for (Object obj : jsonArray) {
-                JSONObject jsonObject = (JSONObject) obj;
+            if (json instanceof JSONArray jsonArray) {
 
-                // Acessando os campos dinamicamente
-                for (Object key : jsonObject.keySet()) {
-                    Object value = jsonObject.get(key);
+                for (Object obj : jsonArray) {
+                    JSONObject jsonObject = (JSONObject) obj;
 
-                    // TODO - CONCATENAR VALORES AO FICHEIRO APP EVENTOS
-
-                    System.out.println("Chave: " + key);
-                    System.out.println("Valor: " + value);
+                    String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
+                    return writeDataToJsonFile(jsonObject, filePath);
                 }
+
+            }else if (json instanceof JSONObject jsonObject){
+                String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
+                return writeDataToJsonFile(jsonObject, filePath);
+            }else{
+                return false;
+            }
+
+        } catch (IOException | ParseException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean writeDataToJsonFile(JSONObject data, String filePath) {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonData = gson.toJson(data);
+
+            boolean isEmpty = fileIsEmpty(filePath);
+
+            if (!isEmpty) {
+                removeLastCharacter(filePath);
+                appendCharacter(filePath, ",");
+                fileWriter.write(jsonData + "\n]");
+            }else{
+                fileWriter.write("[" + jsonData + "\n]");
             }
 
             return true;
-        } catch (IOException | ParseException e) {
-            //e.printStackTrace();
+
+        } catch (IOException e) {
             return false;
+        }
+    }
+
+    private boolean fileIsEmpty(String filePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            return reader.readLine() == null;
+        }
+    }
+
+    private void removeLastCharacter(String filePath) throws IOException {
+        RandomAccessFile file = new RandomAccessFile(filePath, "rw");
+        long length = file.length();
+        file.setLength(length - 1);
+        file.close();
+    }
+
+    private void appendCharacter(String filePath, String character) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            fileWriter.write(character);
         }
     }
 }

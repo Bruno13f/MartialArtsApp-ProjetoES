@@ -1,5 +1,10 @@
 package pt.ipleiria.estg.dei.ei.esoft.provas;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import pt.ipleiria.estg.dei.ei.esoft.atletas.GestaoAtletas;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
 import pt.ipleiria.estg.dei.ei.esoft.eventos.GestaoEventos;
@@ -7,6 +12,9 @@ import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class CriarProva extends JFrame{
     private JPanel mainPanel;
@@ -92,6 +100,8 @@ public class CriarProva extends JFrame{
         fillComboBoxEscaloes(dropdownEscalaoEtario);
         dropdownEscalaoEtario.setEditable(true);
 
+        configurarCampos();
+
     }
 
     public static void abrirPaginaCriarProva (int idEvento){
@@ -101,6 +111,112 @@ public class CriarProva extends JFrame{
     private void abrirPaginaProvas() {
         GestaoProvas.abrirPaginaGestaoProvas(idEvento);
         this.dispose();
+    }
+
+    private void configurarCampos(){
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            JSONObject evento = (JSONObject) jsonArray.get(idEvento);
+
+            String genero = (String) evento.get("genero");
+
+            if (genero.contains("Masculino") && !genero.contains("Feminino")){
+                masculinoRadioButton.setSelected(true);
+                femininoRadioButton.setEnabled(false);
+            }else if (!genero.contains("Masculino") && genero.contains("Feminino")){
+                femininoRadioButton.setSelected(true);
+                masculinoRadioButton.setEnabled(false);
+            }
+
+            String escalaoEtario = (String) evento.get("escalaoEtario");
+
+            if (!escalaoEtario.contains("Varios")){
+                dropdownEscalaoEtario.setSelectedItem(escalaoEtario);
+                dropdownEscalaoEtario.setEnabled(false);
+            }
+
+            String categoriaPeso = (String) evento.get("categoriasPeso");
+            if (!categoriaPeso.contains("-40")){
+                CB40.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-44")){
+                CB44.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-48")){
+                CB48.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-52")){
+                CB52.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-57")){
+                CB57.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-63")){
+                CB63.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-70")){
+                CB70.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("+70")){
+                CB70M.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-78")){
+                CB78.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("+78")){
+                CB78M.setEnabled(false);
+            }
+
+            if (!categoriaPeso.contains("-38")){
+                CB38.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-42")){
+                CB42.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-46")){
+                CB46.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-50")){
+                CB50.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-55")){
+                CB55.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-60")){
+                CB60.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-66")){
+                CB66.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-73")){
+                CB73.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-81")){
+                CB81.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("+81")){
+                CB81M.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-90")){
+                CB90.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("+90")){
+                CB90M.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("-100")){
+                CB100.setEnabled(false);
+            }
+            if(!categoriaPeso.contains("+100")){
+                CB100M.setEnabled(false);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void grupoCategoriasPesoMasculino(){
@@ -158,6 +274,7 @@ public class CriarProva extends JFrame{
             return;
         }
 
+        adicionarProvaJSON();
         abrirPaginaProvas();
     }
 
@@ -266,5 +383,130 @@ public class CriarProva extends JFrame{
         for (String escalao: escaloes){
             dropdownEscalaoEtario.addItem(escalao);
         }
+    }
+
+    private void adicionarProvaJSON(){
+
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            JSONObject jsonObject = (JSONObject) jsonArray.get(idEvento);
+
+            JSONObject prova = new JSONObject();
+
+            if (masculinoRadioButton.isSelected()){
+                prova.put("genero","Masculino");
+            }else{
+                prova.put("genero","Feminino");
+            }
+
+            prova.put("escalaoEtario",dropdownEscalaoEtario.getSelectedItem());
+
+            String categoriasPeso = "";
+            if (CB40.isSelected()){
+                categoriasPeso += "-40kg";
+            }
+            if(CB44.isSelected()){
+                categoriasPeso += "-44kg";
+            }
+            if(CB48.isSelected()){
+                categoriasPeso += "-48kg";
+            }
+            if(CB52.isSelected()){
+                categoriasPeso += "-52kg";
+            }
+            if(CB57.isSelected()){
+                categoriasPeso += "-57kg";
+            }
+            if(CB63.isSelected()){
+                categoriasPeso += "-63kg";
+            }
+            if(CB70.isSelected()){
+                categoriasPeso += "-70kg";
+            }
+            if(CB70M.isSelected()){
+                categoriasPeso += "+70kg";
+            }
+            if(CB78.isSelected()){
+                categoriasPeso += "-78kg";
+            }
+            if(CB78M.isSelected()){
+                categoriasPeso += "+78kg";
+            }
+
+            if (CB38.isSelected()){
+                categoriasPeso += "-38kg";
+            }
+            if(CB42.isSelected()){
+                categoriasPeso += "-42kg";
+            }
+            if(CB46.isSelected()){
+                categoriasPeso += "-46kg";
+            }
+            if(CB50.isSelected()){
+                categoriasPeso += "-50kg";
+            }
+            if(CB55.isSelected()){
+                categoriasPeso += "-55kg";
+            }
+            if(CB60.isSelected()){
+                categoriasPeso += "-60kg";
+            }
+            if(CB66.isSelected()){
+                categoriasPeso += "-66kg";
+            }
+            if(CB73.isSelected()){
+                categoriasPeso += "-73kg";
+            }
+            if(CB81.isSelected()){
+                categoriasPeso += "-81kg";
+            }
+            if(CB81M.isSelected()){
+                categoriasPeso += "+81kg";
+            }
+            if(CB90.isSelected()){
+                categoriasPeso += "-90kg";
+            }
+            if(CB90M.isSelected()){
+                categoriasPeso += "+90kg";
+            }
+            if(CB100.isSelected()){
+                categoriasPeso += "-100kg";
+            }
+            if(CB100M.isSelected()){
+                categoriasPeso += "+100kg";
+            }
+            prova.put("categoriaPeso",categoriasPeso);
+
+            JSONArray provasArray = (JSONArray) jsonObject.get("provas");
+
+            provasArray.add(prova);
+
+            if (idEvento >= 0 && idEvento < jsonArray.size()) {
+                jsonArray.set(idEvento, jsonObject);
+
+                try (FileWriter fileWriter = new FileWriter("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    String jsonData = gson.toJson(jsonArray);
+
+                    fileWriter.write(jsonData);
+                    JOptionPane.showMessageDialog(mainPanel, "Prova criada e associada");
+                } catch (IOException e) {
+                    //System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
+                    JOptionPane.showMessageDialog(mainPanel, "Erro ao criar a prova");
+                }
+            } else {
+                //System.out.println("ID inválido. O objeto com o ID especificado não existe.");
+                JOptionPane.showMessageDialog(mainPanel, "Erro ao associar a prova");
+            }
+
+        } catch (IOException | org.json.simple.parser.ParseException e) {
+            //System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
+            JOptionPane.showMessageDialog(mainPanel, "Erro ao associar a prova");
+        }
+
     }
 }

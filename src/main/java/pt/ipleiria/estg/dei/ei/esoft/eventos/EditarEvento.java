@@ -169,7 +169,6 @@ public class EditarEvento extends JFrame{
         }
 
         editarEventoJSON(idEvento);
-
         abrirPaginaEventos();
     }
 

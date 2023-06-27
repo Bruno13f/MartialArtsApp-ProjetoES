@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.esoft.provas;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.jdi.Value;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,8 +27,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.*;
@@ -103,7 +104,6 @@ public class GestaoProvas extends JFrame{
         // TODO - LER FICHEIRO JSON E COLOCAR EVENTOS EM LISTA
 
         ModeloTabelaProvas modeloTabelaProvas = popuplarTabelaProvas();
-        System.out.println(modeloTabelaProvas);
         if (modeloTabelaProvas != null) {
             tabela.setModel(modeloTabelaProvas);
         }
@@ -175,10 +175,6 @@ public class GestaoProvas extends JFrame{
             }
 
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
-
-            if (jsonArray.isEmpty()){
-                return null;
-            }
 
             // Cria uma lista de eventos
             java.util.List<Prova> provas = new ArrayList<>();
@@ -301,7 +297,6 @@ public class GestaoProvas extends JFrame{
 
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             java.io.File file = fileChooser.getSelectedFile();
-            System.out.println(file);
 
             if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO
@@ -314,32 +309,68 @@ public class GestaoProvas extends JFrame{
     }
 
     private boolean escreverFicheiroJSON(java.io.File file) {
+
         JSONParser parser = new JSONParser();
 
         try (FileReader reader = new FileReader(file)) {
 
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
-            System.out.println("Array: " + jsonArray.get(0));
+            for (Object obj : jsonArray){
+                JSONObject evento = (JSONObject) obj;
 
-            for (Object obj : jsonArray) {
-                JSONObject jsonObject = (JSONObject) obj;
+                String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
+                writeDataToJsonFile(evento, filePath);
 
-                // Acessando os campos dinamicamente
-                for (Object key : jsonObject.keySet()) {
-                    Object value = jsonObject.get(key);
-
-                    // TODO - CONCATENAR VALORES AO FICHEIRO APP EVENTOS
-
-                    System.out.println("Chave: " + key);
-                    System.out.println("Valor: " + value);
-                }
             }
 
-            return true;
         } catch (IOException | ParseException e) {
-            //e.printStackTrace();
             return false;
+        }
+
+        return true;
+
+    }
+
+    private void writeDataToJsonFile(JSONObject data, String filePath) {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonData = gson.toJson(data);
+
+            boolean isEmpty = fileIsEmpty(filePath);
+
+            if (!isEmpty) {
+                removeLastCharacter(filePath);
+                appendCharacter(filePath, ",");
+                fileWriter.write(jsonData + "\n]");
+            }else{
+                fileWriter.write("[" + jsonData + "\n]");
+            }
+
+            //System.out.println("Data appended to JSON file successfully.");
+            JOptionPane.showMessageDialog(mainPanel, "Evento criado com sucesso");
+        } catch (IOException e) {
+            //System.out.println("An error occurred while appending data to JSON file: " + e.getMessage());
+            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel criar o evento");
+        }
+    }
+
+    private boolean fileIsEmpty(String filePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            return reader.readLine() == null;
+        }
+    }
+
+    private void removeLastCharacter(String filePath) throws IOException {
+        RandomAccessFile file = new RandomAccessFile(filePath, "rw");
+        long length = file.length();
+        file.setLength(length - 1);
+        file.close();
+    }
+
+    private void appendCharacter(String filePath, String character) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            fileWriter.write(character);
         }
     }
 
