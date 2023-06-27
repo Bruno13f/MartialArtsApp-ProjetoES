@@ -501,7 +501,6 @@ public class CriarEvento extends JFrame{
 
         String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
         writeDataToJsonFile(evento, filePath);
-        JOptionPane.showMessageDialog(mainPanel, "Evento criado com sucesso");
     }
 
     private void writeDataToJsonFile(JSONObject data, String filePath) {
@@ -514,19 +513,19 @@ public class CriarEvento extends JFrame{
             if (!isEmpty) {
                 removeLastCharacter(filePath);
                 appendCharacter(filePath, ",");
+            }else{
+                JOptionPane.showMessageDialog(mainPanel, "Evento criado com sucesso");
+                fileWriter.write("[" + jsonData + "\n]");
+                return;
             }
 
-            fileWriter.write(jsonData);
+            fileWriter.write(jsonData + "\n]");
 
-            if (!isEmpty) {
-                fileWriter.write("\n]");
-            } else {
-                fileWriter.write("\n" + jsonData + "\n]");
-            }
-
-            System.out.println("Data appended to JSON file successfully.");
+            //System.out.println("Data appended to JSON file successfully.");
+            JOptionPane.showMessageDialog(mainPanel, "Evento criado com sucesso");
         } catch (IOException e) {
-            System.out.println("An error occurred while appending data to JSON file: " + e.getMessage());
+            //System.out.println("An error occurred while appending data to JSON file: " + e.getMessage());
+            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel criar o evento");
         }
     }
 

@@ -335,8 +335,6 @@ public class EditarEvento extends JFrame{
             return 16;
         }
 
-        System.out.println(pais);
-
         return 0;
     }
 
@@ -622,9 +620,8 @@ public class EditarEvento extends JFrame{
                     String jsonData = gson.toJson(jsonArray);
 
                     fileWriter.write(jsonData);
-                    System.out.println("Objeto JSON atualizado com sucesso.");
                 } catch (IOException e) {
-                    System.out.println("Ocorreu um erro ao escrever o JSON atualizado no arquivo: " + e.getMessage());
+                    System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
                 }
             } else {
                 System.out.println("ID inválido. O objeto com o ID especificado não existe.");

@@ -1,41 +1,34 @@
-[
-  {
-    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-57kg;-63kg;-70kg;+70kg;-50kg;-55kg;-60kg;-66kg;-73kg;-81kg;-90kg;+90kg;",
-    "provas": [
-      {
-        "escalaoEtario": "Cadetes",
-        "categoriaPeso": "-40kg",
-        "genero": "Masculino"
-      },
-      {
-        "escalaoEtario": "Cadetes",
-        "categoriaPeso": "-43kg",
-        "genero": "Masculino"
-      }
-    ],
-    "escalaoEtario": "Cadetes",
-    "data": "28/07/2023;29/07/2023",
-    "genero": "Masculino;Feminino",
-    "nome": "Taça da Europa",
-    "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
-    "pais": "Portugal",
-    "modalidade": "Judo"
-  },
-  {
-    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg;",
-    "provas": [
-      {
-        "escalaoEtario": "Cadetes",
-        "categoriaPeso": "-40kg",
-        "genero": "Masculino"
-      }
-    ],
-    "escalaoEtario": "Cadetes",
-    "data": "28/07/2023;29/07/2023",
-    "genero": "Masculino;Feminino",
-    "nome": "Taça da Europa de Cadetes",
-    "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
-    "pais": "Portugal",
-    "modalidade": "Judo"
-  }
+[{
+  "categoriasPeso": "-40kg;-52kg;-38kg;-50kg;",
+  "provas": [],
+  "escalaoEtario": "Infantis",
+  "data": "20/01/2024;22/01/2024",
+  "genero": "Masculino;Feminino",
+  "nome": "teste",
+  "local": "teste",
+  "pais": "Alemanha",
+  "modalidade": "Judo"
+}
+,{
+  "categoriasPeso": "-40kg;-52kg;-38kg;-50kg;",
+  "provas": [],
+  "escalaoEtario": "Infantis",
+  "data": "20/02/2024;22/02/2024",
+  "genero": "Masculino;Feminino",
+  "nome": "testeste",
+  "local": "testeste",
+  "pais": "Alemanha",
+  "modalidade": "Judo"
+}
+,{
+  "categoriasPeso": "-40kg;-52kg;-38kg;-50kg;",
+  "provas": [],
+  "escalaoEtario": "Infantis",
+  "data": "20/01/2024;26/01/2024",
+  "genero": "Masculino;Feminino",
+  "nome": "testefinal",
+  "local": "final",
+  "pais": "Baamas",
+  "modalidade": "Judo"
+}
 ]

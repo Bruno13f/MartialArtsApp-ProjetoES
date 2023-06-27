@@ -47,7 +47,7 @@ public class ModeloTabelaEventos extends AbstractTableModel {
             // local
             case 2 -> eventos.get(rowIndex).getLocal();
             // pais
-            case 3 -> eventos.get(rowIndex).getCodigoIsoPais();
+            case 3 -> eventos.get(rowIndex).getPais();
             // modalidade
             case 4 -> eventos.get(rowIndex).getModalidade();
             // genero

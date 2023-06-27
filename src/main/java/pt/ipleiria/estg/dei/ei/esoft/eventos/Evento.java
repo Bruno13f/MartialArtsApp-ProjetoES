@@ -70,7 +70,7 @@ public class Evento {
         return local;
     }
 
-    public String getCodigoIsoPais(){
+    public String getPais(){
         // pais -> codigo pais
         /*Map<String, String> paises = new HashMap<>();
 

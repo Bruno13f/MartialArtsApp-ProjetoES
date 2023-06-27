@@ -169,6 +169,11 @@ public class GestaoProvas extends JFrame{
 
         try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
             // Faz o parsing do arquivo JSON
+
+            if (reader == null){
+                return null;
+            }
+
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
             // Cria uma lista de eventos
