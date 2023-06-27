@@ -263,23 +263,25 @@ public class GestaoAtletas extends JFrame{
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             java.io.File file = fileChooser.getSelectedFile();
             System.out.println(file);
-            FileReader reader = lerFicheiroJSON(file);
 
-            /*if (reader == null || !escreverFicheiroJSONImportado(reader)){
+            if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO
+                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
             }
 
-            //TODO - CONCATENAR NO FICHEIRO AONDE ESTAO GUARDADO OS Atletas*/
+            JOptionPane.showMessageDialog(mainPanel, "Atleta(s) importado(s)");
+            mostrarAtletas();
         }
-
     }
 
-    private FileReader lerFicheiroJSON(java.io.File file) {
+    private boolean escreverFicheiroJSON(java.io.File file) {
         JSONParser parser = new JSONParser();
 
         try (FileReader reader = new FileReader(file)) {
 
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            System.out.println("Array: " + jsonArray.get(0));
 
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;
@@ -295,10 +297,10 @@ public class GestaoAtletas extends JFrame{
                 }
             }
 
-            return reader;
+            return true;
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
-            return null;
+            //e.printStackTrace();
+            return false;
         }
     }
 }

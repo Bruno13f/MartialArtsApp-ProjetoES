@@ -9,10 +9,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.text.Collator;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CriarAtleta extends JFrame{
     private JPanel mainPanel;
@@ -81,9 +86,98 @@ public class CriarAtleta extends JFrame{
         this.dispose();
     }
     private void btnCriarActionPerformed(ActionEvent actionEvent) {
-        // TODO: CRIAR ATLETA
+            // TODO: CRIAR ATLETA
+
+            if (validarNome() != 0){
+                mostrarErro(validarNome());
+                return;
+            }
+
+            if (validarPeso() != 0){
+                mostrarErro(validarPeso());
+                return;
+            }
+
+            if (validarGenero() != 0){
+                mostrarErro(validarGenero());
+                return;
+            }
+
+            if (validarPais() != 0){
+                mostrarErro(validarPais());
+                return;
+            }
+
+            if (validarData() != 0){
+                mostrarErro(validarData());
+                return;
+            }
+
+            if (validarContacto() != 0){
+                mostrarErro(validarContacto());
+                return;
+            }
+
         abrirPaginaAtletas();
     }
+
+    private void mostrarErro (int codigo){
+
+        switch(codigo){
+            case 1:
+                JOptionPane.showMessageDialog(mainPanel, "Preencha o campo nome");
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(mainPanel, "O campo nome possui mais do que 50 caracteres");
+                break;
+            case 3:
+                JOptionPane.showMessageDialog(mainPanel, "O campo nome possui caracteres numéricos");
+                break;
+            case 4:
+                JOptionPane.showMessageDialog(mainPanel, "Selecione um país");
+                break;
+            case 5:
+                JOptionPane.showMessageDialog(mainPanel, "Selecione um género");
+                break;
+            case 6:
+                JOptionPane.showMessageDialog(mainPanel, "Preencha o campo peso");
+                break;
+            case 7:
+                JOptionPane.showMessageDialog(mainPanel, "O campo peso possui um formato errado");
+                break;
+            case 8:
+                JOptionPane.showMessageDialog(mainPanel, "Preencha o campo data");
+                break;
+            case 9:
+                JOptionPane.showMessageDialog(mainPanel, "Insira uma data válida");
+                break;
+            case 10:
+                JOptionPane.showMessageDialog(mainPanel, "Atleta possui menos de 8 anos de idade");
+                break;
+            case 11:
+                JOptionPane.showMessageDialog(mainPanel, "Preencha o campo contacto");
+                break;
+            case 12:
+                JOptionPane.showMessageDialog(mainPanel, "O campo contacto possui tem de possuir 9 caracteres");
+                break;
+            case 13:
+                JOptionPane.showMessageDialog(mainPanel, "O campo contacto possui caracteres inválidos (a-z,A-Z, espaços em branco, caracteres especiais)");
+                break;
+            case 14:
+                JOptionPane.showMessageDialog(mainPanel, "O campo contacto é um número negativo");
+                break;
+            case 15:
+                JOptionPane.showMessageDialog(mainPanel, "O contacto do atleta já se encontra em uso");
+                break;
+            case 16:
+                JOptionPane.showMessageDialog(mainPanel, "O campo nome possui caracteres especiais");
+                break;
+            case 17:
+                JOptionPane.showMessageDialog(mainPanel, "Dois campos géneros selecionados");
+                break;
+        }
+    }
+
     private void btnCancelarActionPerformed(ActionEvent actionEvent) {
         abrirPaginaAtletas();
     }
@@ -125,23 +219,59 @@ public class CriarAtleta extends JFrame{
 
     }
 
-    private boolean validarData(Date dataNascimento){
-        if(dataNascimento == null){
-            return false;
+    private int validarData(){
+
+        String data = textDataNascimento.getText();
+
+        if (data.isEmpty()){
+            return 8;
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        dateFormat.setLenient(false);
-        try {
-            dateFormat.format(dataNascimento);
-            return true;
-        } catch (Exception e) {
-            return false;
+
+        Pattern pattern = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+        Matcher matcher = pattern.matcher(data);
+
+        if (!matcher.matches()){
+            return  9;
         }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataInserida = LocalDate.parse(data, formatter);
+
+        LocalDate dataAtual = LocalDate.now();
+
+        if (!dataInserida.isBefore(dataAtual)){
+            return  9;
+        }
+
+        Period ageDifference = Period.between(dataInserida, dataAtual);
+
+        if (ageDifference.getYears() < 8) {
+            return 10; // or any other error code you prefer
+        }
+
+        return 0;
     }
-    private boolean validarPeso(Float peso) {
+    private int validarPeso() {
+
+        String pesoIN = textPeso.getText();
+
+        if (pesoIN.isEmpty()){
+            return 6;
+        }
+
+        if (!Pattern.matches(".*\\d.*", pesoIN)) {
+            return 7;
+        }
+
+        Float peso;
+        try {
+            peso = Float.parseFloat(pesoIN);
+        } catch (NumberFormatException e) {
+            return 7; // Invalid peso format
+        }
 
         if (peso == null) {
-            return false;
+            return 7; // Null peso value
         }
 
         String pesoString = String.valueOf(peso);
@@ -149,61 +279,88 @@ public class CriarAtleta extends JFrame{
 
         if (indexOfDecimalSeparator != -1) {
             int decimalPlaces = pesoString.length() - indexOfDecimalSeparator - 1;
-            return decimalPlaces <= 2;
-        }
-        return true;
-    }
-
-    private boolean validarGenero(Genero genero) {
-        if (genero == Genero.Masculino || genero == Genero.Feminino){
-            return true;
-        }
-        return false;
-    }
-
-    private boolean validarPais(String nacionalidade){
-        if (!nacionalidade.trim().isEmpty()) {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-    private boolean validarNome (String nome){
-        if (!nome_Numero(nome)){
-            return false;
-        }
-
-        if (nome.trim().isEmpty()) {
-            return false;
-        }
-
-        if (!(nome.length() <= 50)){
-            return false;
-        }
-
-        if (tem_Caracter_Especial(nome)){
-            return false;
-        }
-        return true;
-    }
-
-    private boolean nome_Numero(String nome) {
-        for (char a : nome.toCharArray()) {
-            if (Character.isDigit(a)) {
-                return false;
+            if(decimalPlaces > 2){
+                return 7;
             }
         }
-        return true;
+
+        return 0;
     }
 
-    private boolean tem_Caracter_Especial(String nome) {
-        String specialCharacters = "!@#$%^&*()_+|<>?{}\\[\\]~-";
-        for (char c : nome.toCharArray()) {
-            if (specialCharacters.contains(String.valueOf(c))) {
-                return true;
-            }
+
+
+    private int validarGenero(){
+
+        if (radioBtnMasculino.isSelected() && radioBtnFeminino.isSelected()){
+            return 17;
         }
-        return false;
+
+        if (!radioBtnMasculino.isSelected() && !radioBtnFeminino.isSelected()){
+            return 5;
+        }
+
+        return 0;
+    }
+
+    private int validarPais(){
+
+        String pais = (String) paisesComboBox.getSelectedItem();
+
+        if (pais.equals("Selecione um país")){
+            return 4;
+        }
+
+        System.out.println(pais);
+
+        return 0;
+    }
+
+    private int validarNome() {
+
+        String nome = textNome.getText();
+
+        if (nome.isEmpty()){
+            return 1;
+        }
+
+        if (Pattern.matches(".*\\d.*", nome)) {
+            return 3;
+        }
+
+        if (!Pattern.matches("^[a-zA-Z ]+$", nome)){
+            return 16;
+        }
+
+        if (nome.length() > 50){
+            return 2;
+        }
+
+        return 0;
+    }
+
+    private int validarContacto() {
+
+        String contacto = textContacto.getText();
+
+        if (contacto.isEmpty()){
+            return 11;
+        }
+
+        if (contacto.length() != 9){
+            return 12;
+        }
+
+        if (!Pattern.matches(".*\\d.*", contacto)) {
+            return 13;
+        }
+
+        int contactoInt;
+        contactoInt = Integer.parseInt(contacto);
+
+        if (contactoInt > 0) {
+            return 0;
+        } else {
+            return 14;
+        }
     }
 }
