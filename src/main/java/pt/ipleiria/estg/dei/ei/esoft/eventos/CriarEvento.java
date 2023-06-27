@@ -333,8 +333,6 @@ public class CriarEvento extends JFrame{
             return 16;
         }
 
-        System.out.println(pais);
-
         return 0;
     }
 

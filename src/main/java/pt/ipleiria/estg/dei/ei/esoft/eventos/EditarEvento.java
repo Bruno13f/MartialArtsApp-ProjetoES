@@ -620,14 +620,18 @@ public class EditarEvento extends JFrame{
                     String jsonData = gson.toJson(jsonArray);
 
                     fileWriter.write(jsonData);
+                    JOptionPane.showMessageDialog(mainPanel, "Evento editado com sucesso");
                 } catch (IOException e) {
-                    System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
+                    //System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
+                    JOptionPane.showMessageDialog(mainPanel, "Não foi possivel editar o evento");
                 }
             } else {
-                System.out.println("ID inválido. O objeto com o ID especificado não existe.");
+                //System.out.println("ID inválido. O objeto com o ID especificado não existe.");
+                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel editar o evento");
             }
         } catch (IOException | org.json.simple.parser.ParseException e) {
-            System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
+            //System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
+            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel editar o evento");
         }
     }
 

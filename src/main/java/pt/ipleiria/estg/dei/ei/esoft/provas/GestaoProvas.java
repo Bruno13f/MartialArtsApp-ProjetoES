@@ -170,16 +170,24 @@ public class GestaoProvas extends JFrame{
         try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
             // Faz o parsing do arquivo JSON
 
-            if (reader == null){
+            if (!reader.ready()){
                 return null;
             }
 
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
+            if (jsonArray.isEmpty()){
+                return null;
+            }
+
             // Cria uma lista de eventos
             java.util.List<Prova> provas = new ArrayList<>();
 
             JSONObject evento = (JSONObject) jsonArray.get(idEvento);
+
+            if (evento.isEmpty()){
+                return null;
+            }
 
             if (evento.containsKey("provas")){
 

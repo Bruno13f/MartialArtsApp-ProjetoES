@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.esoft.eventos;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import pt.ipleiria.estg.dei.ei.esoft.*;
@@ -90,7 +92,6 @@ public class GestaoEventos extends JFrame{
         // TODO - LER FICHEIRO JSON E COLOCAR EVENTOS EM LISTA
 
         ModeloTabelaEventos modeloTabelaEventos = popuplarTabelaEventos();
-        System.out.println(modeloTabelaEventos);
         if (modeloTabelaEventos != null) {
             tabela.setModel(modeloTabelaEventos);
         }
@@ -153,7 +154,17 @@ public class GestaoEventos extends JFrame{
         try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
             // Faz o parsing do arquivo JSON
 
+            if (!reader.ready()){
+                return null;
+            }
+
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            if (jsonArray.isEmpty()){
+                return null;
+            }
+
+            System.out.println("ola = " + jsonArray);
 
             // Cria uma lista de eventos
             List<Evento> eventos = new ArrayList<>();
@@ -214,6 +225,8 @@ public class GestaoEventos extends JFrame{
 
     private void menuItemEliminarActionPerformed (ActionEvent actionEvent){
         // TODO - ELIMINAR EVENTO
+        eliminarEventoJSON(getLinha(actionEvent));
+        mostrarEventos();
     }
 
     private void menuItemProvasActionPerformed (ActionEvent actionEvent){
@@ -262,15 +275,45 @@ public class GestaoEventos extends JFrame{
     }
 
     private void eliminarEventoJSON(int id){
+        JSONParser parser = new JSONParser();
 
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            if (id >= 0 && id < jsonArray.size()) {
+
+                jsonArray.remove(id);
+
+                try (FileWriter fileWriter = new FileWriter("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+                    if (jsonArray.isEmpty()) {
+                        // Se o JSONArray estiver vazio após a remoção, escreve um JSON vazio no arquivo
+                        fileWriter.write("");
+                    } else {
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        String jsonData = gson.toJson(jsonArray);
+                        fileWriter.write(jsonData);
+                    }
+                    JOptionPane.showMessageDialog(mainPanel, "Evento eliminado com sucesso");
+                } catch (IOException e) {
+                    //System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
+                    JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o evento");
+                }
+            } else {
+                //System.out.println("ID inválido. O objeto com o ID especificado não existe.");
+                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel editar o evento");
+            }
+
+        } catch (IOException | org.json.simple.parser.ParseException e) {
+            //System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
+            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o evento");
+        }
     }
 
     private void cancelarEventoJSON(int id){
-
     }
 
     private boolean verificarAtletasEvento (int id){
-
         return true;
     }
 
