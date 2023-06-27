@@ -513,13 +513,10 @@ public class CriarEvento extends JFrame{
             if (!isEmpty) {
                 removeLastCharacter(filePath);
                 appendCharacter(filePath, ",");
+                fileWriter.write(jsonData + "\n]");
             }else{
-                JOptionPane.showMessageDialog(mainPanel, "Evento criado com sucesso");
                 fileWriter.write("[" + jsonData + "\n]");
-                return;
             }
-
-            fileWriter.write(jsonData + "\n]");
 
             //System.out.println("Data appended to JSON file successfully.");
             JOptionPane.showMessageDialog(mainPanel, "Evento criado com sucesso");
