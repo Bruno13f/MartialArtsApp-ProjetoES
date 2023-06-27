@@ -1,7 +1,7 @@
 [
   {
-    "nome": "Taça da Europa de Cadetes 2022",
-    "data": "28/05/22;29/05/22",
+    "nome": "Taça da Europa de Cadetes",
+    "data": "28/07/2023;29/07/2023",
     "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
     "pais": "Portugal",
     "modalidade": "Judo",
@@ -11,17 +11,19 @@
     "provas": [
       {
         "categoriaPeso": "-40kg",
-        "genero": "Masculino"
+        "genero": "Masculino",
+        "escalaoEtario": "Cadetes"
       },
       {
         "categoriaPeso": "-43kg",
-        "genero": "Masculino"
+        "genero": "Masculino",
+        "escalaoEtario": "Cadetes"
       }
     ]
   },
   {
-    "nome": "Taça da Europa de Cadetes 2022",
-    "data": "28/05/22;29/05/22",
+    "nome": "Taça da Europa de Cadetes",
+    "data": "28/07/2023;29/07/2023",
     "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
     "pais": "Portugal",
     "modalidade": "Judo",
@@ -31,7 +33,8 @@
     "provas": [
       {
         "categoriaPeso": "-40kg",
-        "genero": "Masculino"
+        "genero": "Masculino",
+        "escalaoEtario": "Cadetes"
       }
     ]
   }

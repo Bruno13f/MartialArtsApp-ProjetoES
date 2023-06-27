@@ -1,15 +1,26 @@
 package pt.ipleiria.estg.dei.ei.esoft.eventos;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import pt.ipleiria.estg.dei.ei.esoft.EscalaoEtario;
+import pt.ipleiria.estg.dei.ei.esoft.Genero;
 import pt.ipleiria.estg.dei.ei.esoft.atletas.GestaoAtletas;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
 import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.FileReader;
+import java.text.Collator;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static pt.ipleiria.estg.dei.ei.esoft.EscalaoEtario.getValues;
 
 public class EditarEvento extends JFrame{
     private JPanel mainPanel;
@@ -82,13 +93,18 @@ public class EditarEvento extends JFrame{
     private JPanel infoDataFinalPanel;
     private JTextField textDataFinal;
 
-    public EditarEvento(String title){
+    private final String[] escaloes = getValues(EscalaoEtario.class);
+
+    private int idEvento;
+
+    public EditarEvento(String title, int idEvento){
         super(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(mainPanel);
         setResizable(false);
         pack();
 
+        this.idEvento = idEvento;
         btnEventos.addActionListener(this::btnEventosActionPerformed);
         btnAtletas.addActionListener(this::btnAtletasActionPerformed);
         btnResultados.addActionListener(this::btnResultadosActionPerformed);
@@ -96,16 +112,106 @@ public class EditarEvento extends JFrame{
         btnConfirmar.addActionListener(this::btnEditarEventoActionPerformed);
         btnCancelar.addActionListener(this::btnCancelarEventoActionPerformed);
 
-        configurarTxtModalidade();
+        fillComboBoxPaises(paisesComboBox);
+        paisesComboBox.setEditable(true);
+        paisesComboBox.setSelectedItem("Selecione um país");
+
+        fillComboBoxEscaloes(dropdownEscalaoEtario);
+        dropdownEscalaoEtario.setEditable(true);
+
+        configurarEvento();
     }
 
-    public static void abrirPaginaEditarEvento (){
-        new EditarEvento("Editar Evento").setVisible(true);
+    public static void abrirPaginaEditarEvento (int idEvento){
+        new EditarEvento("Editar Evento", idEvento).setVisible(true);
     }
 
-    private void configurarTxtModalidade() {
-        textModalidade.setEditable(false);
-        textModalidade.setText("Judo");
+    private void configurarEvento() {
+
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            JSONObject jsonObject = (JSONObject) jsonArray.get(idEvento);
+
+            textNome.setText((String) jsonObject.get("nome"));
+            String data = (String) jsonObject.get("data");
+            String[] datasSeparadas = data.split(";");
+            textDataInicio.setText(datasSeparadas[0]);
+            textDataFinal.setText(datasSeparadas[1]);
+            textLocal.setText((String) jsonObject.get("local"));
+            paisesComboBox.setSelectedItem(jsonObject.get("pais"));
+            dropdownEscalaoEtario.setSelectedItem(jsonObject.get("escalaoEtario"));
+            String genero = (String) jsonObject.get("genero");
+            if (genero.contains("Masculino")){
+                masculinoCheckBox.setSelected(true);
+            }
+            if (genero.contains("Feminino")){
+                femininoCheckBox.setSelected(true);
+            }
+
+            textModalidade.setText((String) jsonObject.get("modalidade"));
+            textModalidade.setEditable(false);
+
+            String categoriasPeso = (String) jsonObject.get("categoriasPeso");
+            if (categoriasPeso.contains("-40")){
+                CB40.setSelected(true);
+            }else if(categoriasPeso.contains("-44")){
+                CB44.setSelected(true);
+            }else if(categoriasPeso.contains("-48")){
+                CB48.setSelected(true);
+            }else if(categoriasPeso.contains("-52")){
+                CB52.setSelected(true);
+            }else if(categoriasPeso.contains("-57")){
+                CB57.setSelected(true);
+            }else if(categoriasPeso.contains("-63")){
+                CB63.setSelected(true);
+            }else if(categoriasPeso.contains("-70")){
+                CB70.setSelected(true);
+            }else if(categoriasPeso.contains("+70")){
+                CB70M.setSelected(true);
+            }else if(categoriasPeso.contains("-78")){
+                CB78.setSelected(true);
+            }else if(categoriasPeso.contains("+78")){
+                CB78M.setSelected(true);
+            }
+
+            if (categoriasPeso.contains("-38")){
+                CB38.setSelected(true);
+            }else if(categoriasPeso.contains("-42")){
+                CB42.setSelected(true);
+            }else if(categoriasPeso.contains("-46")){
+                CB46.setSelected(true);
+            }else if(categoriasPeso.contains("-50")){
+                CB50.setSelected(true);
+            }else if(categoriasPeso.contains("-55")){
+                CB55.setSelected(true);
+            }else if(categoriasPeso.contains("-60")){
+                CB60.setSelected(true);
+            }else if(categoriasPeso.contains("-66")){
+                CB66.setSelected(true);
+            }else if(categoriasPeso.contains("-73")){
+                CB73.setSelected(true);
+            }else if(categoriasPeso.contains("-81")){
+                CB81.setSelected(true);
+            }else if(categoriasPeso.contains("+81")){
+                CB81M.setSelected(true);
+            }else if(categoriasPeso.contains("-90")){
+                CB90.setSelected(true);
+            }else if(categoriasPeso.contains("+90")){
+                CB90M.setSelected(true);
+            }else if(categoriasPeso.contains("-100")){
+                CB100.setSelected(true);
+            }else if(categoriasPeso.contains("+100")){
+                CB100M.setSelected(true);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void abrirPaginaEventos(){
@@ -219,7 +325,7 @@ public class EditarEvento extends JFrame{
             return 2;
         }
 
-        if (!Pattern.matches("^[a-zA-Z ]+$", nome)){
+        if (!Pattern.matches("^[a-zA-Z ç]+$", nome)){
             return 3;
         }
 
@@ -363,5 +469,28 @@ public class EditarEvento extends JFrame{
 
     private void editarEventoJSON (int id){
         // ler ficheiro e mostrar parametros evento
+    }
+
+    private void fillComboBoxPaises(JComboBox<String> comboBox){
+        String[] paises = new String[Locale.getISOCountries().length];
+        String[] codPais = Locale.getISOCountries();
+        for (int i = 0; i < codPais.length; i++) {
+            Locale obj = new Locale("", codPais[i]);
+            paises[i] = obj.getDisplayCountry(Locale.forLanguageTag("pt-PT"));
+        }
+
+        Collator collator = Collator.getInstance(Locale.forLanguageTag("pt-PT"));
+        List<String> paisesOrdenados = new ArrayList<>(List.of(paises));
+        paisesOrdenados.sort(collator);
+
+        for (String nacionalidade : paisesOrdenados) {
+            comboBox.addItem(nacionalidade);
+        }
+    }
+
+    private void fillComboBoxEscaloes(JComboBox<String> dropdownEscalaoEtario) {
+        for (String escalao: escaloes){
+            dropdownEscalaoEtario.addItem(escalao);
+        }
     }
 }

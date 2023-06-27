@@ -135,12 +135,13 @@ public class GestaoEventos extends JFrame{
         //adicionar popup menu tabela
 
         tabela.setComponentPopupMenu(popupMenu);
-        tabela.addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent e) {
-                // TODO - SELECIONAR EVENTO CLICADO
-                Point point = e.getPoint();
-                int currentRow = tabela.rowAtPoint(point);
-                tabela.setRowSelectionInterval(currentRow, currentRow);
+        tabela.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    Point point = e.getPoint();
+                    int currentRow = tabela.rowAtPoint(point);
+                    tabela.setRowSelectionInterval(currentRow, currentRow);
+                }
             }
         });
 
@@ -206,7 +207,7 @@ public class GestaoEventos extends JFrame{
 
     private void menuItemEditarActionPerformed (ActionEvent actionEvent){
         // TODO - PREENCHER VALORES COM OS DO EVENTO
-        EditarEvento.abrirPaginaEditarEvento();
+        EditarEvento.abrirPaginaEditarEvento(getLinha(actionEvent));
         this.dispose();
     }
 
@@ -216,8 +217,16 @@ public class GestaoEventos extends JFrame{
 
     private void menuItemProvasActionPerformed (ActionEvent actionEvent){
         // TODO - Abrir Provas do Evento
-        GestaoProvas.abrirPaginaGestaoProvas();
+        GestaoProvas.abrirPaginaGestaoProvas(getLinha(actionEvent));
         this.dispose();
+    }
+
+    private int getLinha(ActionEvent actionEvent){
+        JMenuItem menuItem = (JMenuItem) actionEvent.getSource();
+        JPopupMenu popupMenu = (JPopupMenu) menuItem.getParent();
+        JTable tabela = (JTable) popupMenu.getInvoker();
+        int row = tabela.getSelectedRow();
+        return row;
     }
 
     private void mudarCorItemPopupMenu (JMenuItem item){

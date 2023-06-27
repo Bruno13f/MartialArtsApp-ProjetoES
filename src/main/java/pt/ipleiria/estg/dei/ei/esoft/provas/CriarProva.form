@@ -308,7 +308,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <component id="921d4" class="javax.swing.JCheckBox" binding="CB38">
+                              <component id="921d4" class="javax.swing.JRadioButton" binding="CB38">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -320,7 +320,7 @@
                                   <text value="-38kg"/>
                                 </properties>
                               </component>
-                              <component id="85466" class="javax.swing.JCheckBox" binding="CB42">
+                              <component id="85466" class="javax.swing.JRadioButton" binding="CB42">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -332,7 +332,7 @@
                                   <text value="-42kg"/>
                                 </properties>
                               </component>
-                              <component id="b2361" class="javax.swing.JCheckBox" binding="CB46">
+                              <component id="b2361" class="javax.swing.JRadioButton" binding="CB46">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -355,7 +355,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <component id="9f9fa" class="javax.swing.JCheckBox" binding="CB50">
+                              <component id="9f9fa" class="javax.swing.JRadioButton" binding="CB50">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -367,7 +367,7 @@
                                   <text value="-50kg"/>
                                 </properties>
                               </component>
-                              <component id="4367f" class="javax.swing.JCheckBox" binding="CB55">
+                              <component id="4367f" class="javax.swing.JRadioButton" binding="CB55">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -379,7 +379,7 @@
                                   <text value="-55kg"/>
                                 </properties>
                               </component>
-                              <component id="c276e" class="javax.swing.JCheckBox" binding="CB60">
+                              <component id="c276e" class="javax.swing.JRadioButton" binding="CB60">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -402,7 +402,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <component id="d815c" class="javax.swing.JCheckBox" binding="CB66">
+                              <component id="d815c" class="javax.swing.JRadioButton" binding="CB66">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -414,7 +414,7 @@
                                   <text value="-66kg"/>
                                 </properties>
                               </component>
-                              <component id="5b5b1" class="javax.swing.JCheckBox" binding="CB73">
+                              <component id="5b5b1" class="javax.swing.JRadioButton" binding="CB73">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -426,7 +426,7 @@
                                   <text value="-73kg"/>
                                 </properties>
                               </component>
-                              <component id="56431" class="javax.swing.JCheckBox" binding="CB81">
+                              <component id="56431" class="javax.swing.JRadioButton" binding="CB81">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -449,7 +449,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <component id="5304b" class="javax.swing.JCheckBox" binding="CB81M">
+                              <component id="5304b" class="javax.swing.JRadioButton" binding="CB81M">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -461,7 +461,7 @@
                                   <text value="+81kg"/>
                                 </properties>
                               </component>
-                              <component id="ee6d6" class="javax.swing.JCheckBox" binding="CB90">
+                              <component id="ee6d6" class="javax.swing.JRadioButton" binding="CB90">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -473,7 +473,7 @@
                                   <text value="-90kg"/>
                                 </properties>
                               </component>
-                              <component id="8d977" class="javax.swing.JCheckBox" binding="CB90M">
+                              <component id="8d977" class="javax.swing.JRadioButton" binding="CB90M">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -496,7 +496,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <component id="788c7" class="javax.swing.JCheckBox" binding="CB100">
+                              <component id="788c7" class="javax.swing.JRadioButton" binding="CB100">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -508,7 +508,7 @@
                                   <text value="-100kg"/>
                                 </properties>
                               </component>
-                              <component id="d122f" class="javax.swing.JCheckBox" binding="CB100M">
+                              <component id="d122f" class="javax.swing.JRadioButton" binding="CB100M">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -545,7 +545,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <component id="f557c" class="javax.swing.JCheckBox" binding="CB40">
+                              <component id="f557c" class="javax.swing.JRadioButton" binding="CB40">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -557,7 +557,7 @@
                                   <text value="-40kg"/>
                                 </properties>
                               </component>
-                              <component id="23ca0" class="javax.swing.JCheckBox" binding="CB44">
+                              <component id="23ca0" class="javax.swing.JRadioButton" binding="CB44">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -569,7 +569,7 @@
                                   <text value="-44kg"/>
                                 </properties>
                               </component>
-                              <component id="2c0ea" class="javax.swing.JCheckBox" binding="CB48">
+                              <component id="2c0ea" class="javax.swing.JRadioButton" binding="CB48">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -594,7 +594,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <component id="2cc3e" class="javax.swing.JCheckBox" binding="CB52">
+                              <component id="2cc3e" class="javax.swing.JRadioButton" binding="CB52">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -606,7 +606,7 @@
                                   <text value="-52kg"/>
                                 </properties>
                               </component>
-                              <component id="e5e24" class="javax.swing.JCheckBox" binding="CB57">
+                              <component id="e5e24" class="javax.swing.JRadioButton" binding="CB57">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -618,7 +618,7 @@
                                   <text value="-57kg"/>
                                 </properties>
                               </component>
-                              <component id="dd4d8" class="javax.swing.JCheckBox" binding="CB63">
+                              <component id="dd4d8" class="javax.swing.JRadioButton" binding="CB63">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -643,7 +643,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <component id="e1c35" class="javax.swing.JCheckBox" binding="CB70">
+                              <component id="e1c35" class="javax.swing.JRadioButton" binding="CB70">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -655,7 +655,7 @@
                                   <text value="-70kg"/>
                                 </properties>
                               </component>
-                              <component id="45a8c" class="javax.swing.JCheckBox" binding="CB70M">
+                              <component id="45a8c" class="javax.swing.JRadioButton" binding="CB70M">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -667,7 +667,7 @@
                                   <text value="+70kg"/>
                                 </properties>
                               </component>
-                              <component id="bba2d" class="javax.swing.JCheckBox" binding="CB78">
+                              <component id="bba2d" class="javax.swing.JRadioButton" binding="CB78">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>
@@ -692,7 +692,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <component id="9d3d3" class="javax.swing.JCheckBox" binding="CB78M">
+                              <component id="9d3d3" class="javax.swing.JRadioButton" binding="CB78M">
                                 <constraints/>
                                 <properties>
                                   <background color="-15263977"/>

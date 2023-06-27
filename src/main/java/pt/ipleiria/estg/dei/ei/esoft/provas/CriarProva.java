@@ -29,31 +29,31 @@ public class CriarProva extends JFrame{
     private JLabel categoriasPeso;
     private JPanel masculinoPanel;
     private JLabel masculino;
-    private JCheckBox CB38;
-    private JCheckBox CB42;
-    private JCheckBox CB46;
-    private JCheckBox CB50;
-    private JCheckBox CB55;
-    private JCheckBox CB60;
-    private JCheckBox CB66;
-    private JCheckBox CB73;
-    private JCheckBox CB81;
-    private JCheckBox CB81M;
-    private JCheckBox CB90;
-    private JCheckBox CB90M;
-    private JCheckBox CB100;
-    private JCheckBox CB100M;
+    private JRadioButton CB38;
+    private JRadioButton CB42;
+    private JRadioButton CB46;
+    private JRadioButton CB50;
+    private JRadioButton CB55;
+    private JRadioButton CB60;
+    private JRadioButton CB66;
+    private JRadioButton CB73;
+    private JRadioButton CB81;
+    private JRadioButton CB81M;
+    private JRadioButton CB90;
+    private JRadioButton CB90M;
+    private JRadioButton CB100;
+    private JRadioButton CB100M;
     private JPanel femininoPanel;
-    private JCheckBox CB40;
-    private JCheckBox CB44;
-    private JCheckBox CB48;
-    private JCheckBox CB52;
-    private JCheckBox CB57;
-    private JCheckBox CB63;
-    private JCheckBox CB70;
-    private JCheckBox CB70M;
-    private JCheckBox CB78;
-    private JCheckBox CB78M;
+    private JRadioButton CB40;
+    private JRadioButton CB44;
+    private JRadioButton CB48;
+    private JRadioButton CB52;
+    private JRadioButton CB57;
+    private JRadioButton CB63;
+    private JRadioButton CB70;
+    private JRadioButton CB70M;
+    private JRadioButton CB78;
+    private JRadioButton CB78M;
     private JRadioButton masculinoRadioButton;
     private JRadioButton femininoRadioButton;
     private JPanel radioBtnPanel;
@@ -62,15 +62,18 @@ public class CriarProva extends JFrame{
     private JPanel dropdownPanel;
     private JComboBox<String> dropdownEscalaoEtario;
 
-    private final String[] escaloes = {"Varios","Bejamins", "Infantis", "Iniciados", "Juvenis", "Cadetes", "Juniores", "Sub23", "Seniores","Veteranos"};
+    private final String[] escaloes = {"Bejamins", "Infantis", "Iniciados", "Juvenis", "Cadetes", "Juniores", "Sub23", "Seniores","Veteranos"};
 
-    public CriarProva(String title){
+    private int idEvento;
+
+    public CriarProva(String title, int idEvento){
         super(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(mainPanel);
         setResizable(false);
         pack();
 
+        this.idEvento = idEvento;
         btnEventos.addActionListener(this::btnEventosActionPerformed);
         btnAtletas.addActionListener(this::btnAtletasActionPerformed);
         btnResultados.addActionListener(this::btnResultadosActionPerformed);
@@ -79,22 +82,57 @@ public class CriarProva extends JFrame{
         btnCriar.addActionListener(this::btnCriarActionPerformed);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
-        ButtonGroup group = new ButtonGroup();
-        group.add(masculinoRadioButton);
-        group.add(femininoRadioButton);
+        ButtonGroup groupGenero = new ButtonGroup();
+        groupGenero.add(masculinoRadioButton);
+        groupGenero.add(femininoRadioButton);
+
+        grupoCategoriasPesoMasculino();
+        grupoCategoriasPesoFeminino();
 
         fillComboBoxEscaloes(dropdownEscalaoEtario);
         dropdownEscalaoEtario.setEditable(true);
 
     }
 
-    public static void abrirPaginaCriarProva (){
-        new CriarProva("Criar Prova").setVisible(true);
+    public static void abrirPaginaCriarProva (int idEvento){
+        new CriarProva("Criar Prova", idEvento).setVisible(true);
     }
 
     private void abrirPaginaProvas() {
-        GestaoProvas.abrirPaginaGestaoProvas();
+        GestaoProvas.abrirPaginaGestaoProvas(idEvento);
         this.dispose();
+    }
+
+    private void grupoCategoriasPesoMasculino(){
+        ButtonGroup grupo = new ButtonGroup();
+        grupo.add(CB38);
+        grupo.add(CB42);
+        grupo.add(CB46);
+        grupo.add(CB50);
+        grupo.add(CB55);
+        grupo.add(CB60);
+        grupo.add(CB66);
+        grupo.add(CB73);
+        grupo.add(CB81);
+        grupo.add(CB81M);
+        grupo.add(CB90);
+        grupo.add(CB90M);
+        grupo.add(CB100);
+        grupo.add(CB100M);
+    }
+
+    private void grupoCategoriasPesoFeminino(){
+        ButtonGroup grupo = new ButtonGroup();
+        grupo.add(CB40);
+        grupo.add(CB44);
+        grupo.add(CB48);
+        grupo.add(CB52);
+        grupo.add(CB57);
+        grupo.add(CB63);
+        grupo.add(CB70);
+        grupo.add(CB70M);
+        grupo.add(CB78);
+        grupo.add(CB78M);
     }
 
     private void btnCriarActionPerformed(ActionEvent actionEvent) {
@@ -226,9 +264,6 @@ public class CriarProva extends JFrame{
 
     private void fillComboBoxEscaloes(JComboBox<String> dropdownEscalaoEtario) {
         for (String escalao: escaloes){
-            if (escalao.equals("Varios")){
-                continue;
-            }
             dropdownEscalaoEtario.addItem(escalao);
         }
     }

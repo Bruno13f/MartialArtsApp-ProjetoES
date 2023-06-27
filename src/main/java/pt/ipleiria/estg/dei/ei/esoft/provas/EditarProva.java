@@ -1,5 +1,9 @@
 package pt.ipleiria.estg.dei.ei.esoft.provas;
 
+import com.sun.tools.javac.Main;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import pt.ipleiria.estg.dei.ei.esoft.atletas.GestaoAtletas;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
 import pt.ipleiria.estg.dei.ei.esoft.eventos.GestaoEventos;
@@ -7,6 +11,10 @@ import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.FileReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditarProva extends JFrame{
     private JPanel mainPanel;
@@ -32,37 +40,43 @@ public class EditarProva extends JFrame{
     private JLabel categoriasPeso;
     private JPanel masculinoPanel;
     private JLabel masculino;
-    private JCheckBox CB38;
-    private JCheckBox CB42;
-    private JCheckBox CB46;
-    private JCheckBox CB50;
-    private JCheckBox CB55;
-    private JCheckBox CB60;
-    private JCheckBox CB66;
-    private JCheckBox CB73;
-    private JCheckBox CB81;
-    private JCheckBox CB81M;
-    private JCheckBox CB90;
-    private JCheckBox CB90M;
-    private JCheckBox CB100;
-    private JCheckBox CB100M;
+    private JRadioButton CB38;
+    private JRadioButton CB42;
+    private JRadioButton CB46;
+    private JRadioButton CB50;
+    private JRadioButton CB55;
+    private JRadioButton CB60;
+    private JRadioButton CB66;
+    private JRadioButton CB73;
+    private JRadioButton CB81;
+    private JRadioButton CB81M;
+    private JRadioButton CB90;
+    private JRadioButton CB90M;
+    private JRadioButton CB100;
+    private JRadioButton CB100M;
     private JPanel femininoPanel;
-    private JCheckBox CB40;
-    private JCheckBox CB44;
-    private JCheckBox CB48;
-    private JCheckBox CB52;
-    private JCheckBox CB57;
-    private JCheckBox CB63;
-    private JCheckBox CB70;
-    private JCheckBox CB70M;
-    private JCheckBox CB78;
-    private JCheckBox CB78M;
+    private JRadioButton CB40;
+    private JRadioButton CB44;
+    private JRadioButton CB48;
+    private JRadioButton CB52;
+    private JRadioButton CB57;
+    private JRadioButton CB63;
+    private JRadioButton CB70;
+    private JRadioButton CB70M;
+    private JRadioButton CB78;
+    private JRadioButton CB78M;
     private JPanel meioPanel;
     private JLabel escalaoEtario;
     private JPanel dropdownPanel;
     private JComboBox dropdownEscalaoEtario;
+    private final String[] escaloes = {"Bejamins", "Infantis", "Iniciados", "Juvenis", "Cadetes", "Juniores", "Sub23", "Seniores","Veteranos"};
 
-    public EditarProva(String title){
+    private final String[] rdbtns;
+
+    private int idEvento;
+    private int idProva;
+
+    public EditarProva(String title, int idEvento, int idProva){
         super(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(mainPanel);
@@ -77,15 +91,155 @@ public class EditarProva extends JFrame{
         btnConfirmar.addActionListener(this::btnConfirmarActionPerformed);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
+        Field[] fields = EditarProva.class.getDeclaredFields();
+        List<String> nomesVariaveis = new ArrayList<>();
+
+        for (Field field : fields) {
+            if (field.getType() == JRadioButton.class) {
+                nomesVariaveis.add(field.getName());
+            }
+        }
+
+        rdbtns = nomesVariaveis.toArray(new String[0]);
+
+        this.idEvento = idEvento;
+
+        ButtonGroup groupGenero = new ButtonGroup();
+        groupGenero.add(masculinoRadioButton);
+        groupGenero.add(femininoRadioButton);
+
+        grupoCategoriasPesoMasculino();
+        grupoCategoriasPesoFeminino();
+
+        fillComboBoxEscaloes(dropdownEscalaoEtario);
+        dropdownEscalaoEtario.setEditable(true);
+
+        configurarProva();
+
     }
 
-    public static void abrirPaginaEditarProva (){
-        new CriarProva("Editar Prova").setVisible(true);
+    public static void abrirPaginaEditarProva (int idEvento, int idProva){
+        new EditarProva("Editar Prova", idEvento, idProva).setVisible(true);
     }
 
     private void abrirPaginaProvas(){
-        GestaoProvas.abrirPaginaGestaoProvas();
+        GestaoProvas.abrirPaginaGestaoProvas(idEvento);
         this.dispose();
+    }
+
+    private void configurarProva(){
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            JSONObject evento = (JSONObject) jsonArray.get(idEvento);
+
+            JSONArray provasArray = (JSONArray) evento.get("provas");
+
+            JSONObject prova = (JSONObject) provasArray.get(idProva);
+
+            String genero = (String) prova.get("genero");
+
+            if (genero.contains("Masculino")){
+                masculinoRadioButton.setSelected(true);
+            }
+            if (genero.contains("Feminino")){
+                femininoRadioButton.setSelected(true);
+            }
+
+            String categoriaPeso = (String) prova.get("categoriaPeso");
+            if (categoriaPeso.contains("-40")){
+                CB40.setSelected(true);
+            }else if(categoriaPeso.contains("-44")){
+                CB44.setSelected(true);
+            }else if(categoriaPeso.contains("-48")){
+                CB48.setSelected(true);
+            }else if(categoriaPeso.contains("-52")){
+                CB52.setSelected(true);
+            }else if(categoriaPeso.contains("-57")){
+                CB57.setSelected(true);
+            }else if(categoriaPeso.contains("-63")){
+                CB63.setSelected(true);
+            }else if(categoriaPeso.contains("-70")){
+                CB70.setSelected(true);
+            }else if(categoriaPeso.contains("+70")){
+                CB70M.setSelected(true);
+            }else if(categoriaPeso.contains("-78")){
+                CB78.setSelected(true);
+            }else if(categoriaPeso.contains("+78")){
+                CB78M.setSelected(true);
+            }
+
+            if (categoriaPeso.contains("-38")){
+                CB38.setSelected(true);
+            }else if(categoriaPeso.contains("-42")){
+                CB42.setSelected(true);
+            }else if(categoriaPeso.contains("-46")){
+                CB46.setSelected(true);
+            }else if(categoriaPeso.contains("-50")){
+                CB50.setSelected(true);
+            }else if(categoriaPeso.contains("-55")){
+                CB55.setSelected(true);
+            }else if(categoriaPeso.contains("-60")){
+                CB60.setSelected(true);
+            }else if(categoriaPeso.contains("-66")){
+                CB66.setSelected(true);
+            }else if(categoriaPeso.contains("-73")){
+                CB73.setSelected(true);
+            }else if(categoriaPeso.contains("-81")){
+                CB81.setSelected(true);
+            }else if(categoriaPeso.contains("+81")){
+                CB81M.setSelected(true);
+            }else if(categoriaPeso.contains("-90")){
+                CB90.setSelected(true);
+            }else if(categoriaPeso.contains("+90")){
+                CB90M.setSelected(true);
+            }else if(categoriaPeso.contains("-100")){
+                CB100.setSelected(true);
+            }else if(categoriaPeso.contains("+100")){
+                CB100M.setSelected(true);
+            }
+
+            dropdownEscalaoEtario.setSelectedItem(prova.get("escalaoEtario"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void grupoCategoriasPesoMasculino(){
+        ButtonGroup grupo = new ButtonGroup();
+        grupo.add(CB38);
+        grupo.add(CB42);
+        grupo.add(CB46);
+        grupo.add(CB50);
+        grupo.add(CB55);
+        grupo.add(CB60);
+        grupo.add(CB66);
+        grupo.add(CB73);
+        grupo.add(CB81);
+        grupo.add(CB81M);
+        grupo.add(CB90);
+        grupo.add(CB90M);
+        grupo.add(CB100);
+        grupo.add(CB100M);
+    }
+
+    private void grupoCategoriasPesoFeminino(){
+        ButtonGroup grupo = new ButtonGroup();
+        grupo.add(CB40);
+        grupo.add(CB44);
+        grupo.add(CB48);
+        grupo.add(CB52);
+        grupo.add(CB57);
+        grupo.add(CB63);
+        grupo.add(CB70);
+        grupo.add(CB70M);
+        grupo.add(CB78);
+        grupo.add(CB78M);
     }
     private void btnConfirmarActionPerformed(ActionEvent actionEvent) {
         // TODO: EDITAR PROVA
@@ -211,5 +365,11 @@ public class EditarProva extends JFrame{
     private void btnCalendarioActionPerformed(ActionEvent actionEvent) {
         CalendarioEventos.abrirPaginaCalendario();
         this.dispose();
+    }
+
+    private void fillComboBoxEscaloes(JComboBox<String> dropdownEscalaoEtario) {
+        for (String escalao: escaloes){
+            dropdownEscalaoEtario.addItem(escalao);
+        }
     }
 }

@@ -22,13 +22,15 @@ public class AtletasProva extends JFrame{
     private JPanel importarFicheiroPanel;
     private JButton btnImportFile;
     private JFileChooser fileChooser;
-    public AtletasProva(String title) {
+    private int idEvento;
+    public AtletasProva(String title, int idEvento) {
         super(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(mainPanel);
         setResizable(false);
         pack();
 
+        this.idEvento = idEvento;
         btnEventos.addActionListener(this::btnEventosActionPerformed);
         btnAtletas.addActionListener(this::btnAtletasActionPerformed);
         btnResultados.addActionListener(this::btnResultadosActionPerformed);
@@ -37,12 +39,12 @@ public class AtletasProva extends JFrame{
         btnImportFile.addActionListener(this::btnImportarEventosActionPerformed);
     }
 
-    public static void abrirPaginaAtletasProvas(){
-        new AtletasProva("Atletas Prova").setVisible(true);
+    public static void abrirPaginaAtletasProvas(int idEvento){
+        new AtletasProva("Atletas Prova", idEvento).setVisible(true);
     }
 
     private void btnSetaAtrasActionPerformed(ActionEvent actionEvent) {
-        GestaoProvas.abrirPaginaGestaoProvas();
+        GestaoProvas.abrirPaginaGestaoProvas(idEvento);
     }
 
     private void btnEventosActionPerformed(ActionEvent actionEvent) {

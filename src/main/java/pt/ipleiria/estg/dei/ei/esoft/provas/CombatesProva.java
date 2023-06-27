@@ -19,13 +19,16 @@ public class CombatesProva extends JFrame{
     private JPanel setaAtras;
     private JButton btnSetaAtras;
 
-    public CombatesProva(String title) {
+    private int idEvento;
+
+    public CombatesProva(String title, int idEvento) {
         super(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(mainPanel);
         setResizable(false);
         pack();
 
+        this.idEvento = idEvento;
         btnEventos.addActionListener(this::btnEventosActionPerformed);
         btnAtletas.addActionListener(this::btnAtletasActionPerformed);
         btnResultados.addActionListener(this::btnResultadosActionPerformed);
@@ -33,12 +36,12 @@ public class CombatesProva extends JFrame{
         btnSetaAtras.addActionListener(this::btnSetaAtrasActionPerformed);
     }
 
-    public static void abrirPaginaCombatesProva(){
-        new CombatesProva("Combates Prova").setVisible(true);
+    public static void abrirPaginaCombatesProva(int idEvento){
+        new CombatesProva("Combates Prova", idEvento).setVisible(true);
     }
 
     private void btnSetaAtrasActionPerformed(ActionEvent actionEvent) {
-        GestaoProvas.abrirPaginaGestaoProvas();
+        GestaoProvas.abrirPaginaGestaoProvas(idEvento);
     }
 
     private void btnEventosActionPerformed(ActionEvent actionEvent) {

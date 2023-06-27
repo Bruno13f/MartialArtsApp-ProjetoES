@@ -234,7 +234,7 @@ public class CriarEvento extends JFrame{
             return 2;
         }
 
-        if (!Pattern.matches("^[a-zA-Z ]+$", nome)){
+        if (!Pattern.matches("^[a-zA-Z ç]+$", nome)){
             return 3;
         }
 
