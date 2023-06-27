@@ -181,13 +181,13 @@ public class GestaoProvas extends JFrame{
 
             JSONObject evento = (JSONObject) jsonArray.get(idEvento);
 
-            if (evento.isEmpty()){
-                return null;
-            }
-
             if (evento.containsKey("provas")){
 
                 JSONArray provasArray = (JSONArray) evento.get("provas");
+
+                if (provasArray.isEmpty()){
+                    return null;
+                }
 
                 for (Object provaObj : provasArray) {
 
@@ -301,6 +301,7 @@ public class GestaoProvas extends JFrame{
             if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO
                 JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
+                return;
             }
 
             JOptionPane.showMessageDialog(mainPanel, "Prova(s) importada(s)");
@@ -312,65 +313,62 @@ public class GestaoProvas extends JFrame{
 
         JSONParser parser = new JSONParser();
 
-        try (FileReader reader = new FileReader(file)) {
-
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+            // Faz o parsing do arquivo JSON
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
-            for (Object obj : jsonArray){
-                JSONObject evento = (JSONObject) obj;
+            JSONObject evento = (JSONObject) jsonArray.get(idEvento);
 
-                String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
-                writeDataToJsonFile(evento, filePath);
+            JSONArray provasArray = (JSONArray) evento.get("provas");
 
+            JSONParser parser2 = new JSONParser();
+
+            try (FileReader reader2 = new FileReader(file)) {
+
+                if (!reader2.ready()) {
+                    return false;
+                }
+
+                Object json = parser2.parse(reader2);
+
+                if (json instanceof JSONArray jsonArray2) {
+
+                    for (Object obj : jsonArray2) {
+                        JSONObject jsonObject = (JSONObject) obj;
+
+                        provasArray.add(obj);
+                    }
+
+                } else if (json instanceof JSONObject jsonObject) {
+
+                    provasArray.add(jsonObject);
+
+                } else {
+                    return false;
+                }
+
+                if (idEvento >= 0 && idEvento < jsonArray.size()) {
+                    jsonArray.set(idEvento, evento);
+
+                    try (FileWriter fileWriter = new FileWriter("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        String jsonData = gson.toJson(jsonArray);
+
+                        fileWriter.write(jsonData);
+                        return true;
+                    } catch (IOException e) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+
+            } catch (IOException | ParseException e) {
+                return false;
             }
 
-        } catch (IOException | ParseException e) {
+        } catch (IOException | org.json.simple.parser.ParseException e) {
             return false;
-        }
-
-        return true;
-
-    }
-
-    private void writeDataToJsonFile(JSONObject data, String filePath) {
-        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonData = gson.toJson(data);
-
-            boolean isEmpty = fileIsEmpty(filePath);
-
-            if (!isEmpty) {
-                removeLastCharacter(filePath);
-                appendCharacter(filePath, ",");
-                fileWriter.write(jsonData + "\n]");
-            }else{
-                fileWriter.write("[" + jsonData + "\n]");
-            }
-
-            //System.out.println("Data appended to JSON file successfully.");
-            JOptionPane.showMessageDialog(mainPanel, "Evento criado com sucesso");
-        } catch (IOException e) {
-            //System.out.println("An error occurred while appending data to JSON file: " + e.getMessage());
-            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel criar o evento");
-        }
-    }
-
-    private boolean fileIsEmpty(String filePath) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            return reader.readLine() == null;
-        }
-    }
-
-    private void removeLastCharacter(String filePath) throws IOException {
-        RandomAccessFile file = new RandomAccessFile(filePath, "rw");
-        long length = file.length();
-        file.setLength(length - 1);
-        file.close();
-    }
-
-    private void appendCharacter(String filePath, String character) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
-            fileWriter.write(character);
         }
     }
 

@@ -325,16 +325,15 @@ public class GestaoEventos extends JFrame{
 
             if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO
-                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
                 return;
             }
-
-            JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
             mostrarEventos();
         }
     }
 
     private boolean escreverFicheiroJSON(java.io.File file) {
+
+        int counter = 0;
 
         JSONParser parser = new JSONParser();
 
@@ -348,16 +347,82 @@ public class GestaoEventos extends JFrame{
 
             if (json instanceof JSONArray jsonArray) {
 
-                for (Object obj : jsonArray) {
-                    JSONObject jsonObject = (JSONObject) obj;
+                JSONParser parser3 = new JSONParser();
 
-                    String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
-                    return writeDataToJsonFile(jsonObject, filePath);
+                try (FileReader reader3 = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+
+                    if (!reader3.ready()){
+                        for (Object obj : jsonArray) {
+
+                            JSONObject jsonObject = (JSONObject) obj;
+
+                            String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
+                            writeDataToJsonFile(jsonObject, filePath);
+                        }
+                        JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
+                        return true;
+                    }
+
+                    JSONArray jsonArray3 = (JSONArray) parser3.parse(reader3);
+
+                    for (Object obj : jsonArray) {
+
+                        JSONObject jsonObject = (JSONObject) obj;
+
+                        if (jsonArray3.contains(jsonObject)){
+                            counter += 1;
+                            continue;
+                        }
+
+                        String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
+                        writeDataToJsonFile(jsonObject, filePath);
+                    }
+
+                    if (counter > 0 && counter < jsonArray.size()){
+                        JOptionPane.showMessageDialog(mainPanel, "Adicionados eventos únicos - alguns já existentes");
+                        return true;
+                    }else if (counter == jsonArray.size()){
+                        JOptionPane.showMessageDialog(mainPanel, "Eventos já existentes");
+                        return false;
+                    }else if (counter == 0){
+                        JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
+                        return true;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }else if (json instanceof JSONObject jsonObject){
-                String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
-                return writeDataToJsonFile(jsonObject, filePath);
+
+                JSONParser parser3 = new JSONParser();
+
+                try (FileReader reader3 = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+
+                    if (!reader3.ready()){
+                        String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
+                        writeDataToJsonFile(jsonObject, filePath);
+                        JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
+                        return true;
+                    }
+
+                    JSONArray jsonArray3 = (JSONArray) parser3.parse(reader3);
+
+                    if (jsonArray3.contains(jsonObject)){
+                        JOptionPane.showMessageDialog(mainPanel, "Evento já existente");
+                        return false;
+                    }
+
+                    String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
+                    writeDataToJsonFile(jsonObject, filePath);
+                    JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
+                    return true;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                
+                return true;
             }else{
                 return false;
             }
@@ -366,10 +431,11 @@ public class GestaoEventos extends JFrame{
             return false;
         }
 
+        JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
         return true;
     }
 
-    private boolean writeDataToJsonFile(JSONObject data, String filePath) {
+    private void writeDataToJsonFile(JSONObject data, String filePath) {
         try (FileWriter fileWriter = new FileWriter(filePath, true)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonData = gson.toJson(data);
@@ -384,10 +450,8 @@ public class GestaoEventos extends JFrame{
                 fileWriter.write("[" + jsonData + "\n]");
             }
 
-            return true;
-
         } catch (IOException e) {
-            return false;
+
         }
     }
 
