@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.esoft.atletas;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,8 +24,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -164,6 +165,44 @@ public class GestaoAtletas extends JFrame{
 
     private void menuItemEliminarActionPerformed(ActionEvent actionEvent) {
         // TODO - ELIMINAR ATLETA
+        eliminarAtletaJSON(getLinha(actionEvent));
+        mostrarAtletas();
+    }
+
+    private void eliminarAtletaJSON(int numtelefone){
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            if (numtelefone >= 0 && numtelefone < jsonArray.size()) {
+
+                jsonArray.remove(numtelefone);
+
+                try (FileWriter fileWriter = new FileWriter("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
+                    if (jsonArray.isEmpty()) {
+                        // Se o JSONArray estiver vazio após a remoção, escreve um JSON vazio no arquivo
+                        fileWriter.write("");
+                    } else {
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        String jsonData = gson.toJson(jsonArray);
+                        fileWriter.write(jsonData);
+                    }
+                    JOptionPane.showMessageDialog(mainPanel, "Atleta eliminado com sucesso");
+                } catch (IOException e) {
+                    //System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
+                    JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o atleta");
+                }
+            } else {
+                //System.out.println("ID inválido. O objeto com o ID especificado não existe.");
+                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel editar o atleta");
+            }
+
+        } catch (IOException | org.json.simple.parser.ParseException e) {
+            //System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
+            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o atleta");
+        }
     }
 
     private void menuItemEditarActionPerformed(ActionEvent actionEvent) {
@@ -281,8 +320,6 @@ public class GestaoAtletas extends JFrame{
                 //TODO - POPUP MENSAGEM ERRO
                 JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
             }
-
-            JOptionPane.showMessageDialog(mainPanel, "Atleta(s) importado(s)");
             mostrarAtletas();
         }
     }
@@ -290,32 +327,143 @@ public class GestaoAtletas extends JFrame{
 
 
     private boolean escreverFicheiroJSON(java.io.File file) {
+
+        int counter = 0;
+
         JSONParser parser = new JSONParser();
 
         try (FileReader reader = new FileReader(file)) {
 
-            JSONArray jsonArray = (JSONArray) parser.parse(reader);
-
-            System.out.println("Array: " + jsonArray.get(0));
-
-            for (Object obj : jsonArray) {
-                JSONObject jsonObject = (JSONObject) obj;
-
-                // Acessando os campos dinamicamente
-                for (Object key : jsonObject.keySet()) {
-                    Object value = jsonObject.get(key);
-
-                    // TODO - CONCATENAR VALORES AO FICHEIRO APP EVENTOS
-
-                    System.out.println("Chave: " + key);
-                    System.out.println("Valor: " + value);
-                }
+            if (!reader.ready()){
+                return false;
             }
 
-            return true;
+            Object json = parser.parse(reader);
+
+            if (json instanceof JSONArray jsonArray) {
+
+                JSONParser parser3 = new JSONParser();
+
+                try (FileReader reader3 = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
+
+                    if (!reader3.ready()){
+                        for (Object obj : jsonArray) {
+
+                            JSONObject jsonObject = (JSONObject) obj;
+
+                            String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json";
+                            writeDataToJsonFile(jsonObject, filePath);
+                        }
+                        JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
+                        return true;
+                    }
+
+                    JSONArray jsonArray3 = (JSONArray) parser3.parse(reader3);
+
+                    for (Object obj : jsonArray) {
+
+                        JSONObject jsonObject = (JSONObject) obj;
+
+                        if (jsonArray3.contains(jsonObject)){
+                            counter += 1;
+                            continue;
+                        }
+
+                        String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json";
+                        writeDataToJsonFile(jsonObject, filePath);
+                    }
+
+                    if (counter > 0 && counter < jsonArray.size()){
+                        JOptionPane.showMessageDialog(mainPanel, "Adicionados Atletas únicos - alguns já existentes");
+                        return true;
+                    }else if (counter == jsonArray.size()){
+                        JOptionPane.showMessageDialog(mainPanel, "Atletas já existentes");
+                        return false;
+                    }else if (counter == 0){
+                        JOptionPane.showMessageDialog(mainPanel, "Atleta(s) importado(s)");
+                        return true;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }else if (json instanceof JSONObject jsonObject){
+
+                JSONParser parser3 = new JSONParser();
+
+                try (FileReader reader3 = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
+
+                    if (!reader3.ready()){
+                        String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json";
+                        writeDataToJsonFile(jsonObject, filePath);
+                        JOptionPane.showMessageDialog(mainPanel, "Atleta(s) importado(s)");
+                        return true;
+                    }
+
+                    JSONArray jsonArray3 = (JSONArray) parser3.parse(reader3);
+
+                    if (jsonArray3.contains(jsonObject)){
+                        JOptionPane.showMessageDialog(mainPanel, "Atleta já existente");
+                        return false;
+                    }
+
+                    String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json";
+                    writeDataToJsonFile(jsonObject, filePath);
+                    JOptionPane.showMessageDialog(mainPanel, "Atleta(s) importado(s)");
+                    return true;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return true;
+            }else{
+                return false;
+            }
+
         } catch (IOException | ParseException e) {
-            //e.printStackTrace();
             return false;
+        }
+
+        JOptionPane.showMessageDialog(mainPanel, "Atleta(s) importado(s)");
+        return true;
+    }
+
+    private void writeDataToJsonFile(JSONObject data, String filePath) {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonData = gson.toJson(data);
+
+            boolean isEmpty = fileIsEmpty(filePath);
+
+            if (!isEmpty) {
+                removeLastCharacter(filePath);
+                appendCharacter(filePath, ",");
+                fileWriter.write(jsonData + "\n]");
+            }else{
+                fileWriter.write("[" + jsonData + "\n]");
+            }
+        } catch (IOException e) {
+        }
+    }
+
+    private boolean fileIsEmpty(String filePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            return reader.readLine() == null;
+        }
+    }
+
+    private void removeLastCharacter(String filePath) throws IOException {
+        RandomAccessFile file = new RandomAccessFile(filePath, "rw");
+        long length = file.length();
+        file.setLength(length - 1);
+        file.close();
+    }
+
+    private void appendCharacter(String filePath, String character) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            fileWriter.write(character);
         }
     }
 }

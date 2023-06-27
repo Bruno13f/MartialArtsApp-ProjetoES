@@ -1,22 +1,62 @@
 [
   {
-    "contacto": "111111112",
+    "contacto": "912458310",
     "escalaoEtario": "Juniores",
-    "peso": "121",
+    "peso": "75",
     "genero": "Masculino",
-    "nome": "dawdawdaw",
-    "nacionalidade": "Alanda",
-    "dataNascimento": "01/08/2002",
+    "nome": "Ricardo Bento Santos",
+    "nacionalidade": "Português",
+    "dataNascimento": "04/08/2003",
     "modalidade": "Judo"
   },
   {
-    "contacto": "333333332",
-    "escalaoEtario": "Seniores",
-    "peso": "90",
+    "contacto": "912458310",
+    "escalaoEtario": "Juniores",
+    "peso": "75",
     "genero": "Masculino",
-    "nome": "dawdwa",
+    "nome": "Ricardo Bento Santos",
+    "nacionalidade": "Português",
+    "dataNascimento": "04/08/2003",
+    "modalidade": "Judo"
+  },
+  {
+    "contacto": "925112312",
+    "escalaoEtario": "Juniores",
+    "peso": "60",
+    "genero": "Masculino",
+    "nome": "CS \u003e VALORANT",
+    "nacionalidade": "Português",
+    "dataNascimento": "17/05/2001",
+    "modalidade": "Judo"
+  },
+  {
+    "contacto": "232333333",
+    "escalaoEtario": "Juniores",
+    "peso": "12",
+    "genero": "Masculino",
+    "nome": "teste",
     "nacionalidade": "Alanda",
-    "dataNascimento": "01/01/1990",
+    "dataNascimento": "04/08/2003",
+    "modalidade": "Judo"
+  },
+  {
+    "contacto": "333333333",
+    "escalaoEtario": "Seniores",
+    "peso": "100",
+    "genero": "Masculino",
+    "nome": "SOU PRO",
+    "nacionalidade": "Anguila",
+    "dataNascimento": "03/08/1990",
     "modalidade": "Judo"
   }
+,{
+  "contacto": "222111111",
+  "escalaoEtario": "Sub23",
+  "peso": "123",
+  "genero": "Feminino",
+  "nome": "VALORANT LIXO",
+  "nacionalidade": "Alemanha",
+  "dataNascimento": "01/01/2001",
+  "modalidade": "Judo"
+}
 ]
