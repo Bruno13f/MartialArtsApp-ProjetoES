@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.esoft.atletas;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -182,11 +184,7 @@ public class EditarAtleta extends JFrame{
             return;
         }
 
-        if (editarJSON()) {
-            abrirPaginaAtletas();
-        } else {
-            JOptionPane.showMessageDialog(mainPanel, "Falha ao editar o atleta.");
-        }
+        editarJSON(numtelefoneAtleta);
 
         abrirPaginaAtletas();
     }
@@ -368,7 +366,6 @@ public class EditarAtleta extends JFrame{
     }
 
     private int validarContacto() {
-
         String contacto = textContacto.getText();
 
         if (contacto.isEmpty()){
@@ -384,13 +381,17 @@ public class EditarAtleta extends JFrame{
         }
 
         int contactoInt;
-        contactoInt = Integer.parseInt(contacto);
-
-        if (contactoInt > 0) {
-            return 0;
-        } else {
-            return 14;
+        try {
+            contactoInt = Integer.parseInt(contacto);
+        } catch (NumberFormatException e) {
+            return 13; // Invalid contacto format
         }
+
+        if (contactoInt <= 0) {
+            return 14; // Invalid contacto value
+        }
+
+        return 0;
     }
 
     private void btnCancelarActionPerformed(ActionEvent actionEvent) {
@@ -416,7 +417,7 @@ public class EditarAtleta extends JFrame{
         this.dispose();
     }
 
-    private boolean editarJSON() {
+    private void editarJSON(int numtelefoneAtleta) {
         JSONParser parser = new JSONParser();
         JSONArray jsonArray;
 
@@ -437,18 +438,25 @@ public class EditarAtleta extends JFrame{
 
             String escalaoEtario = calcularEscalaoEtario(textDataNascimento.getText());
             jsonObject.put("escalaoEtario", escalaoEtario);
+            /////
 
-            try (FileWriter writer = new FileWriter("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
-                // Write the updated JSON back to the file
-                writer.write(jsonArray.toJSONString());
+            if (numtelefoneAtleta >= 0 && numtelefoneAtleta < jsonArray.size()) {
+                jsonArray.set(numtelefoneAtleta, jsonObject);
+
+                try (FileWriter fileWriter = new FileWriter("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    String jsonData = gson.toJson(jsonArray);
+
+                    fileWriter.write(jsonData);
+                } catch (IOException e) {
+                    System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
+                }
+            } else {
+                System.out.println("ID inválido. O objeto com o ID especificado não existe.");
             }
-
-            return true;
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+        } catch (IOException | org.json.simple.parser.ParseException e) {
+            System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
         }
-
-        return false;
     }
 
     private String calcularEscalaoEtario(String dataNascimento) {
@@ -487,5 +495,27 @@ public class EditarAtleta extends JFrame{
             return "Veteranos";
         }
         return "Varios";
+    }
+
+    private boolean contactoExistsInFile(String contacto) {
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            for (Object obj : jsonArray) {
+                JSONObject jsonObject = (JSONObject) obj;
+
+                String contactoJSON = (String) jsonObject.get("contacto");
+                if (contacto.equals(contactoJSON)) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

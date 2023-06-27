@@ -185,6 +185,11 @@ public class GestaoAtletas extends JFrame{
 
         try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
             // Faz o parsing do arquivo JSON
+
+            if (!reader.ready()){
+                return null;
+            }
+
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
             // Cria uma lista de Atletas

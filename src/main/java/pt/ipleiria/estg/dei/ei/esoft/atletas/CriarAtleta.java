@@ -2,21 +2,26 @@ package pt.ipleiria.estg.dei.ei.esoft.atletas;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import pt.ipleiria.estg.dei.ei.esoft.EscalaoEtario;
+import pt.ipleiria.estg.dei.ei.esoft.Genero;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
+import pt.ipleiria.estg.dei.ei.esoft.eventos.Evento;
 import pt.ipleiria.estg.dei.ei.esoft.eventos.GestaoEventos;
+import pt.ipleiria.estg.dei.ei.esoft.eventos.ModeloTabelaEventos;
 import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.text.Collator;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -355,7 +360,6 @@ public class CriarAtleta extends JFrame{
     }
 
     private int validarContacto() {
-
         String contacto = textContacto.getText();
 
         if (contacto.isEmpty()){
@@ -371,13 +375,21 @@ public class CriarAtleta extends JFrame{
         }
 
         int contactoInt;
-        contactoInt = Integer.parseInt(contacto);
-
-        if (contactoInt > 0) {
-            return 0;
-        } else {
-            return 14;
+        try {
+            contactoInt = Integer.parseInt(contacto);
+        } catch (NumberFormatException e) {
+            return 13; // Invalid contacto format
         }
+
+        if (contactoInt <= 0) {
+            return 14; // Invalid contacto value
+        }
+
+        if (contactoExistsInFile(contacto)) {
+            return 15; // Contacto already exists
+        }
+
+        return 0;
     }
 
     private void writeDataToJsonFile(JSONObject data, String filePath) {
@@ -390,19 +402,13 @@ public class CriarAtleta extends JFrame{
             if (!isEmpty) {
                 removeLastCharacter(filePath);
                 appendCharacter(filePath, ",");
+                fileWriter.write(jsonData + "\n]");
+            }else{
+                fileWriter.write("[" + jsonData + "\n]");
             }
-
-            fileWriter.write(jsonData);
-
-            if (!isEmpty) {
-                fileWriter.write("\n]");
-            } else {
-                fileWriter.write("\n" + jsonData + "\n]");
-            }
-
-            System.out.println("Data appended to JSON file successfully.");
+            System.out.println("Atleta criado com sucesso.");
         } catch (IOException e) {
-            System.out.println("An error occurred while appending data to JSON file: " + e.getMessage());
+            System.out.println("Não foi possivel criar o atleta no ficheiro json: " + e.getMessage());
         }
     }
 
@@ -461,5 +467,27 @@ public class CriarAtleta extends JFrame{
             return "Veteranos";
         }
         return "Varios";
+    }
+
+    private boolean contactoExistsInFile(String contacto) {
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            for (Object obj : jsonArray) {
+                JSONObject jsonObject = (JSONObject) obj;
+
+                String contactoJSON = (String) jsonObject.get("contacto");
+                if (contacto.equals(contactoJSON)) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

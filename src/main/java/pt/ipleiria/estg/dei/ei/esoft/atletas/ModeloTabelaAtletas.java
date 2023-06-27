@@ -8,7 +8,7 @@ import java.util.List;
 public class ModeloTabelaAtletas extends AbstractTableModel {
 
     private final String[] nomeColunas = {
-            "Nome", "Data", "Local", "País", "Modalidade", "Género", "Escalão Etário", "Categoria Peso"
+            "Nome", "Data", "Contacto", "País", "Modalidade", "Género", "Escalão Etário", "Categoria Peso"
     };
     // TODO - IMPLEMENTAR PARA EVENTOS DINAMICAMENTE
 
