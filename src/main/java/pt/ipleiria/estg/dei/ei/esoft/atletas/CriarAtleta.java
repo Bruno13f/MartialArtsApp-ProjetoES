@@ -119,6 +119,7 @@ public class CriarAtleta extends JFrame{
                 return;
             }
 
+
         JSONObject athleteData = new JSONObject();
         athleteData.put("nome", textNome.getText());
         athleteData.put("nacionalidade", paisesComboBox.getSelectedItem());
@@ -132,10 +133,11 @@ public class CriarAtleta extends JFrame{
         athleteData.put("escalaoEtario", escalaoEtario);
 
         String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json";
+
         writeDataToJsonFile(athleteData, filePath);
 
-
         abrirPaginaAtletas();
+        JOptionPane.showMessageDialog(mainPanel, "Atleta adicionado com sucesso");
     }
 
     private void mostrarErro (int codigo){
@@ -233,7 +235,6 @@ public class CriarAtleta extends JFrame{
         for (String nacionalidade : paisesOrdenados) {
             comboBox.addItem(nacionalidade);
         }
-
     }
 
     private int validarData(){
@@ -303,8 +304,6 @@ public class CriarAtleta extends JFrame{
 
         return 0;
     }
-
-
 
     private int validarGenero(){
 
@@ -385,7 +384,7 @@ public class CriarAtleta extends JFrame{
         try (FileWriter fileWriter = new FileWriter(filePath, true)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonData = gson.toJson(data);
-            
+
             boolean isEmpty = fileIsEmpty(filePath);
 
             if (!isEmpty) {
@@ -463,7 +462,4 @@ public class CriarAtleta extends JFrame{
         }
         return "Varios";
     }
-
-
-
 }

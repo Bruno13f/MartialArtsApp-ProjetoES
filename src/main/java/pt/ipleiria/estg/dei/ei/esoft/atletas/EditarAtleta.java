@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.esoft.atletas;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import pt.ipleiria.estg.dei.ei.esoft.Genero;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
 import pt.ipleiria.estg.dei.ei.esoft.eventos.GestaoEventos;
@@ -11,6 +12,8 @@ import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.Collator;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -178,6 +181,13 @@ public class EditarAtleta extends JFrame{
             mostrarErro(validarContacto());
             return;
         }
+
+        if (editarJSON()) {
+            abrirPaginaAtletas();
+        } else {
+            JOptionPane.showMessageDialog(mainPanel, "Falha ao editar o atleta.");
+        }
+
         abrirPaginaAtletas();
     }
 
@@ -404,5 +414,78 @@ public class EditarAtleta extends JFrame{
     private void btnCalendarioActionPerformed(ActionEvent actionEvent) {
         CalendarioEventos.abrirPaginaCalendario();
         this.dispose();
+    }
+
+    private boolean editarJSON() {
+        JSONParser parser = new JSONParser();
+        JSONArray jsonArray;
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
+            // Parse the JSON file
+            jsonArray = (JSONArray) parser.parse(reader);
+
+            JSONObject jsonObject = (JSONObject) jsonArray.get(numtelefoneAtleta);
+
+            jsonObject.put("nome", textNome.getText());
+            jsonObject.put("dataNascimento", textDataNascimento.getText());
+            jsonObject.put("genero", radioBtnMasculino.isSelected() ? "Masculino" : "Feminino");
+            jsonObject.put("nacionalidade", paisesComboBox.getSelectedItem());
+            jsonObject.put("peso", textPeso.getText());
+            jsonObject.put("contacto", textContacto.getText());
+
+            jsonArray.set(numtelefoneAtleta, jsonObject);
+
+            String escalaoEtario = calcularEscalaoEtario(textDataNascimento.getText());
+            jsonObject.put("escalaoEtario", escalaoEtario);
+
+            try (FileWriter writer = new FileWriter("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
+                // Write the updated JSON back to the file
+                writer.write(jsonArray.toJSONString());
+            }
+
+            return true;
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    private String calcularEscalaoEtario(String dataNascimento) {
+        String[] parts = dataNascimento.split("/");
+        int dia = Integer.parseInt(parts[0]);
+        int mes = Integer.parseInt(parts[1]);
+        int ano = Integer.parseInt(parts[2]);
+
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        int currentMonth = currentDate.getMonthValue();
+        int currentDay = currentDate.getDayOfMonth();
+
+        int age = currentYear - ano;
+        if (mes > currentMonth || (mes == currentMonth && dia > currentDay)) {
+            age--;
+        }
+
+        if (age >= 8 && age <= 10) {
+            return "Bejamins";
+        } else if (age == 11) {
+            return "Infantis";
+        } else if (age == 12) {
+            return "Iniciados";
+        } else if (age >= 13 && age <= 14) {
+            return "Juvenis";
+        } else if (age >= 15 && age <= 17) {
+            return "Cadetes";
+        } else if (age >= 18 && age <= 20) {
+            return "Juniores";
+        } else if (age >= 21 && age <= 22) {
+            return "Sub23";
+        } else if (age >= 21) {
+            return "Seniores";
+        } else if (age >= 30) {
+            return "Veteranos";
+        }
+        return "Varios";
     }
 }
