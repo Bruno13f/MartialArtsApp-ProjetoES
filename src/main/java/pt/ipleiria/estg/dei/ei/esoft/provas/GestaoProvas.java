@@ -300,17 +300,16 @@ public class GestaoProvas extends JFrame{
 
             if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO
-                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
                 return;
             }
 
-            JOptionPane.showMessageDialog(mainPanel, "Prova(s) importada(s)");
             mostrarProvas();
         }
     }
 
     private boolean escreverFicheiroJSON(java.io.File file) {
 
+        int counter = 0;
         JSONParser parser = new JSONParser();
 
         try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
@@ -336,14 +335,30 @@ public class GestaoProvas extends JFrame{
                     for (Object obj : jsonArray2) {
                         JSONObject jsonObject = (JSONObject) obj;
 
-                        provasArray.add(obj);
+                        if (!provasArray.isEmpty() && provasArray.contains(jsonObject)){
+                            counter+=1;
+                            continue;
+                        }
+
+                        provasArray.add(jsonObject);
+                    }
+
+                    if (counter == jsonArray2.size()){
+                        JOptionPane.showMessageDialog(mainPanel, "Provas já existentess");
+                        return false;
                     }
 
                 } else if (json instanceof JSONObject jsonObject) {
 
+                    if (!provasArray.isEmpty() && provasArray.contains(jsonObject)){
+                        JOptionPane.showMessageDialog(mainPanel, "Prova já existente");
+                        return false;
+                    }
+
                     provasArray.add(jsonObject);
 
                 } else {
+                    JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
                     return false;
                 }
 
@@ -355,19 +370,24 @@ public class GestaoProvas extends JFrame{
                         String jsonData = gson.toJson(jsonArray);
 
                         fileWriter.write(jsonData);
+                        JOptionPane.showMessageDialog(mainPanel, "Prova(s) importada(s)");
                         return true;
                     } catch (IOException e) {
+                        JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
                         return false;
                     }
                 } else {
+                    JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
                     return false;
                 }
 
             } catch (IOException | ParseException e) {
+                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
                 return false;
             }
 
         } catch (IOException | org.json.simple.parser.ParseException e) {
+            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel importar o ficheiro");
             return false;
         }
     }
@@ -380,6 +400,39 @@ public class GestaoProvas extends JFrame{
 
     }
     private void eliminarProvaJSON (int id){
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+            // Faz o parsing do arquivo JSON
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
+            if (id >= 0 && id < jsonArray.size()) {
+
+                jsonArray.remove(id);
+
+                try (FileWriter fileWriter = new FileWriter("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
+                    if (jsonArray.isEmpty()) {
+                        // Se o JSONArray estiver vazio após a remoção, escreve um JSON vazio no arquivo
+                        fileWriter.write("");
+                    } else {
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        String jsonData = gson.toJson(jsonArray);
+                        fileWriter.write(jsonData);
+                    }
+                    JOptionPane.showMessageDialog(mainPanel, "Evento eliminado com sucesso");
+                } catch (IOException e) {
+                    //System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
+                    JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o evento");
+                }
+            } else {
+                //System.out.println("ID inválido. O objeto com o ID especificado não existe.");
+                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel editar o evento");
+            }
+
+        } catch (IOException | org.json.simple.parser.ParseException e) {
+            //System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
+            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o evento");
+        }
 
     }
 }

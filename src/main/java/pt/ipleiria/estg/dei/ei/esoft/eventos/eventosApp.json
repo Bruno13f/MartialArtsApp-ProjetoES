@@ -1,95 +1,57 @@
-[{
-  "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
-  "provas": [
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "-40kg",
-      "genero": "Feminino"
-    },
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "-66kg",
-      "genero": "Masculino"
-    },
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "+70kg",
-      "genero": "Feminino"
-    }
-  ],
-  "escalaoEtario": "Cadetes",
-  "data": "28/07/2023;29/07/2023",
-  "genero": "Masculino;Feminino",
-  "nome": "Taça da Europa de Cadetes",
-  "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
-  "pais": "Portugal",
-  "modalidade": "Judo"
-}
+[
+  {
+    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
+    "provas": [
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-40kg",
+        "genero": "Feminino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-66kg",
+        "genero": "Masculino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "+70kg",
+        "genero": "Feminino"
+      }
+    ],
+    "escalaoEtario": "Cadetes",
+    "data": "28/07/2023;29/07/2023",
+    "genero": "Masculino;Feminino",
+    "nome": "Taça da Europa de Cadetes",
+    "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
+    "pais": "Portugal",
+    "modalidade": "Judo"
+  },
+  {
+    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
+    "provas": [
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-40kg",
+        "genero": "Feminino"
+      }
+    ],
+    "escalaoEtario": "Cadetes",
+    "data": "28/07/2023;29/07/2023",
+    "genero": "Masculino;Feminino",
+    "nome": "Taça da Europa de Cadetes",
+    "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
+    "pais": "Portugal",
+    "modalidade": "Judo"
+  }
 ,{
-  "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
-  "provas": [
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "-40kg",
-      "genero": "Feminino"
-    }
-  ],
-  "escalaoEtario": "Cadetes",
-  "data": "28/07/2023;29/07/2023",
-  "genero": "Masculino;Feminino",
-  "nome": "Taça da Europa de Cadetes",
-  "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
-  "pais": "Portugal",
-  "modalidade": "Judo"
-}
-,{
-  "contacto": "912458310",
-  "escalaoEtario": "Juniores",
-  "peso": "75",
-  "genero": "Masculino",
-  "nome": "Ricardo Bento Santos",
-  "nacionalidade": "Português",
-  "dataNascimento": "04/08/2003",
-  "modalidade": "Judo"
-}
-,{
-  "contacto": "925112312",
-  "escalaoEtario": "Juniores",
-  "peso": "60",
-  "genero": "Masculino",
-  "nome": "CS \u003e VALORANT",
-  "nacionalidade": "Português",
-  "dataNascimento": "17/05/2001",
-  "modalidade": "Judo"
-}
-,{
-  "contacto": "232333333",
-  "escalaoEtario": "Juniores",
-  "peso": "12",
+  "categoriasPeso": "-38kg;",
+  "provas": [],
+  "escalaoEtario": "Varios",
+  "data": "20/01/2024;22/01/2024",
   "genero": "Masculino",
   "nome": "teste",
-  "nacionalidade": "Alanda",
-  "dataNascimento": "04/08/2003",
-  "modalidade": "Judo"
-}
-,{
-  "contacto": "333333333",
-  "escalaoEtario": "Seniores",
-  "peso": "100",
-  "genero": "Masculino",
-  "nome": "SOU PRO",
-  "nacionalidade": "Anguila",
-  "dataNascimento": "03/08/1990",
-  "modalidade": "Judo"
-}
-,{
-  "contacto": "222111111",
-  "escalaoEtario": "Sub23",
-  "peso": "123",
-  "genero": "Feminino",
-  "nome": "VALORANT LIXO",
-  "nacionalidade": "Alemanha",
-  "dataNascimento": "01/01/2001",
+  "local": "teste",
+  "pais": "Angola",
   "modalidade": "Judo"
 }
 ]

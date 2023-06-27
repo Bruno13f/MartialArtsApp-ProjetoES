@@ -378,13 +378,10 @@ public class GestaoEventos extends JFrame{
                         writeDataToJsonFile(jsonObject, filePath);
                     }
 
-                    if (counter > 0 && counter < jsonArray.size()){
-                        JOptionPane.showMessageDialog(mainPanel, "Adicionados eventos únicos - alguns já existentes");
-                        return true;
-                    }else if (counter == jsonArray.size()){
+                    if (counter == jsonArray.size()){
                         JOptionPane.showMessageDialog(mainPanel, "Eventos já existentes");
                         return false;
-                    }else if (counter == 0){
+                    }else{
                         JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
                         return true;
                     }
@@ -421,7 +418,7 @@ public class GestaoEventos extends JFrame{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                
+
                 return true;
             }else{
                 return false;
