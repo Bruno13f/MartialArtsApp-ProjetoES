@@ -72,7 +72,7 @@ public class Evento {
 
     public String getCodigoIsoPais(){
         // pais -> codigo pais
-        Map<String, String> paises = new HashMap<>();
+        /*Map<String, String> paises = new HashMap<>();
 
         Locale[] locais = Locale.getAvailableLocales();
         for (Locale locale : locais) {
@@ -86,7 +86,8 @@ public class Evento {
             }
         }
 
-        return paises.get(pais);
+        return paises.get(pais);*/
+        return pais;
     }
 
     public String getModalidade() {

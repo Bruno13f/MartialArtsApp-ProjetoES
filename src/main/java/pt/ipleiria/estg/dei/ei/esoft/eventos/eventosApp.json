@@ -1,41 +1,41 @@
 [
   {
-    "nome": "Taça da Europa de Cadetes",
-    "data": "28/07/2023;29/07/2023",
-    "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
-    "pais": "Portugal",
-    "modalidade": "Judo",
-    "escalaoEtario": "Cadetes",
-    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
-    "genero": "Masculino;Feminino",
+    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-57kg;-63kg;-70kg;+70kg;-50kg;-55kg;-60kg;-66kg;-73kg;-81kg;-90kg;+90kg;",
     "provas": [
       {
+        "escalaoEtario": "Cadetes",
         "categoriaPeso": "-40kg",
-        "genero": "Masculino",
-        "escalaoEtario": "Cadetes"
+        "genero": "Masculino"
       },
       {
+        "escalaoEtario": "Cadetes",
         "categoriaPeso": "-43kg",
-        "genero": "Masculino",
-        "escalaoEtario": "Cadetes"
+        "genero": "Masculino"
       }
-    ]
-  },
-  {
-    "nome": "Taça da Europa de Cadetes",
+    ],
+    "escalaoEtario": "Cadetes",
     "data": "28/07/2023;29/07/2023",
+    "genero": "Masculino;Feminino",
+    "nome": "Taça da Europa",
     "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
     "pais": "Portugal",
-    "modalidade": "Judo",
-    "escalaoEtario": "Cadetes",
-    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
-    "genero": "Masculino;Feminino",
+    "modalidade": "Judo"
+  },
+  {
+    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg;",
     "provas": [
       {
+        "escalaoEtario": "Cadetes",
         "categoriaPeso": "-40kg",
-        "genero": "Masculino",
-        "escalaoEtario": "Cadetes"
+        "genero": "Masculino"
       }
-    ]
+    ],
+    "escalaoEtario": "Cadetes",
+    "data": "28/07/2023;29/07/2023",
+    "genero": "Masculino;Feminino",
+    "nome": "Taça da Europa de Cadetes",
+    "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
+    "pais": "Portugal",
+    "modalidade": "Judo"
   }
 ]

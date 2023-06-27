@@ -1,5 +1,9 @@
 package pt.ipleiria.estg.dei.ei.esoft.eventos;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import pt.ipleiria.estg.dei.ei.esoft.EscalaoEtario;
 import pt.ipleiria.estg.dei.ei.esoft.atletas.GestaoAtletas;
 import pt.ipleiria.estg.dei.ei.esoft.calendario.CalendarioEventos;
@@ -8,6 +12,7 @@ import pt.ipleiria.estg.dei.ei.esoft.resultados.Resultados;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.text.Collator;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -162,6 +167,7 @@ public class CriarEvento extends JFrame{
             return;
         }
 
+        adicionarEventoJSON();
         abrirPaginaEventos();
     }
 
@@ -396,6 +402,151 @@ public class CriarEvento extends JFrame{
 
     private void adicionarEventoJSON (){
 
+        JSONObject evento = new JSONObject();
+        evento.put("nome", textNome.getText());
+        evento.put("data", textDataInicio.getText() + ";" + textDataFinal.getText());
+        evento.put("local", textLocal.getText());
+        evento.put("pais", paisesComboBox.getSelectedItem().toString());
+        evento.put("modalidade", textModalidade.getText());
+        evento.put("escalaoEtario",dropdownEscalaoEtario.getSelectedItem().toString());
+
+        String categoriasPeso = "";
+        if (CB40.isSelected()){
+            categoriasPeso += "-40kg;";
+        }
+        if(CB44.isSelected()){
+            categoriasPeso += "-44kg;";
+        }
+        if(CB48.isSelected()){
+            categoriasPeso += "-48kg;";
+        }
+        if(CB52.isSelected()){
+            categoriasPeso += "-52kg;";
+        }
+        if(CB57.isSelected()){
+            categoriasPeso += "-57kg;";
+        }
+        if(CB63.isSelected()){
+            categoriasPeso += "-63kg;";
+        }
+        if(CB70.isSelected()){
+            categoriasPeso += "-70kg;";
+        }
+        if(CB70M.isSelected()){
+            categoriasPeso += "+70kg;";
+        }
+        if(CB78.isSelected()){
+            categoriasPeso += "-78kg;";
+        }
+        if(CB78M.isSelected()){
+            categoriasPeso += "+78kg;";
+        }
+
+        if (CB38.isSelected()){
+            categoriasPeso += "-38kg;";
+        }
+        if(CB42.isSelected()){
+            categoriasPeso += "-42kg;";
+        }
+        if(CB46.isSelected()){
+            categoriasPeso += "-46kg;";
+        }
+        if(CB50.isSelected()){
+            categoriasPeso += "-50kg;";
+        }
+        if(CB55.isSelected()){
+            categoriasPeso += "-55kg;";
+        }
+        if(CB60.isSelected()){
+            categoriasPeso += "-60kg;";
+        }
+        if(CB66.isSelected()){
+            categoriasPeso += "-66kg;";
+        }
+        if(CB73.isSelected()){
+            categoriasPeso += "-73kg;";
+        }
+        if(CB81.isSelected()){
+            categoriasPeso += "-81kg;";
+        }
+        if(CB81M.isSelected()){
+            categoriasPeso += "+81kg;";
+        }
+        if(CB90.isSelected()){
+            categoriasPeso += "-90kg;";
+        }
+        if(CB90M.isSelected()){
+            categoriasPeso += "+90kg;";
+        }
+        if(CB100.isSelected()){
+            categoriasPeso += "-100kg;";
+        }
+        if(CB100M.isSelected()){
+            categoriasPeso += "+100kg;";
+        }
+        evento.put("categoriasPeso",categoriasPeso);
+
+        String genero;
+        if (masculinoCheckBox.isSelected() && femininoCheckBox.isSelected()){
+            genero = "Masculino;Feminino";
+        }else if(masculinoCheckBox.isSelected()){
+            genero = "Masculino";
+        }else{
+            genero = "Feminino";
+        }
+        evento.put("genero",genero);
+
+        JSONArray prova = new JSONArray();
+        evento.put("provas",prova);
+
+        String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
+        writeDataToJsonFile(evento, filePath);
+        JOptionPane.showMessageDialog(mainPanel, "Evento criado com sucesso");
+    }
+
+    private void writeDataToJsonFile(JSONObject data, String filePath) {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonData = gson.toJson(data);
+
+            boolean isEmpty = fileIsEmpty(filePath);
+
+            if (!isEmpty) {
+                removeLastCharacter(filePath);
+                appendCharacter(filePath, ",");
+            }
+
+            fileWriter.write(jsonData);
+
+            if (!isEmpty) {
+                fileWriter.write("\n]");
+            } else {
+                fileWriter.write("\n" + jsonData + "\n]");
+            }
+
+            System.out.println("Data appended to JSON file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while appending data to JSON file: " + e.getMessage());
+        }
+    }
+
+    private boolean fileIsEmpty(String filePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            return reader.readLine() == null;
+        }
+    }
+
+    private void removeLastCharacter(String filePath) throws IOException {
+        RandomAccessFile file = new RandomAccessFile(filePath, "rw");
+        long length = file.length();
+        file.setLength(length - 1);
+        file.close();
+    }
+
+    private void appendCharacter(String filePath, String character) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            fileWriter.write(character);
+        }
     }
 
 }
