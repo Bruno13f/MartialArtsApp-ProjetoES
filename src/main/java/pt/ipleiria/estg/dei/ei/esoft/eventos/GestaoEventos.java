@@ -338,7 +338,7 @@ public class GestaoEventos extends JFrame{
 
     private boolean escreverFicheiroJSON(java.io.File file) {
 
-        int counter = 0;
+        int counter = 0, write = 0;
 
         JSONParser parser = new JSONParser();
 
@@ -398,15 +398,18 @@ public class GestaoEventos extends JFrame{
                             continue;
                         }
 
+                        write += 1;
                         String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
                         writeDataToJsonFile(jsonObject, filePath);
                     }
 
-                    if (counter == jsonArray3.size()){
-                        JOptionPane.showMessageDialog(mainPanel, "Formato incorreto");
-                        return false;
-                    }else if (counter == jsonArray.size()){
+                    if (counter == jsonArray.size()){
                         JOptionPane.showMessageDialog(mainPanel, "Eventos já existentes");
+                        return false;
+                    }
+
+                    if (write == 0){
+                        JOptionPane.showMessageDialog(mainPanel, "Formato incorreto");
                         return false;
                     }else{
                         JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");

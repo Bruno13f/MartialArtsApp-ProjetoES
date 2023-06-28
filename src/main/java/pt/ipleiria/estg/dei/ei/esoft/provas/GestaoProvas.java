@@ -314,7 +314,7 @@ public class GestaoProvas extends JFrame{
 
     private boolean escreverFicheiroJSON(java.io.File file) {
 
-        int counter = 0;
+        int counter = 0, write = 0;
         JSONParser parser = new JSONParser();
 
         try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
@@ -338,13 +338,19 @@ public class GestaoProvas extends JFrame{
                 if (json instanceof JSONArray jsonArray2) {
 
                     for (Object obj : jsonArray2) {
+
                         JSONObject jsonObject = (JSONObject) obj;
+
+                        if (!(jsonObject.containsKey("categoriaPeso") && jsonObject.containsKey("escalaoEtario") && jsonObject.containsKey("genero"))){
+                            continue;
+                        }
 
                         if (!provasArray.isEmpty() && provasArray.contains(jsonObject)){
                             counter+=1;
                             continue;
                         }
 
+                        write += 1;
                         provasArray.add(jsonObject);
                     }
 
@@ -353,7 +359,17 @@ public class GestaoProvas extends JFrame{
                         return false;
                     }
 
+                    if (write == 0){
+                        JOptionPane.showMessageDialog(mainPanel, "Formato Incorreto");
+                        return false;
+                    }
+
                 } else if (json instanceof JSONObject jsonObject) {
+
+                    if (!(jsonObject.containsKey("categoriaPeso") && jsonObject.containsKey("escalaoEtario") && jsonObject.containsKey("genero"))){
+                        JOptionPane.showMessageDialog(mainPanel, "Formato Incorreto");
+                        return false;
+                    }
 
                     if (!provasArray.isEmpty() && provasArray.contains(jsonObject)){
                         JOptionPane.showMessageDialog(mainPanel, "Prova já existente");

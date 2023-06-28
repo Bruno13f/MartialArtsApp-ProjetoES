@@ -1,82 +1,93 @@
-[{
-  "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
-  "provas": [
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "-40kg",
-      "genero": "Feminino"
-    },
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "-66kg",
-      "genero": "Masculino"
-    },
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "+70kg",
-      "genero": "Feminino"
-    }
-  ],
-  "escalaoEtario": "Cadetes",
-  "data": "28/07/2023;29/07/2023",
-  "genero": "Masculino;Feminino",
-  "nome": "Taça da Europa de Cadetes",
-  "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
-  "pais": "Portugal",
-  "modalidade": "Judo"
-}
-,{
-  "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
-  "provas": [
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "-40kg",
-      "genero": "Feminino"
-    },
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "-66kg",
-      "genero": "Masculino"
-    },
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "+70kg",
-      "genero": "Feminino"
-    }
-  ],
-  "escalaoEtario": "Cadetes",
-  "data": "28/07/2023;29/07/2023",
-  "genero": "Masculino;Feminino",
-  "nome": "Taça da Europa de Cadetes",
-  "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
-  "pais": "Angola",
-  "modalidade": "Judo"
-}
-,{
-  "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
-  "provas": [
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "-40kg",
-      "genero": "Feminino"
-    },
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "-66kg",
-      "genero": "Masculino"
-    },
-    {
-      "escalaoEtario": "Cadetes",
-      "categoriaPeso": "+70kg",
-      "genero": "Feminino"
-    }
-  ],
-  "escalaoEtario": "Cadetes",
-  "data": "28/07/2023;29/07/2023",
-  "genero": "Masculino;Feminino",
-  "nome": "Taça da Europa de Cadetes",
-  "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
-  "pais": "Alemanha",
-  "modalidade": "Judo"
-}
+[
+  {
+    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
+    "provas": [
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-40kg",
+        "genero": "Feminino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-66kg",
+        "genero": "Masculino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "+70kg",
+        "genero": "Feminino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-73kg",
+        "genero": "Masculino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-70kg",
+        "genero": "Feminino"
+      }
+    ],
+    "escalaoEtario": "Cadetes",
+    "data": "28/07/2023;29/07/2023",
+    "genero": "Masculino;Feminino",
+    "nome": "Taça da Europa de Cadetes",
+    "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
+    "pais": "Portugal",
+    "modalidade": "Judo"
+  },
+  {
+    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
+    "provas": [
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-40kg",
+        "genero": "Feminino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-66kg",
+        "genero": "Masculino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "+70kg",
+        "genero": "Feminino"
+      }
+    ],
+    "escalaoEtario": "Cadetes",
+    "data": "28/07/2023;29/07/2023",
+    "genero": "Masculino;Feminino",
+    "nome": "Taça da Europa de Cadetes",
+    "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
+    "pais": "Angola",
+    "modalidade": "Judo"
+  },
+  {
+    "categoriasPeso": "-40kg;-44kg;-48kg;-52kg;-50kg;-55kg;-57kg;-60kg;-63kg;-66kg;-70kg;+70kg;-73kg;-81kg;-90kg;+90kg",
+    "provas": [
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-40kg",
+        "genero": "Feminino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "-66kg",
+        "genero": "Masculino"
+      },
+      {
+        "escalaoEtario": "Cadetes",
+        "categoriaPeso": "+70kg",
+        "genero": "Feminino"
+      }
+    ],
+    "escalaoEtario": "Cadetes",
+    "data": "28/07/2023;29/07/2023",
+    "genero": "Masculino;Feminino",
+    "nome": "Taça da Europa de Cadetes",
+    "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
+    "pais": "Alemanha",
+    "modalidade": "Judo"
+  }
 ]
