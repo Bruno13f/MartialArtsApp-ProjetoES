@@ -186,7 +186,10 @@ public class GestaoProvas extends JFrame{
                 JSONArray provasArray = (JSONArray) evento.get("provas");
 
                 if (provasArray.isEmpty()){
+                    tablePanel.setVisible(false);
                     return null;
+                }else{
+                    tablePanel.setVisible(true);
                 }
 
                 for (Object provaObj : provasArray) {
@@ -244,6 +247,8 @@ public class GestaoProvas extends JFrame{
 
     private void menuItemEliminarActionPerformed (ActionEvent actionEvent){
         // TODO - ELIMINAR PROVA
+        eliminarProvaJSON(getLinha(actionEvent));
+        mostrarProvas();
     }
 
     private void menuItemHorarioActionPerformed (ActionEvent actionEvent){
@@ -406,32 +411,38 @@ public class GestaoProvas extends JFrame{
             // Faz o parsing do arquivo JSON
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
-            if (id >= 0 && id < jsonArray.size()) {
+            JSONObject evento = (JSONObject) jsonArray.get(idEvento);
 
-                jsonArray.remove(id);
+            JSONArray provasArray = (JSONArray) evento.get("provas");
+
+            System.out.println(provasArray);
+
+            provasArray.remove(id);
+
+            System.out.println(provasArray);
+
+            if (id >= 0) {
+
+                jsonArray.set(idEvento,evento);
 
                 try (FileWriter fileWriter = new FileWriter("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
-                    if (jsonArray.isEmpty()) {
-                        // Se o JSONArray estiver vazio após a remoção, escreve um JSON vazio no arquivo
-                        fileWriter.write("");
-                    } else {
-                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                        String jsonData = gson.toJson(jsonArray);
-                        fileWriter.write(jsonData);
-                    }
-                    JOptionPane.showMessageDialog(mainPanel, "Evento eliminado com sucesso");
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    String jsonData = gson.toJson(jsonArray);
+
+                    fileWriter.write(jsonData);
+                    JOptionPane.showMessageDialog(mainPanel, "Prova eliminada");
                 } catch (IOException e) {
-                    //System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
-                    JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o evento");
+                    System.out.println(e.getMessage());
+                    JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar a prova");
                 }
             } else {
                 //System.out.println("ID inválido. O objeto com o ID especificado não existe.");
-                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel editar o evento");
+                JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar a prova");
             }
 
         } catch (IOException | org.json.simple.parser.ParseException e) {
             //System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
-            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o evento");
+            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar a prova");
         }
 
     }

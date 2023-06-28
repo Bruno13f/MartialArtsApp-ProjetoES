@@ -155,13 +155,18 @@ public class GestaoEventos extends JFrame{
             // Faz o parsing do arquivo JSON
 
             if (!reader.ready()){
+                tablePanel.setVisible(false);
                 return null;
+            }else{
+                tablePanel.setVisible(true);
             }
 
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
             // Cria uma lista de eventos
             List<Evento> eventos = new ArrayList<>();
+
+            System.out.println(jsonArray);
 
             // Itera sobre o array JSON e cria objetos Evento
             for (Object obj : jsonArray) {
