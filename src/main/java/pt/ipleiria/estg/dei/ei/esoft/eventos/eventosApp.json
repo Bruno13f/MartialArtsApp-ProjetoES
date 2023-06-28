@@ -89,5 +89,27 @@
     "local": "Pavilhão Desportivo do Colégio da Imaculada Conceição - Cernache",
     "pais": "Alemanha",
     "modalidade": "Judo"
+  },
+  {
+    "categoriasPeso": "",
+    "provas": [],
+    "escalaoEtario": "Varios",
+    "data": "19/01/2024;19/02/2024",
+    "genero": "",
+    "nome": "teste",
+    "local": "teste",
+    "pais": "África do Sul",
+    "modalidade": "Judo"
   }
+,{
+  "categoriasPeso": "",
+  "provas": [],
+  "escalaoEtario": "Iniciados",
+  "data": "19/02/2024;20/02/2024",
+  "genero": "",
+  "nome": "testeopcional",
+  "local": "testeopcioanl",
+  "pais": "Angola",
+  "modalidade": "Judo"
+}
 ]

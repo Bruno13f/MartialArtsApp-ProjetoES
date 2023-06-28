@@ -431,11 +431,7 @@ public class GestaoProvas extends JFrame{
 
             JSONArray provasArray = (JSONArray) evento.get("provas");
 
-            System.out.println(provasArray);
-
             provasArray.remove(id);
-
-            System.out.println(provasArray);
 
             if (id >= 0) {
 
@@ -448,16 +444,13 @@ public class GestaoProvas extends JFrame{
                     fileWriter.write(jsonData);
                     JOptionPane.showMessageDialog(mainPanel, "Prova eliminada");
                 } catch (IOException e) {
-                    System.out.println(e.getMessage());
                     JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar a prova");
                 }
             } else {
-                //System.out.println("ID inválido. O objeto com o ID especificado não existe.");
                 JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar a prova");
             }
 
         } catch (IOException | org.json.simple.parser.ParseException e) {
-            //System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
             JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar a prova");
         }
 

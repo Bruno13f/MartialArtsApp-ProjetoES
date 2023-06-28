@@ -166,8 +166,6 @@ public class GestaoEventos extends JFrame{
             // Cria uma lista de eventos
             List<Evento> eventos = new ArrayList<>();
 
-            System.out.println(jsonArray);
-
             // Itera sobre o array JSON e cria objetos Evento
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;
@@ -185,13 +183,16 @@ public class GestaoEventos extends JFrame{
                 String modalidade = (String) jsonObject.get("modalidade");
 
                 String generos = (String) jsonObject.get("genero");
-                String[] dadosSeparados = generos.split(";");
                 List<Genero> listaGenero = new ArrayList<>();
+                if (!generos.isEmpty()){
+                    String[] dadosSeparados = generos.split(";");
 
-                for (String valor : dadosSeparados) {
-                    Genero genero = Genero.valueOf(valor);
-                    listaGenero.add(genero);
+                    for (String valor : dadosSeparados) {
+                        Genero genero = Genero.valueOf(valor);
+                        listaGenero.add(genero);
+                    }
                 }
+
 
                 String escalaoEtarioString = (String) jsonObject.get("escalaoEtario");
                 EscalaoEtario escalaoEtario = EscalaoEtario.valueOf(escalaoEtarioString);
@@ -295,16 +296,13 @@ public class GestaoEventos extends JFrame{
                     }
                     JOptionPane.showMessageDialog(mainPanel, "Evento eliminado com sucesso");
                 } catch (IOException e) {
-                    //System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
                     JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o evento");
                 }
             } else {
-                //System.out.println("ID inválido. O objeto com o ID especificado não existe.");
                 JOptionPane.showMessageDialog(mainPanel, "Não foi possivel editar o evento");
             }
 
         } catch (IOException | org.json.simple.parser.ParseException e) {
-            //System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
             JOptionPane.showMessageDialog(mainPanel, "Não foi possivel eliminar o evento");
         }
     }
@@ -326,7 +324,6 @@ public class GestaoEventos extends JFrame{
 
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             java.io.File file = fileChooser.getSelectedFile();
-            System.out.println(file);
 
             if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO

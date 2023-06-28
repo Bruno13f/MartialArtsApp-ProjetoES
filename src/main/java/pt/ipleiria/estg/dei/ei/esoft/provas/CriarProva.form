@@ -739,7 +739,7 @@
                           <font name="Inter" size="16" style="1"/>
                           <foreground color="-1"/>
                           <horizontalTextPosition value="0"/>
-                          <text value="RESETCATEGORIAS"/>
+                          <text value="RESET CATEGORIAS"/>
                         </properties>
                       </component>
                       <hspacer id="e711d">

@@ -484,13 +484,13 @@ public class CriarEvento extends JFrame{
         }
         evento.put("categoriasPeso",categoriasPeso);
 
-        String genero;
+        String genero = "";
         if (masculinoCheckBox.isSelected() && femininoCheckBox.isSelected()){
             genero = "Masculino;Feminino";
         }else if(masculinoCheckBox.isSelected()){
-            genero = "Masculino";
-        }else{
-            genero = "Feminino";
+            genero = "Masculino;";
+        }else if(femininoCheckBox.isSelected()){
+            genero = "Feminino;";
         }
         evento.put("genero",genero);
 

@@ -601,13 +601,13 @@ public class EditarEvento extends JFrame{
             }
             jsonObject.put("categoriasPeso",categoriasPeso);
 
-            String genero;
+            String genero = "";
             if (masculinoCheckBox.isSelected() && femininoCheckBox.isSelected()){
                 genero = "Masculino;Feminino";
             }else if(masculinoCheckBox.isSelected()){
-                genero = "Masculino";
-            }else{
-                genero = "Feminino";
+                genero = "Masculino;";
+            }else if(femininoCheckBox.isSelected()){
+                genero = "Feminino;";
             }
             jsonObject.put("genero",genero);
 

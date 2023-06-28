@@ -66,27 +66,19 @@ public class Evento {
         return dataInicio + " - " + dataFim;
     }
 
+    public Date getDataInicio(){
+        return dataInicio;
+    }
+
+    public Date getDataFim(){
+        return dataFim;
+    }
+
     public String getLocal(){
         return local;
     }
 
     public String getPais(){
-        // pais -> codigo pais
-        /*Map<String, String> paises = new HashMap<>();
-
-        Locale[] locais = Locale.getAvailableLocales();
-        for (Locale locale : locais) {
-            try {
-                String iso = locale.getISO3Country();
-                if (!iso.isEmpty()){
-                    paises.put(locale.getDisplayCountry(new Locale("pt")), locale.getCountry());
-                }
-            }catch (MissingResourceException e){
-                //nao faz nada
-            }
-        }
-
-        return paises.get(pais);*/
         return pais;
     }
 
@@ -110,8 +102,8 @@ public class Evento {
                 .collect(Collectors.joining(" "));
     }
 
-    public List<Evento> getEventos (){
+    public List<Prova> getProvas (){
 
-        return null;
+        return provas;
     }
 }
