@@ -418,7 +418,6 @@ public class GestaoProvas extends JFrame{
     }
 
     private void cancelarProvaJSON (int id){
-
     }
     private void eliminarProvaJSON (int id){
         JSONParser parser = new JSONParser();

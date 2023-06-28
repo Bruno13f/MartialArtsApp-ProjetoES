@@ -268,12 +268,12 @@ public class CriarProva extends JFrame{
         }
 
         if (validarGenero() != 0){
-            mostrarErro(validarGenero()); // data inicio
+            mostrarErro(validarGenero());
             return;
         }
 
         if (validarCategoriaEtaria() != 0){
-            mostrarErro(validarCategoriaEtaria()); // data final
+            mostrarErro(validarCategoriaEtaria());
             return;
         }
 

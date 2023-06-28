@@ -24,6 +24,13 @@ public class Prova {
     private List<Atleta> atletas;
 
     public Prova(Date horaInicio, Date horaFim, String categoriaPeso, EscalaoEtario escalaoEtario, Genero genero, Evento evento) {
+
+        // como nos eventos, devido à quantidade verificadas efetuadas no criar prova form apenas foi adaptado esta para os testes
+
+        if (!validarCategoriaPeso(categoriaPeso)){
+            throw new IllegalArgumentException("Necessário indicar a categoria peso");
+        }
+
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
         this.categoriaPeso = categoriaPeso;
@@ -31,6 +38,18 @@ public class Prova {
         this.genero = genero;
         this.escalaoEtario = escalaoEtario;
         // criar lista no construtor - 4 - A B C D
+    }
+
+    private boolean validarCategoriaPeso(String categoriaPeso) {
+        return !categoriaPeso.isEmpty();
+    }
+
+    public Date getHoraInicio(){
+        return horaInicio;
+    }
+
+    public Date getHoraFim(){
+        return horaFim;
     }
 
     public String getHora(){
@@ -47,5 +66,9 @@ public class Prova {
 
     public String getEscalaoEtario(){
         return this.escalaoEtario.toString();
+    }
+
+    public Evento getEvento(){
+        return evento;
     }
 }

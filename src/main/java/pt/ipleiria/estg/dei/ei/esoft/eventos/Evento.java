@@ -6,7 +6,11 @@ import pt.ipleiria.estg.dei.ei.esoft.provas.Prova;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Evento {
@@ -30,6 +34,14 @@ public class Evento {
     // eventos importados para a aplicação ficheiro JSON sem id
     public Evento(String nome, Date dataInicio, Date dataFim, String pais, String local, EscalaoEtario escalaoEtario, List<String> categoriasPeso, List<Genero> genero, String modalidade) {
 
+        // verificações já sao efetuadas nos forms (onde é possivel ir buscar o valor ao textField)
+        // apenas foi feito a verificação do nome aqui no no contexto dos testes - o resto feito no form (implementação)
+        // devido à quantidade extensiva de verificações optou-se por apenas fazer este aqui o resto feito no form
+
+        if (!validarNome(nome)){
+            throw new IllegalArgumentException("Nome inválido - não pode ser vazio, ter caracteres numéricos/especiais e tem de ter tamanho máximo de 50 caracteres");
+        }
+
         // Obrigatorios
         this.nome = nome;
         this.dataInicio = dataInicio;
@@ -52,6 +64,27 @@ public class Evento {
             this.genero = genero;
         }
 
+    }
+
+    private boolean validarNome(String nome) {
+
+        if (nome.isEmpty()){
+            return false;
+        }
+
+        if (Pattern.matches(".*\\d.*", nome)) {
+            return false;
+        }
+
+        if (!Pattern.matches("^[a-zA-Z ç]+$", nome)){
+            return false;
+        }
+
+        if (nome.length() > 50){
+            return false;
+        }
+
+        return true;
     }
 
     public String getNome(){
