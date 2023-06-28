@@ -8,7 +8,7 @@ import java.util.List;
 public class ModeloTabelaAtletas extends AbstractTableModel {
 
     private final String[] nomeColunas = {
-            "Nome", "Data", "Contacto", "País", "Modalidade", "Género", "Escalão Etário", "Categoria Peso"
+            "Nome", "Data", "Contacto", "País", "Modalidade", "Género", "Escalão Etário", "Peso"
     };
     // TODO - IMPLEMENTAR PARA EVENTOS DINAMICAMENTE
 
@@ -19,7 +19,6 @@ public class ModeloTabelaAtletas extends AbstractTableModel {
     }
     @Override
     public int getRowCount() {
-        //return eventos.size();
         return atletas.size();
     }
 
