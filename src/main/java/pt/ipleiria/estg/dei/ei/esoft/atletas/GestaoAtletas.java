@@ -92,7 +92,6 @@ public class GestaoAtletas extends JFrame{
         // TODO - LER FICHEIRO JSON E COLOCAR TABELAS EM LISTA
 
         ModeloTabelaAtletas modeloTabelaAtletas = popuplarTabelaAtletas();
-        System.out.println(modeloTabelaAtletas);
         if (modeloTabelaAtletas != null) {
             tabela.setModel(modeloTabelaAtletas);
         }
@@ -226,7 +225,10 @@ public class GestaoAtletas extends JFrame{
             // Faz o parsing do arquivo JSON
 
             if (!reader.ready()){
+                tablePanel.setVisible(false);
                 return null;
+            }else{
+                tablePanel.setVisible(true);
             }
 
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
@@ -314,7 +316,6 @@ public class GestaoAtletas extends JFrame{
 
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             java.io.File file = fileChooser.getSelectedFile();
-            System.out.println(file);
 
             if (!escreverFicheiroJSON(file)){
                 //TODO - POPUP MENSAGEM ERRO

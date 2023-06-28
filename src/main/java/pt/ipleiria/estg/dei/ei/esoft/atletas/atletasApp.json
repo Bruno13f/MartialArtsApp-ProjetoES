@@ -1,62 +1,21 @@
-[
-  {
-    "contacto": "912458310",
-    "escalaoEtario": "Juniores",
-    "peso": "75",
-    "genero": "Masculino",
-    "nome": "Ricardo Bento Santos",
-    "nacionalidade": "Português",
-    "dataNascimento": "04/08/2003",
-    "modalidade": "Judo"
-  },
-  {
-    "contacto": "912458310",
-    "escalaoEtario": "Juniores",
-    "peso": "75",
-    "genero": "Masculino",
-    "nome": "Ricardo Bento Santos",
-    "nacionalidade": "Português",
-    "dataNascimento": "04/08/2003",
-    "modalidade": "Judo"
-  },
-  {
-    "contacto": "925112312",
-    "escalaoEtario": "Juniores",
-    "peso": "60",
-    "genero": "Masculino",
-    "nome": "CS \u003e VALORANT",
-    "nacionalidade": "Português",
-    "dataNascimento": "17/05/2001",
-    "modalidade": "Judo"
-  },
-  {
-    "contacto": "232333333",
-    "escalaoEtario": "Juniores",
-    "peso": "12",
-    "genero": "Masculino",
-    "nome": "teste",
-    "nacionalidade": "Alanda",
-    "dataNascimento": "04/08/2003",
-    "modalidade": "Judo"
-  },
-  {
-    "contacto": "333333333",
-    "escalaoEtario": "Seniores",
-    "peso": "100",
-    "genero": "Masculino",
-    "nome": "SOU PRO",
-    "nacionalidade": "Anguila",
-    "dataNascimento": "03/08/1990",
-    "modalidade": "Judo"
-  }
-,{
-  "contacto": "222111111",
-  "escalaoEtario": "Sub23",
-  "peso": "123",
+[{
+  "contacto": "912122222",
+  "escalaoEtario": "Seniores",
+  "peso": "67",
   "genero": "Feminino",
-  "nome": "VALORANT LIXO",
-  "nacionalidade": "Alemanha",
-  "dataNascimento": "01/01/2001",
+  "nome": "Joana Maria",
+  "nacionalidade": "Portugal",
+  "dataNascimento": "01/03/1999",
+  "modalidade": "Judo"
+}
+,{
+  "contacto": "923119288",
+  "escalaoEtario": "Sub23",
+  "peso": "87",
+  "genero": "Masculino",
+  "nome": "Pedo Miguel Esteves",
+  "nacionalidade": "Portugal",
+  "dataNascimento": "07/09/2001",
   "modalidade": "Judo"
 }
 ]

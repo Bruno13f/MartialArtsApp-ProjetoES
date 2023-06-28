@@ -331,8 +331,6 @@ public class CriarAtleta extends JFrame{
             return 4;
         }
 
-        System.out.println(pais);
-
         return 0;
     }
 
@@ -406,9 +404,9 @@ public class CriarAtleta extends JFrame{
             }else{
                 fileWriter.write("[" + jsonData + "\n]");
             }
-            System.out.println("Atleta criado com sucesso.");
+            JOptionPane.showMessageDialog(mainPanel, "Atleta criado com sucesso.");
         } catch (IOException e) {
-            System.out.println("Não foi possivel criar o atleta no ficheiro json: " + e.getMessage());
+            JOptionPane.showMessageDialog(mainPanel, "Não foi possivel criar o atleta no ficheiro json");
         }
     }
 
@@ -474,7 +472,13 @@ public class CriarAtleta extends JFrame{
 
         try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
             // Faz o parsing do arquivo JSON
+
+            if (!reader.ready()){
+                return false;
+            }
+
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
+
 
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;

@@ -337,8 +337,6 @@ public class EditarAtleta extends JFrame{
             return 4;
         }
 
-        System.out.println(pais);
-
         return 0;
     }
 
@@ -449,13 +447,13 @@ public class EditarAtleta extends JFrame{
 
                     fileWriter.write(jsonData);
                 } catch (IOException e) {
-                    System.out.println("Ocorreu um erro ao escrever o JSON atualizado no ficheiro: " + e.getMessage());
+                    JOptionPane.showMessageDialog(mainPanel, "Ocorreu um erro ao escrever o JSON atualizado no ficheiro");
                 }
             } else {
-                System.out.println("ID inválido. O objeto com o ID especificado não existe.");
+                JOptionPane.showMessageDialog(mainPanel, "ID inválido. O objeto com o ID especificado não existe.");
             }
         } catch (IOException | org.json.simple.parser.ParseException e) {
-            System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
+            JOptionPane.showMessageDialog(mainPanel, "Ocorreu um erro ao ler o arquivo JSON");
         }
     }
 
