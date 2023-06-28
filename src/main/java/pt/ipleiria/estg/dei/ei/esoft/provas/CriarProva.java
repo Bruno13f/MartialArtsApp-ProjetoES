@@ -69,7 +69,9 @@ public class CriarProva extends JFrame{
     private JLabel escalaoEtario;
     private JPanel dropdownPanel;
     private JComboBox<String> dropdownEscalaoEtario;
+    private JButton btnReset;
 
+    private ButtonGroup btnGroupM, btnGroupF;
     private final String[] escaloes = {"Bejamins", "Infantis", "Iniciados", "Juvenis", "Cadetes", "Juniores", "Sub23", "Seniores","Veteranos"};
 
     private int idEvento;
@@ -89,13 +91,14 @@ public class CriarProva extends JFrame{
 
         btnCriar.addActionListener(this::btnCriarActionPerformed);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+        btnReset.addActionListener(this::btnResetCampos);
 
         ButtonGroup groupGenero = new ButtonGroup();
         groupGenero.add(masculinoRadioButton);
         groupGenero.add(femininoRadioButton);
 
-        grupoCategoriasPesoMasculino();
-        grupoCategoriasPesoFeminino();
+        btnGroupM = grupoCategoriasPesoMasculino();
+        btnGroupF = grupoCategoriasPesoFeminino();
 
         fillComboBoxEscaloes(dropdownEscalaoEtario);
         dropdownEscalaoEtario.setEditable(true);
@@ -219,7 +222,7 @@ public class CriarProva extends JFrame{
         }
     }
 
-    private void grupoCategoriasPesoMasculino(){
+    private ButtonGroup grupoCategoriasPesoMasculino(){
         ButtonGroup grupo = new ButtonGroup();
         grupo.add(CB38);
         grupo.add(CB42);
@@ -235,9 +238,10 @@ public class CriarProva extends JFrame{
         grupo.add(CB90M);
         grupo.add(CB100);
         grupo.add(CB100M);
+        return grupo;
     }
 
-    private void grupoCategoriasPesoFeminino(){
+    private ButtonGroup grupoCategoriasPesoFeminino(){
         ButtonGroup grupo = new ButtonGroup();
         grupo.add(CB40);
         grupo.add(CB44);
@@ -249,6 +253,7 @@ public class CriarProva extends JFrame{
         grupo.add(CB70M);
         grupo.add(CB78);
         grupo.add(CB78M);
+        return grupo;
     }
 
     private void btnCriarActionPerformed(ActionEvent actionEvent) {
@@ -377,6 +382,12 @@ public class CriarProva extends JFrame{
     private void btnCalendarioActionPerformed(ActionEvent actionEvent) {
         CalendarioEventos.abrirPaginaCalendario();
         this.dispose();
+    }
+
+    private void btnResetCampos(ActionEvent actionEvent){
+        System.out.println("eu");
+        btnGroupM.clearSelection();
+        btnGroupF.clearSelection();
     }
 
     private void fillComboBoxEscaloes(JComboBox<String> dropdownEscalaoEtario) {

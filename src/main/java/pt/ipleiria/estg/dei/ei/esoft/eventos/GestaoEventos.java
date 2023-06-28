@@ -361,11 +361,24 @@ public class GestaoEventos extends JFrame{
 
                             JSONObject jsonObject = (JSONObject) obj;
 
+                            if (!(jsonObject.containsKey("nome") && jsonObject.containsKey("local") && jsonObject.containsKey("pais") &&
+                                    jsonObject.containsKey("modalidade") && jsonObject.containsKey("genero") && jsonObject.containsKey("data") &&
+                                    jsonObject.containsKey("escalaoEtario") && jsonObject.containsKey("provas") && jsonObject.containsKey("categoriasPeso"))){
+                                continue;
+                            }
+
                             String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json";
                             writeDataToJsonFile(jsonObject, filePath);
+                            counter += 1;
                         }
-                        JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
-                        return true;
+                        if (counter != 0){
+                            JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
+                            return true;
+                        }else{
+                            JOptionPane.showMessageDialog(mainPanel, "Formato incorreto");
+                            return false;
+                        }
+
                     }
 
                     JSONArray jsonArray3 = (JSONArray) parser3.parse(reader3);
@@ -373,6 +386,12 @@ public class GestaoEventos extends JFrame{
                     for (Object obj : jsonArray) {
 
                         JSONObject jsonObject = (JSONObject) obj;
+
+                        if (!(jsonObject.containsKey("nome") && jsonObject.containsKey("local") && jsonObject.containsKey("pais") &&
+                                jsonObject.containsKey("modalidade") && jsonObject.containsKey("genero") && jsonObject.containsKey("data") &&
+                                jsonObject.containsKey("escalaoEtario") && jsonObject.containsKey("provas") && jsonObject.containsKey("categoriasPeso"))){
+                            continue;
+                        }
 
                         if (jsonArray3.contains(jsonObject)){
                             counter += 1;
@@ -383,7 +402,10 @@ public class GestaoEventos extends JFrame{
                         writeDataToJsonFile(jsonObject, filePath);
                     }
 
-                    if (counter == jsonArray.size()){
+                    if (counter == jsonArray3.size()){
+                        JOptionPane.showMessageDialog(mainPanel, "Formato incorreto");
+                        return false;
+                    }else if (counter == jsonArray.size()){
                         JOptionPane.showMessageDialog(mainPanel, "Eventos já existentes");
                         return false;
                     }else{
@@ -398,6 +420,13 @@ public class GestaoEventos extends JFrame{
             }else if (json instanceof JSONObject jsonObject){
 
                 JSONParser parser3 = new JSONParser();
+
+                if (!(jsonObject.containsKey("nome") && jsonObject.containsKey("local") && jsonObject.containsKey("pais") &&
+                        jsonObject.containsKey("modalidade") && jsonObject.containsKey("genero") && jsonObject.containsKey("data") &&
+                        jsonObject.containsKey("escalaoEtario") && jsonObject.containsKey("provas") && jsonObject.containsKey("categoriasPeso"))){
+                    JOptionPane.showMessageDialog(mainPanel, "Formato incorreto");
+                    return false;
+                }
 
                 try (FileReader reader3 = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/eventos/eventosApp.json")) {
 
