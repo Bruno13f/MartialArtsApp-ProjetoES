@@ -328,7 +328,7 @@ public class GestaoAtletas extends JFrame{
 
     private boolean escreverFicheiroJSON(java.io.File file) {
 
-        int counter = 0;
+        int counter = 0, write = 0;
 
         JSONParser parser = new JSONParser();
 
@@ -351,11 +351,24 @@ public class GestaoAtletas extends JFrame{
 
                             JSONObject jsonObject = (JSONObject) obj;
 
+                            if (!(jsonObject.containsKey("contacto") && jsonObject.containsKey("escalaoEtario") && jsonObject.containsKey("peso") &&
+                                    jsonObject.containsKey("genero") && jsonObject.containsKey("nome") && jsonObject.containsKey("nacionalidade") &&
+                                    jsonObject.containsKey("dataNascimento") && jsonObject.containsKey("modalidade"))){
+                                continue;
+                            }
+
                             String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json";
                             writeDataToJsonFile(jsonObject, filePath);
+                            counter += 1;
                         }
-                        JOptionPane.showMessageDialog(mainPanel, "Evento(s) importado(s)");
-                        return true;
+                        if (counter != 0){
+                            JOptionPane.showMessageDialog(mainPanel, "Atleta(s) importado(s)");
+                            return true;
+                        }else{
+                            JOptionPane.showMessageDialog(mainPanel, "Formato incorreto");
+                            return false;
+                        }
+
                     }
 
                     JSONArray jsonArray3 = (JSONArray) parser3.parse(reader3);
@@ -364,22 +377,31 @@ public class GestaoAtletas extends JFrame{
 
                         JSONObject jsonObject = (JSONObject) obj;
 
+                        if (!(jsonObject.containsKey("contacto") && jsonObject.containsKey("escalaoEtario") && jsonObject.containsKey("peso") &&
+                                jsonObject.containsKey("genero") && jsonObject.containsKey("nome") && jsonObject.containsKey("nacionalidade") &&
+                                jsonObject.containsKey("dataNascimento") && jsonObject.containsKey("modalidade"))){
+                            continue;
+                        }
+
                         if (jsonArray3.contains(jsonObject)){
                             counter += 1;
                             continue;
                         }
 
+                        write += 1;
                         String filePath = "src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json";
                         writeDataToJsonFile(jsonObject, filePath);
                     }
 
-                    if (counter > 0 && counter < jsonArray.size()){
-                        JOptionPane.showMessageDialog(mainPanel, "Adicionados Atletas únicos - alguns já existentes");
-                        return true;
-                    }else if (counter == jsonArray.size()){
+                    if (counter == jsonArray.size()){
                         JOptionPane.showMessageDialog(mainPanel, "Atletas já existentes");
                         return false;
-                    }else if (counter == 0){
+                    }
+
+                    if (write == 0){
+                        JOptionPane.showMessageDialog(mainPanel, "Formato incorreto");
+                        return false;
+                    }else{
                         JOptionPane.showMessageDialog(mainPanel, "Atleta(s) importado(s)");
                         return true;
                     }
@@ -391,6 +413,13 @@ public class GestaoAtletas extends JFrame{
             }else if (json instanceof JSONObject jsonObject){
 
                 JSONParser parser3 = new JSONParser();
+
+                if (!(jsonObject.containsKey("contacto") && jsonObject.containsKey("escalaoEtario") && jsonObject.containsKey("peso") &&
+                        jsonObject.containsKey("genero") && jsonObject.containsKey("nome") && jsonObject.containsKey("nacionalidade") &&
+                        jsonObject.containsKey("dataNascimento") && jsonObject.containsKey("modalidade"))){
+                    JOptionPane.showMessageDialog(mainPanel, "Formato incorreto");
+                    return false;
+                }
 
                 try (FileReader reader3 = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
 

@@ -496,26 +496,4 @@ public class EditarAtleta extends JFrame{
         }
         return "Varios";
     }
-
-    private boolean contactoExistsInFile(String contacto) {
-        JSONParser parser = new JSONParser();
-
-        try (FileReader reader = new FileReader("src/main/java/pt/ipleiria/estg/dei/ei/esoft/atletas/atletasApp.json")) {
-            // Faz o parsing do arquivo JSON
-            JSONArray jsonArray = (JSONArray) parser.parse(reader);
-
-            for (Object obj : jsonArray) {
-                JSONObject jsonObject = (JSONObject) obj;
-
-                String contactoJSON = (String) jsonObject.get("contacto");
-                if (contacto.equals(contactoJSON)) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
 }
