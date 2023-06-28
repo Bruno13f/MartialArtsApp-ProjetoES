@@ -225,7 +225,14 @@ public class GestaoEventos extends JFrame{
 
     private void menuItemEliminarActionPerformed (ActionEvent actionEvent){
         // TODO - ELIMINAR EVENTO
-        eliminarEventoJSON(getLinha(actionEvent));
+        int row = getLinha(actionEvent);
+
+        if (verificarAtletasEvento(row)){
+            cancelarEventoJSON(row);
+        }else{
+            eliminarEventoJSON(row);
+        }
+
         mostrarEventos();
     }
 
@@ -311,7 +318,8 @@ public class GestaoEventos extends JFrame{
     }
 
     private boolean verificarAtletasEvento (int id){
-        return true;
+        // do modulo 2 nao foi implementado a inscrição dos atletas entao apenas se elimina eventos nao se cancelam
+        return false;
     }
 
     public void btnImportarEventosActionPerformed(ActionEvent actionEvent){

@@ -120,11 +120,6 @@ public class CriarEvento extends JFrame{
 
     }
 
-    private void configurarTxtModalidade() {
-        textModalidade.setEditable(false);
-        textModalidade.setText("Judo");
-    }
-
     public static void abrirPaginaCriarEvento(){
         new CriarEvento("Criar Evento").setVisible(true);
     }
@@ -132,6 +127,10 @@ public class CriarEvento extends JFrame{
     private void abrirPaginaEventos(){
         GestaoEventos.abrirPaginaGestaoEventos();
         this.dispose();
+    }
+    private void configurarTxtModalidade() {
+        textModalidade.setEditable(false);
+        textModalidade.setText("Judo");
     }
     public void btnConfirmarEventoActionPerformed(ActionEvent actionEvent) {
         // TODO: CRIAR EVENTO
@@ -159,6 +158,10 @@ public class CriarEvento extends JFrame{
         if (validarPais() != 0){
             mostrarErro(validarPais());
             return;
+        }
+
+        if (validarModalidade() != 0){
+            // modalidade estatica judo
         }
 
 
@@ -334,6 +337,10 @@ public class CriarEvento extends JFrame{
         }
 
         return 0;
+    }
+
+    private int validarModalidade(){
+        return 1;
     }
 
     private int validarGeneroCategoriaPeso(){

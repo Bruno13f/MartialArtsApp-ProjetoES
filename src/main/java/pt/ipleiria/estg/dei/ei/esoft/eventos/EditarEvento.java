@@ -162,6 +162,9 @@ public class EditarEvento extends JFrame{
             return;
         }
 
+        if (validarModalidade() != 0){
+            // modalidade estatica judo
+        }
 
         if (validarGeneroCategoriaPeso() != 0){
             mostrarErro(validarGeneroCategoriaPeso());
@@ -334,6 +337,10 @@ public class EditarEvento extends JFrame{
             return 16;
         }
 
+        return 0;
+    }
+
+    private int validarModalidade(){
         return 0;
     }
 
@@ -631,51 +638,6 @@ public class EditarEvento extends JFrame{
         } catch (IOException | org.json.simple.parser.ParseException e) {
             //System.out.println("Ocorreu um erro ao ler o arquivo JSON: " + e.getMessage());
             JOptionPane.showMessageDialog(mainPanel, "Não foi possivel editar o evento");
-        }
-    }
-
-    private void writeDataToJsonFile(JSONObject data, String filePath) {
-        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonData = gson.toJson(data);
-
-            boolean isEmpty = fileIsEmpty(filePath);
-
-            if (!isEmpty) {
-                removeLastCharacter(filePath);
-                appendCharacter(filePath, ",");
-            }
-
-            fileWriter.write(jsonData);
-
-            if (!isEmpty) {
-                fileWriter.write("\n]");
-            } else {
-                fileWriter.write("\n" + jsonData + "\n]");
-            }
-
-            System.out.println("Data appended to JSON file successfully.");
-        } catch (IOException e) {
-            System.out.println("An error occurred while appending data to JSON file: " + e.getMessage());
-        }
-    }
-
-    private boolean fileIsEmpty(String filePath) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            return reader.readLine() == null;
-        }
-    }
-
-    private void removeLastCharacter(String filePath) throws IOException {
-        RandomAccessFile file = new RandomAccessFile(filePath, "rw");
-        long length = file.length();
-        file.setLength(length - 1);
-        file.close();
-    }
-
-    private void appendCharacter(String filePath, String character) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
-            fileWriter.write(character);
         }
     }
 }

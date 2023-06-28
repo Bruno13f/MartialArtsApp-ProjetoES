@@ -146,7 +146,7 @@ public class GestaoProvas extends JFrame{
 
         menuItemEditar.addActionListener(this::menuItemEditarActionPerformed);
         menuItemEliminar.addActionListener(this::menuItemEliminarActionPerformed);
-        menuItemHorario.addActionListener(this::menuItemHorarioActionPerformed);
+        menuItemHorario.addActionListener(this::menuItemCombatesActionPerformed);
         menuItemAtletas.addActionListener(this::menuItemAtletasActionPerformed);
 
         //adicionar popup menu tabela
@@ -247,11 +247,17 @@ public class GestaoProvas extends JFrame{
 
     private void menuItemEliminarActionPerformed (ActionEvent actionEvent){
         // TODO - ELIMINAR PROVA
-        eliminarProvaJSON(getLinha(actionEvent));
+        int row = getLinha(actionEvent);
+        if (verificarAtletasProva(row)){
+            cancelarProvaJSON(row);
+        }else{
+            eliminarProvaJSON(row);
+        }
+
         mostrarProvas();
     }
 
-    private void menuItemHorarioActionPerformed (ActionEvent actionEvent){
+    private void menuItemCombatesActionPerformed (ActionEvent actionEvent){
         // TODO - Abrir Página Horarios Prova
         CombatesProva.abrirPaginaCombatesProva(idEvento);
         this.dispose();
@@ -413,8 +419,9 @@ public class GestaoProvas extends JFrame{
         }
     }
 
-    private void verificarAtletasProva (int id){
-
+    private boolean verificarAtletasProva (int id){
+        // nao foi implementado do modulo 2 a inscrição de atletas
+        return false;
     }
 
     private void cancelarProvaJSON (int id){

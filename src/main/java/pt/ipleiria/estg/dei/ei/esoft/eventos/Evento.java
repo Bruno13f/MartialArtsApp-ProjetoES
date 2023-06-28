@@ -4,6 +4,7 @@ import pt.ipleiria.estg.dei.ei.esoft.EscalaoEtario;
 import pt.ipleiria.estg.dei.ei.esoft.Genero;
 import pt.ipleiria.estg.dei.ei.esoft.provas.Prova;
 
+import java.sql.ClientInfoStatus;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -138,5 +139,9 @@ public class Evento {
     public List<Prova> getProvas (){
 
         return provas;
+    }
+
+    public void adicionarProva(Prova prova){
+        provas.add(prova);
     }
 }
